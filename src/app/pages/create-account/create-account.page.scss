@@ -1,0 +1,207 @@
+.floating-back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: #ffffff;
+  border: none;
+  color: #791717;
+  font-size: 20px;
+  z-index: 20;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  animation: fadeInDown 0.6s ease-out;
+  transition: transform 0.2s ease, background 0.2s ease;
+  
+  &:active {
+    transform: scale(0.92);
+    background: #f0f0f0;
+  }
+}
+
+.fe-brand-header {
+  background-color: #791717;
+  color: #ffffff;
+  padding: 16px 20px 32px 20px;
+  text-align: center;
+  border-bottom-left-radius: 36px;
+  border-bottom-right-radius: 36px;
+
+  .eagle-avatar-container {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: floatContainer 3.5s ease-in-out infinite;
+
+    .eagle-glow-ring {
+      position: absolute;
+      width: 116px;
+      height: 116px;
+      border-radius: 50%;
+      background: rgba(255, 123, 0, 0.45);
+      z-index: 1;
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+
+    .eagle-avatar {
+      position: relative;
+      z-index: 2;
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+
+      img {
+        width: 115%;
+        height: 115%;
+        object-fit: cover;
+        object-position: center 70%;
+      }
+    }
+  }
+
+  .brand-title-wrapper {
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    animation: fadeInUp 0.8s ease-out;
+
+    .brand-title-highlight {
+      font-size: 2.1rem;
+      font-weight: 900;
+      margin: 0;
+      letter-spacing: 1px;
+      color: #ffffff;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+
+      span {
+        background: linear-gradient(135deg, #ff9900 0%, #ffcc00 50%, #ffffff 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 2px 8px rgba(255, 140, 0, 0.6));
+      }
+    }
+  }
+}
+
+.fe-content-sheet {
+  background: #ffffff;
+  margin: -26px 16px 16px 16px;
+  padding: 22px 20px;
+  border-radius: 26px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  position: relative;
+  z-index: 2;
+  animation: slideUpSheet 0.6s cubic-bezier(0.16, 1, 0.3, 1), cardShimmer 4s infinite ease-in-out;
+  border: 1px solid rgba(255, 153, 0, 0.15);
+}
+
+/* Input Styling & Error State Animations */
+.fe-input-item {
+  margin-bottom: 12px;
+  border-radius: 14px;
+  border: 1.5px solid #e0e0e0;
+  background: #fdfdfd;
+  transition: all 0.25s ease;
+
+  &:focus-within {
+    border-color: #ff9900;
+    box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.15);
+  }
+}
+
+/* Red error border and shake effect matching video */
+.input-error-item {
+  border-color: #e53935 !important;
+  background: #fff8f8 !important;
+  animation: shakeError 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.error-message-container {
+  margin: -6px 4px 12px 4px;
+  animation: fadeInDown 0.3s ease-out;
+
+  .error-text {
+    color: #e53935;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+}
+
+/* Button & Interactive Animations */
+.fe-orange-btn {
+  --background: linear-gradient(135deg, #ff9900 0%, #ff7700 100%);
+  --background-activated: linear-gradient(135deg, #e68a00 0%, #e66a00 100%);
+  --border-radius: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 18px rgba(255, 140, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:not([disabled]):active {
+    transform: scale(0.97);
+    box-shadow: 0 3px 10px rgba(255, 140, 0, 0.25);
+  }
+}
+
+.animated-icon {
+  display: inline-flex;
+  transition: transform 0.2s ease;
+  
+  &:active {
+    transform: scale(0.85);
+  }
+}
+
+/* Keyframe Animations */
+@keyframes floatContainer {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.18); opacity: 0.15; }
+}
+
+@keyframes cardShimmer {
+  0%, 100% { box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18); }
+  50% { box-shadow: 0 12px 35px rgba(255, 140, 0, 0.22); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUpSheet {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}

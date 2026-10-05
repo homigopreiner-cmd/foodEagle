@@ -1,0 +1,99 @@
+<!-- Solid Red Branded Header -->
+<ion-header class="ion-no-border fe-header">
+  <ion-toolbar class="fe-toolbar">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" class="custom-back-btn" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+    <ion-title class="page-title">Favorites</ion-title>
+
+    <ion-buttons slot="end" *ngIf="favorites.length > 0">
+      <div class="count-pill">
+        <span>{{ favorites.length }} Items</span>
+      </div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="favorites-content" [fullscreen]="true">
+
+  <!-- Hero Banner Header -->
+  <div class="hero-section">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <ion-icon name="sparkles-outline"></ion-icon>
+        <span>Curated Selection</span>
+      </div>
+      <h1>Your Saved Delights</h1>
+      <p>Quickly access and reorder your top-rated choices.</p>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="favorites.length === 0">
+    <div class="empty-illustration">
+      <div class="icon-bubble">
+        <ion-icon name="heart-dislike-outline"></ion-icon>
+      </div>
+    </div>
+    <h2>No Favorites Saved</h2>
+    <p>Tap the heart icon on any food item or restaurant to save your top cravings here.</p>
+    <ion-button class="explore-btn" shape="round" routerLink="/dashboard">
+      Explore Main Menu
+    </ion-button>
+  </div>
+
+  <!-- Favorites List -->
+  <div class="favorites-grid" *ngIf="favorites.length > 0">
+    <div 
+      class="favorite-card ion-activatable ripple-parent" 
+      *ngFor="let item of favorites" 
+      (click)="viewItem(item)">
+      
+      <ion-ripple-effect></ion-ripple-effect>
+
+      <!-- Left Image Container -->
+      <div class="card-image-wrapper">
+        <img [src]="item.image" [alt]="item.name" onerror="this.src='assets/images/placeholder.jpg'" />
+        
+        <!-- Glass Floating Heart Button -->
+        <button class="heart-glass-btn" (click)="removeFavorite(item, $event)" aria-label="Remove favorite">
+          <ion-icon name="heart"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Right Card Details -->
+      <div class="card-details">
+        <div class="top-meta-row">
+          <!-- Clickable Restaurant Tag that navigates to its respective store -->
+          <span class="restaurant-tag interactive-store-link" (click)="goToRestaurant(item.vendorKey, $event)">
+            <ion-icon name="storefront-outline"></ion-icon>
+            {{ item.restaurant }}
+          </span>
+          <span class="rating-badge">
+            <ion-icon name="star"></ion-icon>
+            {{ item.rating }}
+          </span>
+        </div>
+
+        <h3 class="item-title">{{ item.name }}</h3>
+
+        <div class="card-footer-row">
+          <div class="price-container">
+            <span class="currency">₱</span>
+            <span class="amount">{{ item.price }}</span>
+          </div>
+
+          <button class="order-action-btn" (click)="viewItem(item)">
+            <ion-icon name="bag-handle"></ion-icon>
+            <span>Order</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>

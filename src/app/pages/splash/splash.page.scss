@@ -1,0 +1,204 @@
+$primary-maroon: #791717;
+$deep-maroon: #4a0d0e;
+$accent-gold: #ffb800;
+$light-gold: #ffdf85;
+
+.splash-bg {
+  --background: #{$primary-maroon};
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dynamic Ambient Glow Layers */
+.ambient-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 1;
+  opacity: 0.35;
+  pointer-events: none;
+  animation: floatGlow 8s ease-in-out infinite alternate;
+
+  &.glow-one {
+    top: -50px;
+    left: -50px;
+    background: #ff9933;
+  }
+
+  &.glow-two {
+    bottom: -50px;
+    right: -50px;
+    background: #541010;
+    animation-delay: -4s;
+  }
+}
+
+@keyframes floatGlow {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 40px) scale(1.2); }
+}
+
+/* Main Layout Container */
+.splash-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 32px;
+  text-align: center;
+}
+
+/* Logo Wrapper with Radar Pulse */
+.logo-wrapper {
+  position: relative;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .ring-pulse {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 184, 0, 0.4);
+    animation: radarPulse 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+
+  .logo-card {
+    width: 115px;
+    height: 115px;
+    background: linear-gradient(135deg, #ffffff 0%, #fff8eb 100%);
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 2px 6px rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    animation: dropInLogo 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    overflow: hidden;
+
+    .logo {
+      width: 155px;
+      height: 155px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      filter: drop-shadow(0 4px 8px rgba(121, 23, 23, 0.15));
+    }
+  }
+}
+
+@keyframes radarPulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.65);
+    opacity: 0;
+  }
+}
+
+@keyframes dropInLogo {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Typography Enhancements */
+.text-content {
+  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
+
+  .brand-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, #ffffff 30%, $light-gold 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .brand-tagline {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    margin: 0;
+    text-transform: uppercase;
+
+    /* Custom Cross Mark Styling for "OLD" */
+    .crossed-word {
+      position: relative;
+      display: inline-block;
+      color: #ff9933; /* Slightly brighter accent tint for emphasis */
+      margin: 0 2px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: -10%;
+        top: 48%;
+        width: 120%;
+        height: 2.5px;
+        background-color: #ff3b30; /* Vivid red strike-through cross mark */
+        transform: rotate(-12deg);
+        border-radius: 2px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      }
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animated Progress Loading Bar */
+.loader-track {
+  position: absolute;
+  bottom: 50px;
+  width: 120px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  .loader-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, $accent-gold, #ffffff, $accent-gold);
+    border-radius: 10px;
+    transform-origin: left;
+    animation: loadProgress 3.3s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+}
+
+@keyframes loadProgress {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}

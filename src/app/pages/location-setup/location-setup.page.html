@@ -1,0 +1,117 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: #6d1a1d; --color: #ffffff;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" text="" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="font-weight: 700; font-size: 1.1rem;">Location Setup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding content-background">
+  
+  <div class="location-wrapper">
+    <div class="location-card">
+      
+      <div class="header-block">
+        <h2 class="title">Campus Location</h2>
+        <p class="subtitle">Search your destination or tap directly on the interactive map</p>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="input-group-wrapper">
+        <label class="custom-input-label">Search Location</label>
+        <div class="search-anchor-container">
+          <div class="search-container">
+            <ion-searchbar 
+              [(ngModel)]="searchQuery" 
+              (ionInput)="onSearchInput($event)" 
+              (ionClear)="onSearchClear()"
+              placeholder="Search building or landmark..."
+              mode="ios">
+            </ion-searchbar>
+          </div>
+
+          <div *ngIf="filteredSuggestions.length > 0" class="suggestions-dropdown">
+            <div *ngFor="let item of filteredSuggestions" 
+                 (click)="selectSuggestion(item)"
+                 class="suggestion-item">
+              <ion-icon name="location-outline" class="suggestion-icon"></ion-icon>
+              <span>{{ item }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delivery Zone Option -->
+      <div class="input-group-wrapper">
+        <label class="custom-input-label">Delivery Zone Option</label>
+        <ion-item class="custom-dropdown-item" lines="none">
+          <ion-icon name="business-outline" slot="start"></ion-icon>
+          <ion-select [(ngModel)]="selectedDropdownLocation" (ionChange)="onDropdownChange($event)" interface="action-sheet" placeholder="Select campus building...">
+            <ion-select-option value="CICS">CICS - College of Info & Computing Sciences</ion-select-option>
+            <ion-select-option value="COEA">COEA - College of Engineering & Architecture</ion-select-option>
+            <ion-select-option value="CIT">CIT - College of Industrial Technology</ion-select-option>
+            <ion-select-option value="CHK">CHK - College of Human Kinetics</ion-select-option>
+            <ion-select-option value="CPAD">CPAD - College of Public Administration</ion-select-option>
+            <ion-select-option value="ROTUNDA">Rotunda Area</ion-select-option>
+            <ion-select-option value="OVAL">University Oval</ion-select-option>
+            <ion-select-option value="RED EAGLE GYM">Red Eagle Gym</ion-select-option>
+            <ion-select-option value="MAIN GATE">Main Gate Drop-off Station</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <!-- Interactive Map Viewport -->
+      <div class="map-section-wrapper">
+        <label class="custom-input-label">Interactive Map Pinpoint</label>
+        <div #mapContainer
+          (wheel)="onMapWheel($event)"
+          (pointerdown)="onPointerDown($event)"
+          (pointermove)="onPointerMove($event)"
+          (pointerup)="onPointerUp($event)"
+          (click)="onMapClick($event)"
+          class="map-viewport">
+          
+          <div class="map-transform-layer"
+            [style.transform]="'translate(' + panX + 'px, ' + panY + 'px) scale(' + mapScale + ')'"
+            [style.transform-origin]="transformOriginX + ' ' + transformOriginY">
+            
+            <img src="assets/images/campus-map.jpg" alt="Campus Map" class="map-img" onerror="this.src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80'" />
+
+            <div *ngIf="pinPlaced" [style.left.%]="pinRelativeX" [style.top.%]="pinRelativeY" class="map-pin">
+              <svg width="20" height="28" viewBox="0 0 24 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 0C5.383 0 0 5.383 0 12C0 20.25 12 34 12 34C12 34 24 20.25 24 12C24 5.383 18.617 0 12 0Z" fill="#6d1a1d" stroke="#ffffff" stroke-width="2"/>
+                <circle cx="12" cy="11" r="4" fill="#ffffff"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="map-tip">
+            Tap map to pinpoint location • Auto-syncs with profile
+          </div>
+        </div>
+      </div>
+
+      <!-- Refine Delivery Spot -->
+      <div class="input-group-wrapper">
+        <label class="custom-input-label">Refine Your Delivery Spot (Optional)</label>
+        <div class="textarea-container">
+          <ion-textarea 
+            [(ngModel)]="refineSpotText"
+            placeholder="e.g., Near main entrance, waiting by the benches." 
+            rows="2"
+            mode="ios">
+          </ion-textarea>
+        </div>
+      </div>
+
+      <!-- Updated Button Text & Dashboard Routing -->
+      <ion-button expand="block" class="action-btn divine-glow-btn" [class.success-state]="isSavedSuccess" (click)="onSaveAndContinue()">
+        <ion-icon slot="start" [name]="isSavedSuccess ? 'checkmark-done-circle' : 'location-outline'"></ion-icon>
+        {{ isSavedSuccess ? 'Saved! Redirecting...' : 'Save and Continue' }}
+      </ion-button>
+
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,353 @@
+$primary-red: #d32f2f;
+$deep-burgundy: #530e0e;
+$bright-red: #ff334b;
+$accent-amber: #ffb300;
+$surface-card: #ffffff;
+$bg-cream: #f9f8f6;
+$text-main: #1f1f1f;
+$text-muted: #6b6b6b;
+$border-light: #eae5dc;
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+ion-content.detail-page {
+  --background: rgba(10, 3, 4, 0.75); // Clean dark moody backdrop overlay
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  height: 100%;
+  backdrop-filter: blur(6px);
+
+  &::part(scroll) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+}
+
+.card-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 390px;
+  background: $surface-card;
+  border: 1px solid rgba(255, 51, 75, 0.15);
+  border-radius: 28px;
+  color: $text-main;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  position: relative;
+  animation: slideUpBounce 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpBounce {
+  0% {
+    transform: translateY(40px) scale(0.94);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Close Button */
+.header-row {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 20;
+
+  .close-btn {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    transition: transform 0.2s ease, background 0.2s ease;
+
+    &:active {
+      transform: scale(0.85);
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    ion-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+/* Image Showcase */
+.image-wrapper {
+  width: 100%;
+  height: 190px;
+  position: relative;
+  background: #f0ebe1;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.03);
+  }
+
+  .image-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.45) 100%);
+  }
+}
+
+/* Rating Chip (Perfectly positioned) */
+.rating-chip {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  color: $text-main;
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+
+  ion-icon {
+    font-size: 14px;
+    color: $accent-amber;
+  }
+}
+
+/* Title & Description */
+.info-block {
+  padding: 16px 18px 6px;
+
+  .product-title {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: $text-main;
+    letter-spacing: -0.3px;
+  }
+
+  .product-desc {
+    margin: 0;
+    font-size: 0.82rem;
+    color: $text-muted;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Restaurant Tag */
+.restaurant-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 6px;
+  border-radius: 12px;
+  background: $bg-cream;
+  border: 1px solid $border-light;
+  margin: 8px 18px 14px;
+  width: fit-content;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+
+  &:active {
+    transform: scale(0.97);
+    background: #eae3d9;
+  }
+
+  .logo-box {
+    width: 22px;
+    height: 22px;
+    background: $primary-red;
+    color: #ffffff;
+    font-size: 0.6rem;
+    font-weight: 900;
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+  }
+
+  .restaurant-name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: $text-main;
+  }
+}
+
+/* Pricing Row */
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 18px 16px;
+  padding: 10px 14px;
+  background: $bg-cream;
+  border-radius: 16px;
+  border: 1px solid $border-light;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 96px;
+  height: 36px;
+  padding: 0 4px;
+  border-radius: 12px;
+  background: $surface-card;
+  border: 1px solid $border-light;
+
+  .qty-btn {
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 8px;
+    background: $bg-cream;
+    color: $text-main;
+    font-size: 0.95rem;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+
+    &:active {
+      transform: scale(0.85);
+      background: $primary-red;
+      color: #fff;
+    }
+  }
+
+  .qty-number {
+    color: $text-main;
+    font-size: 0.95rem;
+    font-weight: 800;
+  }
+}
+
+.price-display {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+
+  .currency {
+    color: $primary-red;
+    font-size: 0.95rem;
+    font-weight: 900;
+  }
+
+  .amount {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: $text-main;
+  }
+}
+
+/* Action Buttons */
+.action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 18px 18px;
+}
+
+.cart-pill {
+  width: 48px;
+  height: 48px;
+  border: 1px solid $border-light;
+  border-radius: 14px;
+  background: $bg-cream;
+  color: $primary-red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.15s ease, background 0.2s ease;
+
+  &:active {
+    transform: scale(0.92);
+    background: #eae3d9;
+  }
+
+  ion-icon {
+    font-size: 20px;
+  }
+
+  .badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: $primary-red;
+    color: #ffffff;
+    font-size: 0.6rem;
+    font-weight: 800;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.checkout-pill {
+  flex: 1;
+  height: 48px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, $primary-red 0%, $deep-burgundy 100%);
+  box-shadow: 0 6px 16px rgba(211, 47, 47, 0.3);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 8px rgba(211, 47, 47, 0.2);
+  }
+
+  ion-icon {
+    font-size: 16px;
+  }
+}

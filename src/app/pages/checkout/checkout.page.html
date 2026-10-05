@@ -1,0 +1,71 @@
+<ion-content [fullscreen]="true" style="--background: #791717;">
+  
+  <div style="background-color: #791717; color: #ffffff; padding: 18px 20px 24px 20px; display: flex; align-items: center;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/cart" color="light"></ion-back-button>
+    </ion-buttons>
+    <h2 style="font-size: 1.3rem; font-weight: 700; margin: 0; flex: 1; text-align: center;">Order Checkout</h2>
+    <div style="width: 32px;"></div>
+  </div>
+
+  <!-- Added a larger bottom margin (110px) to clear the floating bottom navigation bar -->
+  <div style="background: #ffffff; margin: -10px 14px 110px 14px; padding: 16px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+    
+    <!-- Delivery Location Card -->
+    <div style="background: #faf9f6; border: 1px solid #f0eae1; padding: 12px 14px; border-radius: 16px; margin-bottom: 12px; display: flex; gap: 12px; align-items: flex-start;">
+      <ion-icon name="location-outline" style="font-size: 1.3rem; color: #791717; margin-top: 2px;"></ion-icon>
+      <div>
+        <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: #222;">Delivery Location</h4>
+        <p style="margin: 2px 0 0 0; font-size: 0.82rem; font-weight: 600; color: #444;">{{ deliveryBuilding }} — Cagayan State University Carig Campus</p>
+        <span style="font-size: 0.72rem; color: #888;">{{ deliveryLandmark }}</span>
+      </div>
+    </div>
+
+    <!-- Review Items Card -->
+    <div style="background: #faf9f6; border: 1px solid #f0eae1; padding: 12px 14px; border-radius: 16px; margin-bottom: 12px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; border-bottom: 1px solid #f0eae1; padding-bottom: 6px;">
+        <ion-icon name="fast-food-outline" style="color: #791717;"></ion-icon>
+        <span style="font-size: 0.9rem; font-weight: 700; color: #222;">Review Order Items</span>
+      </div>
+      
+      <div *ngFor="let item of checkoutItems" style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px; color: #555;">
+        <span><strong style="color: #ff9f43;">{{ item.quantity }}x</strong> {{ item.name }}</span>
+        <span style="font-weight: 600;">₱{{ (item.price * item.quantity).toFixed(2) }}</span>
+      </div>
+    </div>
+
+    <!-- Payment Method Card -->
+    <div style="background: #faf9f6; border: 1.5px solid #ff9f43; padding: 12px 14px; border-radius: 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <ion-icon name="wallet-outline" style="font-size: 1.2rem; color: #791717;"></ion-icon>
+        <div>
+          <span style="font-size: 0.75rem; color: #888; display: block;">Payment Method</span>
+          <span style="font-size: 0.88rem; font-weight: 700; color: #791717;">Cash on Delivery (COD)</span>
+        </div>
+      </div>
+      <ion-icon name="chevron-forward-outline" style="color: #888;"></ion-icon>
+    </div>
+
+    <!-- Summary Box -->
+    <div style="background: #fdfbf7; padding: 14px; border-radius: 14px; border: 1px solid #f0eae1; margin-bottom: 16px;">
+      <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: #666; margin-bottom: 6px;">
+        <span>Subtotal</span>
+        <span style="font-weight: 600;">₱{{ getSubtotal().toFixed(2) }}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: #666; margin-bottom: 10px;">
+        <span>Delivery Fee</span>
+        <span style="font-weight: 600;">₱25.00</span>
+      </div>
+      <div style="border-top: 1px dashed #e2dacd; padding-top: 8px; display: flex; justify-content: space-between; font-size: 0.95rem; font-weight: 800; color: #791717;">
+        <span>Total Amount</span>
+        <span>₱{{ getTotal().toFixed(2) }}</span>
+      </div>
+    </div>
+
+    <!-- Place Order Button -->
+    <ion-button expand="block" [disabled]="isPlacingOrder || checkoutItems.length === 0" (click)="placeOrder()" style="--background: #791717; --border-radius: 14px; height: 50px; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.5px;">
+      {{ isPlacingOrder ? 'PLACING ORDER…' : 'CONFIRM & PLACE ORDER' }}
+    </ion-button>
+
+  </div>
+</ion-content>

@@ -1,0 +1,79 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="maroon-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile-hub" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="fw-bold text-white">Help Center & Support</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding maroon-bg">
+
+  <!-- Support Hero Banner -->
+  <div class="support-hero animate-fade-in">
+    <div class="hero-icon-wrap">
+      <ion-icon name="headset-outline"></ion-icon>
+    </div>
+    <div class="hero-content">
+      <h3>How can we help you today?</h3>
+      <p>Search our knowledge base or reach out to support</p>
+    </div>
+  </div>
+
+  <!-- Search Support Topics -->
+  <div class="search-container animate-fade-in">
+    <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      (ionInput)="filterTopics($event)" 
+      placeholder="Search support topics, keywords..." 
+      class="custom-searchbar">
+    </ion-searchbar>
+  </div>
+
+  <h3 class="section-title animate-fade-in">Common Questions & Topics</h3>
+
+  <!-- Accordion List for Common Questions -->
+  <ion-card class="menu-card animate-slide-up">
+    <ion-accordion-group>
+      
+      <ion-accordion *ngFor="let faq of filteredFaqList" [value]="faq.id">
+        <ion-item slot="header" lines="full">
+          <div class="faq-icon-box" slot="start">
+            <ion-icon [name]="faq.icon"></ion-icon>
+          </div>
+          <ion-label>
+            <h2>{{ faq.title }}</h2>
+            <p>{{ faq.category }}</p>
+          </ion-label>
+        </ion-item>
+        <div class="accordion-content" slot="content">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </ion-accordion>
+
+    </ion-accordion-group>
+
+    <!-- Empty search fallback -->
+    <div class="empty-search-state" *ngIf="filteredFaqList.length === 0">
+      <ion-icon name="search-outline"></ion-icon>
+      <p>No matching topics found. Try another keyword or contact us below.</p>
+    </div>
+  </ion-card>
+
+  <!-- Direct Contact Support Card -->
+  <ion-card class="contact-card animate-slide-up">
+    <ion-card-content class="ion-padding">
+      <div class="contact-flex">
+        <div class="contact-info">
+          <h4>Still need assistance?</h4>
+          <p>Our student support team is ready to help you.</p>
+        </div>
+        <ion-button class="contact-btn" (click)="contactSupportEmail()">
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          Contact Us
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

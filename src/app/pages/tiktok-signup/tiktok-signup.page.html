@@ -1,0 +1,56 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: #6d1a1d; --color: #ffffff;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" text="" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="font-weight: 700;">TikTok Sign up</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" style="--background: linear-gradient(135deg, #6d1a1d 0%, #a02c31 100%);">
+  
+  <div class="tiktok-wrapper">
+    <!-- Floating Card Container -->
+    <div class="tiktok-card">
+      
+      <!-- Animated Brand Icon Badge -->
+      <div class="brand-badge">
+        <ion-icon name="logo-tiktok" class="brand-icon"></ion-icon>
+      </div>
+
+      <h2 class="title">TikTok Sign up</h2>
+      <p class="subtitle">Enter your email or phone number to connect</p>
+
+      <form class="form-stack" (submit)="$event.preventDefault()">
+        <!-- Input Field 1 -->
+        <div class="input-container">
+          <ion-icon name="person-outline" class="input-prefix-icon"></ion-icon>
+          <ion-input type="text" placeholder="Enter Email or Phone Number" [(ngModel)]="email" name="email" (ionInput)="onEmailInput()"></ion-input>
+        </div>
+        <p *ngIf="emailError" style="color: #ffd7d4; font-size: 0.75rem; margin: 4px 6px 0 6px;">{{ emailError }}</p>
+
+        <!-- Input Field 2 -->
+        <div class="input-container">
+          <ion-icon name="lock-closed-outline" class="input-prefix-icon"></ion-icon>
+          <ion-input type="password" placeholder="Enter Password" [(ngModel)]="password" name="password"></ion-input>
+        </div>
+
+        <!-- Form-level error (e.g. account already exists) -->
+        <p *ngIf="formError || passwordError" style="color: #ffd7d4; font-size: 0.75rem; margin: 4px 6px 0 6px;">
+          {{ formError || passwordError }}
+        </p>
+
+        <!-- Action Button -->
+        <ion-button expand="block" class="action-btn" [disabled]="isSubmitting" (click)="onSignUp()">
+          {{ isSubmitting ? 'Signing up…' : 'Sign up' }}
+        </ion-button>
+      </form>
+
+      <div class="footer-note">
+        <span class="secure-dot"></span> Fast & Secure Social Authentication
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>

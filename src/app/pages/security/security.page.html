@@ -1,0 +1,218 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="maroon-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" color="light">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="fw-bold text-white">
+      {{ selectedOption ? 'Security Settings' : 'Security Dashboard' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding maroon-bg">
+
+  <!-- SECURITY OVERVIEW HERO BADGE -->
+  <div class="security-hero animate-fade-in" *ngIf="!selectedOption">
+    <div class="hero-badge-icon">
+      <ion-icon name="shield-checkmark"></ion-icon>
+    </div>
+    <div class="hero-text">
+      <h3>Account Fully Protected</h3>
+      <p>Last security audit performed today</p>
+    </div>
+  </div>
+
+  <!-- MAIN LIST VIEW -->
+  <div class="security-list animate-fade-in" *ngIf="!selectedOption">
+    
+    <!-- Change Password -->
+    <div class="pro-security-card" (click)="selectOption('password')">
+      <div class="menu-icon-wrapper">
+        <ion-icon name="key-outline"></ion-icon>
+      </div>
+      <div class="security-text">
+        <h2>Change Password</h2>
+        <p>Last changed 3 months ago</p>
+      </div>
+      <div class="action-chevron">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Two-Factor Authentication -->
+    <div class="pro-security-card" (click)="selectOption('2fa')">
+      <div class="menu-icon-wrapper">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+      </div>
+      <div class="security-text">
+        <h2>Two-Factor Authentication</h2>
+        <p>Active via SMS & Authenticator</p>
+      </div>
+      <div class="action-chevron">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Active Login Sessions -->
+    <div class="pro-security-card" (click)="selectOption('sessions')">
+      <div class="menu-icon-wrapper">
+        <ion-icon name="phone-portrait-outline"></ion-icon>
+      </div>
+      <div class="security-text">
+        <h2>Active Login Sessions</h2>
+        <p>2 devices currently signed in</p>
+      </div>
+      <div class="action-chevron">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Biometric Unlock -->
+    <div class="pro-security-card" (click)="selectOption('biometric')">
+      <div class="menu-icon-wrapper">
+        <ion-icon name="finger-print-outline"></ion-icon>
+      </div>
+      <div class="security-text">
+        <h2>Biometric Unlock</h2>
+        <p>FaceID / TouchID enabled</p>
+      </div>
+      <div class="action-chevron">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- DETAIL / EDIT VIEWS WHEN CLICKED (Animated Entry) -->
+  <div class="detail-wrapper animate-slide-up" *ngIf="selectedOption">
+    
+    <!-- 1. Change Password View -->
+    <ion-card class="settings-card" *ngIf="selectedOption === 'password'">
+      <ion-card-content class="ion-padding">
+        <div class="detail-header-icon">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </div>
+        <h2>Change Your Password</h2>
+        <p class="sub-text">Ensure your account is using a secure, long password.</p>
+        
+        <div class="input-group-wrapper ion-margin-top">
+          <label class="custom-input-label">Current Password</label>
+          <ion-item class="custom-item" lines="none">
+            <ion-input type="password" [(ngModel)]="currentPassword" placeholder="Enter current password"></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="input-group-wrapper">
+          <label class="custom-input-label">New Password</label>
+          <ion-item class="custom-item" lines="none">
+            <ion-input type="password" [(ngModel)]="newPassword" placeholder="Enter new password"></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="input-group-wrapper">
+          <label class="custom-input-label">Confirm New Password</label>
+          <ion-item class="custom-item" lines="none">
+            <ion-input type="password" [(ngModel)]="confirmPassword" placeholder="Re-enter new password"></ion-input>
+          </ion-item>
+        </div>
+
+        <p *ngIf="passwordError" style="color: #ff8a80; font-size: 0.82rem; margin: 8px 4px 0 4px;">{{ passwordError }}</p>
+
+        <ion-button expand="block" class="action-btn ion-margin-top" [class.success-btn]="passSuccess" [disabled]="isUpdating" (click)="updatePassword()">
+          <ion-icon slot="start" [name]="passSuccess ? 'checkmark-circle-outline' : 'save-outline'"></ion-icon>
+          {{ passSuccess ? 'Password Updated Successfully!' : (isUpdating ? 'Updating…' : 'Update Password') }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- 2. Two-Factor Authentication View -->
+    <ion-card class="settings-card" *ngIf="selectedOption === '2fa'">
+      <ion-card-content class="ion-padding">
+        <div class="detail-header-icon">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+        </div>
+        <h2>Two-Factor Authentication</h2>
+        <p class="sub-text">Add additional defense layers to your campus profile.</p>
+        
+        <div class="toggle-row-card ion-margin-top">
+          <div class="toggle-info">
+            <h4>Authenticator App</h4>
+            <p>Use Google Authenticator or Authy</p>
+          </div>
+          <ion-toggle [checked]="true" color="primary"></ion-toggle>
+        </div>
+
+        <div class="toggle-row-card">
+          <div class="toggle-info">
+            <h4>SMS Recovery Code</h4>
+            <p>Receive authentication text alerts</p>
+          </div>
+          <ion-toggle [checked]="true" color="primary"></ion-toggle>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- 3. Active Sessions View -->
+    <ion-card class="settings-card" *ngIf="selectedOption === 'sessions'">
+      <ion-card-content class="ion-padding">
+        <div class="detail-header-icon">
+          <ion-icon name="phone-portrait-outline"></ion-icon>
+        </div>
+        <h2>Active Login Sessions</h2>
+        <p class="sub-text">Manage devices currently authorized on your account.</p>
+        
+        <div class="session-node current-session ion-margin-top">
+          <div class="session-icon">
+            <ion-icon name="phone-portrait-outline"></ion-icon>
+          </div>
+          <div class="session-details">
+            <div class="session-title-row">
+              <h4>iPhone 15 Pro</h4>
+              <span class="active-badge">Current</span>
+            </div>
+            <p>Basista, Philippines • Active now</p>
+          </div>
+        </div>
+
+        <div class="session-node">
+          <div class="session-icon">
+            <ion-icon name="desktop-outline"></ion-icon>
+          </div>
+          <div class="session-details">
+            <div class="session-title-row">
+              <h4>Windows PC - Chrome</h4>
+            </div>
+            <p>Last active 2 hours ago</p>
+          </div>
+          <ion-button fill="clear" color="danger" size="small" (click)="revokeSession('Windows PC')">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- 4. Biometric Unlock View -->
+    <ion-card class="settings-card" *ngIf="selectedOption === 'biometric'">
+      <ion-card-content class="ion-padding">
+        <div class="detail-header-icon">
+          <ion-icon name="finger-print-outline"></ion-icon>
+        </div>
+        <h2>Biometric Authentication</h2>
+        <p class="sub-text">Use FaceID or Fingerprint for instant, secure access.</p>
+        
+        <div class="toggle-row-card ion-margin-top">
+          <div class="toggle-info">
+            <h4>Enable Biometrics</h4>
+            <p>Prompt scanner on app launch</p>
+          </div>
+          <ion-toggle [(ngModel)]="biometricEnabled" color="primary"></ion-toggle>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,69 @@
+<ion-content [fullscreen]="true" class="walkthrough-content">
+  
+  <!-- Active Slide Container -->
+  <div *ngIf="walkthroughSlides[currentSlideIndex] as slide" class="walkthrough-container">
+
+    <!-- Hero Card with Floating Animation & Badge -->
+    <div class="illustration-hero-card">
+      <div class="floating-badge">⚡ Campus Fast</div>
+      
+      <div class="logo-circle-container">
+        <!-- Pulsing Background Glow Animation -->
+        <div class="pulsing-glow"></div>
+        
+        <!-- Main White Circle with Eagle -->
+        <div class="inner-logo-box">
+          <img [src]="slide.image" alt="Food Eagle Logo" class="brand-logo-img" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Narrative Section -->
+    <div class="text-narrative-section">
+      <h1 class="hero-title" [innerHTML]="slide.title"></h1>
+      <p class="hero-description">
+        {{ slide.description }}
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Bottom Action Sheet Card -->
+  <div class="bottom-action-sheet">
+    
+    <!-- Clickable Pagination Dots -->
+    <div class="pagination-dots">
+      <span *ngFor="let item of walkthroughSlides; let i = index" 
+            (click)="setSlide(i)"
+            class="dot"
+            [class.active]="currentSlideIndex === i">
+      </span>
+    </div>
+
+    <!-- Standard NEXT Button (No Divine Glow) -->
+    <ion-button *ngIf="currentSlideIndex < walkthroughSlides.length - 1" 
+                expand="block" 
+                class="get-started-btn"
+                (click)="nextSlide()">
+      <span>NEXT</span>
+      <ion-icon name="arrow-forward" slot="end" style="margin-left: 8px; font-size: 1.1rem;"></ion-icon>
+    </ion-button>
+
+    <!-- GET STARTED Button with Divine Glow (Final Slide Only) -->
+    <ion-button *ngIf="currentSlideIndex === walkthroughSlides.length - 1" 
+                expand="block" 
+                routerLink="/create-account"
+                class="get-started-btn divine-glow-btn">
+      <span>GET STARTED</span>
+      <ion-icon name="arrow-forward" slot="end" style="margin-left: 8px; font-size: 1.1rem;"></ion-icon>
+    </ion-button>
+
+    <!-- Secondary Link Row -->
+    <div class="login-prompt-row">
+      <span>Already have an account? </span>
+      <a routerLink="/login" class="login-link-text">Log In</a>
+    </div>
+
+  </div>
+
+</ion-content>

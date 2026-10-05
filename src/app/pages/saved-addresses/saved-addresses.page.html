@@ -1,0 +1,187 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="maroon-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile-hub" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="fw-bold text-white">Live Delivery Pinpoint</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="resetToDefaultPin()" color="light">
+        <ion-icon name="locate-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding modern-bg">
+  
+  <!-- Interactive Live Tracking Map Card -->
+  <ion-card class="map-card animate-fade-in">
+    <ion-card-content class="ion-no-padding">
+      <div class="map-container">
+        <img src="assets/images/campus-map.jpg" alt="Campus Map" class="campus-map-img" />
+        <div class="map-grid-overlay"></div>
+
+        <div class="rider-pin" [style.top]="riderPosition.top" [style.left]="riderPosition.left">
+          <div class="pin-inner">
+            <ion-icon name="bicycle" class="bike-icon"></ion-icon>
+          </div>
+          <div class="pulse-ring"></div>
+          <div class="pulse-ring-2"></div>
+        </div>
+
+        <div class="eta-badge glass-panel">
+          <div class="eta-icon-wrapper">
+            <ion-icon name="flash"></ion-icon>
+          </div>
+          <div class="eta-text">
+            <span class="eta-label">Live Campus ETA</span>
+            <span class="eta-value">~{{ etaMinutes }} mins delivery</span>
+          </div>
+        </div>
+
+        <div class="map-location-tag">
+          <ion-icon name="navigate" color="danger"></ion-icon>
+          <span>{{ selectedBuilding }}</span>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- SAVED ADDRESSES SECTION (Styled like reference design) -->
+  <div class="saved-section-wrapper" *ngIf="savedAddressesList.length > 0">
+    <h3 class="list-section-title">SAVED ADDRESSES</h3>
+    
+    <div class="address-selectable-card" 
+         *ngFor="let addr of savedAddressesList" 
+         [class.selected]="isCurrentSelected(addr)"
+         (click)="selectSavedAddress(addr)">
+      
+      <div class="address-icon-box">
+        <ion-icon name="business-outline"></ion-icon>
+      </div>
+
+      <div class="address-details-box">
+        <h4 class="address-title">{{ addr.building }}</h4>
+        <p class="address-subtitle">{{ addr.landmark }}</p>
+      </div>
+
+      <div class="radio-indicator">
+        <div class="radio-outer">
+          <div class="radio-inner" *ngIf="isCurrentSelected(addr)"></div>
+        </div>
+      </div>
+
+      <button class="address-delete-btn" (click)="deleteAddress(addr, $event)" aria-label="Delete address"
+              style="background: none; border: none; color: #b3261e; padding: 6px; cursor: pointer; align-self: center;">
+        <ion-icon name="trash-outline"></ion-icon>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Destination & Exact Instructions Card -->
+  <ion-card class="details-card animate-slide-up">
+    <ion-card-content class="card-content-padd">
+      <div class="card-header-flex">
+        <div>
+          <h3 class="section-title">
+            <ion-icon name="location-sharp" color="primary"></ion-icon> Drop-off Spot
+          </h3>
+          <p class="section-subtitle">Ensure accurate delivery coordinates for your FoodEagle courier</p>
+        </div>
+        <div class="status-indicator-pill" [class.active]="saveSuccess">
+          {{ saveSuccess ? 'Saved' : 'Editing' }}
+        </div>
+      </div>
+
+      <!-- Campus Building Selector -->
+      <div class="input-group-wrapper">
+        <label class="custom-input-label">Campus Building / Department</label>
+        <ion-item class="custom-item" lines="none">
+          <ion-icon name="business-outline" slot="start" color="primary"></ion-icon>
+          <ion-select [(ngModel)]="selectedBuilding" (ionChange)="onBuildingChange()" interface="action-sheet" placeholder="Select Department Building">
+            <ion-select-option value="COEA">COEA - College of Engineering & Architecture</ion-select-option>
+            <ion-select-option value="CIT">CIT - College of Industrial Technology</ion-select-option>
+            <ion-select-option value="CICS">CICS - College of Information & Computing Sciences</ion-select-option>
+            <ion-select-option value="CHK">CHK - College of Human Kinetics</ion-select-option>
+            <ion-select-option value="CPAD">CPAD - College of Public Administration</ion-select-option>
+            <ion-select-option value="CHASS/CNSM">CHASS / CNSM Complex</ion-select-option>
+            <ion-select-option value="RED EAGLE GYM">Red Eagle Gym</ion-select-option>
+            <ion-select-option value="ROTUNDA">Rotunda Area</ion-select-option>
+            <ion-select-option value="OVAL">Oval Grandstand / Field</ion-select-option>
+            <ion-select-option value="SUNKEN COURT">Sunken Court</ion-select-option>
+            <ion-select-option value="BVBALL COURT">Covered Basketball Court</ion-select-option>
+            <ion-select-option value="VBALL COURT">Volleyball Court</ion-select-option>
+            <ion-select-option value="SEPAK COURT">Sepak Takraw Court</ion-select-option>
+            <ion-select-option value="TENNIS COURT">Tennis Court</ion-select-option>
+            <ion-select-option value="BBALL COURT">Main Basketball Court</ion-select-option>
+            <ion-select-option value="MAIN GATE">Main Gate Drop-off Station</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <!-- Quick Select Chips for Common Details -->
+      <div class="quick-chips-container">
+        <span class="chips-label">Quick Suggestions:</span>
+        <div class="chip-scroll">
+          <button type="button" class="quick-chip" (click)="setLandmark('Main Entrance Lobby')">Main Lobby</button>
+          <button type="button" class="quick-chip" (click)="setLandmark('Near Main Staircase')">Near Stairs</button>
+          <button type="button" class="quick-chip" (click)="setLandmark('Student Waiting Area')">Waiting Area</button>
+          <button type="button" class="quick-chip" (click)="setLandmark('Covered Walkway')">Walkway</button>
+        </div>
+      </div>
+
+      <!-- Specific Landmark / Instructions -->
+      <div class="input-group-wrapper">
+        <label class="custom-input-label">Specific Landmark / Instructions</label>
+        <ion-item class="custom-item" lines="none">
+          <ion-icon name="information-circle-outline" slot="start" color="primary"></ion-icon>
+          <ion-input [(ngModel)]="roomDetails.landmark" placeholder="e.g. Wait by the blue double doors"></ion-input>
+        </ion-item>
+      </div>
+
+      <!-- Save Action Section -->
+      <div class="action-container ion-margin-top">
+        <ion-button expand="block" class="save-btn" [class.success-state]="saveSuccess" (click)="saveDeliverySpot()">
+          <ion-icon slot="start" [name]="saveSuccess ? 'checkmark-done-circle' : 'save-outline'"></ion-icon>
+          {{ saveSuccess ? 'Delivery Spot Saved!' : 'Save Current Delivery Spot' }}
+        </ion-button>
+        
+        <div class="feedback-banner" *ngIf="saveSuccess">
+          <ion-icon name="shield-checkmark" color="success"></ion-icon>
+          <span>Added to your saved addresses list below!</span>
+        </div>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<!-- Professional Bottom Navigation Bar -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar color="light" class="bottom-nav-toolbar">
+    <div class="custom-tab-bar">
+      <div class="tab-item" (click)="navigateTo('profile-hub')">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Profile</span>
+      </div>
+      <div class="tab-item active" (click)="navigateTo('saved-addresses')">
+        <ion-icon name="location"></ion-icon>
+        <span>Address</span>
+      </div>
+      <div class="tab-item" (click)="navigateTo('notification-center')">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <span>Alerts</span>
+      </div>
+      <div class="tab-item" (click)="navigateTo('help-center')">
+        <ion-icon name="help-circle-outline"></ion-icon>
+        <span>Help</span>
+      </div>
+      <div class="tab-item" (click)="navigateTo('security')">
+        <ion-icon name="shield-outline"></ion-icon>
+        <span>Security</span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,143 @@
+<ion-header class="ion-no-border custom-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile-hub" text="" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="page-title">Notification Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="notification-content" [fullscreen]="true">
+  <div class="content-wrapper">
+
+    <!-- Hero Status Banner -->
+    <div class="hero-status-card fade-in-up">
+      <div class="glow-bg"></div>
+      <div class="status-content">
+        <div class="status-icon-box">
+          <ion-icon name="volume-high-outline"></ion-icon>
+        </div>
+        <div class="status-text">
+          <h2>Alert Preferences</h2>
+          <p>Manage how and when you receive real-time campus and order alerts.</p>
+        </div>
+      </div>
+      <div class="active-badge">
+        <ion-icon name="sparkles"></ion-icon>
+        <span>{{ activeChannelsCount }} Active Channels</span>
+      </div>
+    </div>
+
+    <!-- Section 1: Notification Channels -->
+    <div class="section-container fade-in-up anim-delay-1">
+      <h3 class="section-title">Delivery Channels</h3>
+      
+      <div class="settings-card-group">
+
+        <!-- Push Notifications -->
+        <div class="setting-item ion-activatable" (click)="openNotificationDetail('push')">
+          <div class="item-icon-bg" [ngClass]="pushEnabled ? 'active-maroon' : 'maroon-tint'">
+            <ion-icon name="notifications-outline"></ion-icon>
+          </div>
+          <div class="item-info">
+            <span class="item-title">Push Notifications</span>
+            <span class="item-subtitle">Instant banner alerts on your device</span>
+          </div>
+          <ion-toggle 
+            [(ngModel)]="pushEnabled" 
+            (ionChange)="onPrefToggle($event, 'push')"
+            (click)="$event.stopPropagation()">
+          </ion-toggle>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+
+        <!-- Email Notifications -->
+        <div class="setting-item ion-activatable" (click)="openNotificationDetail('email')">
+          <div class="item-icon-bg" [ngClass]="emailEnabled ? 'active-maroon' : 'rose-tint'">
+            <ion-icon name="mail-outline"></ion-icon>
+          </div>
+          <div class="item-info">
+            <span class="item-title">Email Summaries</span>
+            <span class="item-subtitle">Receipts and activity digests via email</span>
+          </div>
+          <ion-toggle 
+            [(ngModel)]="emailEnabled" 
+            (ionChange)="onPrefToggle($event, 'email')"
+            (click)="$event.stopPropagation()">
+          </ion-toggle>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+
+        <!-- SMS Alerts -->
+        <div class="setting-item ion-activatable" (click)="openNotificationDetail('sms')">
+          <div class="item-icon-bg" [ngClass]="smsEnabled ? 'active-maroon' : 'maroon-tint'">
+            <ion-icon name="chatbubble-outline"></ion-icon>
+          </div>
+          <div class="item-info">
+            <span class="item-title">SMS Alerts</span>
+            <span class="item-subtitle">Direct text messages for urgent updates</span>
+          </div>
+          <ion-toggle 
+            [(ngModel)]="smsEnabled" 
+            (ionChange)="onPrefToggle($event, 'sms')"
+            (click)="$event.stopPropagation()">
+          </ion-toggle>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 2: Alert Types & Preferences -->
+    <div class="section-container fade-in-up anim-delay-2">
+      <h3 class="section-title">Preferences & Quiet Hours</h3>
+
+      <div class="settings-card-group">
+
+        <!-- Order & Delivery Status -->
+        <div class="setting-item ion-activatable">
+          <div class="item-icon-bg" [ngClass]="orderUpdates ? 'active-maroon' : 'maroon-tint'">
+            <ion-icon name="options-outline"></ion-icon>
+          </div>
+          <div class="item-info">
+            <span class="item-title">Food & Order Updates</span>
+            <span class="item-subtitle">Real-time tracking notifications</span>
+          </div>
+          <ion-toggle [(ngModel)]="orderUpdates" (ionChange)="onPrefToggle($event, 'orderUpdates')"></ion-toggle>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+
+        <!-- Promotional Announcements -->
+        <div class="setting-item ion-activatable">
+          <div class="item-icon-bg" [ngClass]="promosEnabled ? 'active-maroon' : 'rose-tint'">
+            <ion-icon name="megaphone-outline"></ion-icon>
+          </div>
+          <div class="item-info">
+            <span class="item-title">Promos & Campus News</span>
+            <span class="item-subtitle">Discounts and special event alerts</span>
+          </div>
+          <ion-toggle [(ngModel)]="promosEnabled" (ionChange)="onPrefToggle($event, 'promos')"></ion-toggle>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+
+        <!-- Quiet Hours / DND -->
+        <div class="setting-item ion-activatable">
+          <div class="item-icon-bg" [ngClass]="quietHours ? 'active-maroon' : 'maroon-tint'">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="item-info">
+            <span class="item-title">Quiet Hours</span>
+            <span class="item-subtitle">Silence alerts overnight (10 PM - 7 AM)</span>
+          </div>
+          <ion-toggle [(ngModel)]="quietHours" (ionChange)="onPrefToggle($event, 'quietHours')"></ion-toggle>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>

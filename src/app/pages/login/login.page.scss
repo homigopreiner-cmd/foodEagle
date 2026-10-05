@@ -1,0 +1,275 @@
+ion-content {
+  --background: #7b1113 !important;
+}
+
+.floating-back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: #ffffff;
+  border: none;
+  color: #7b1113;
+  font-size: 20px;
+  z-index: 50;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  
+  &:active {
+    background: #f0f0f0;
+  }
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  padding-top: 40px;
+}
+
+.brand-header {
+  text-align: center;
+  padding: 10px 0 16px 0;
+
+  .eagle-avatar-container {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 12px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .avatar-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ff7b00;
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: pulseRing 2s infinite ease-in-out;
+    }
+
+    .eagle-avatar {
+      position: relative;
+      width: 66px;
+      height: 66px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      overflow: hidden; /* Ensures logo fits cleanly within the circle bounds */
+
+      .brand-logo-img {
+        width: 75%;
+        height: 75%;
+        object-fit: contain;
+        display: block;
+      }
+    }
+  }
+
+  .welcome-title {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 4px 0;
+    letter-spacing: 0.3px;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+@keyframes pulseRing {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.15); opacity: 0.1; }
+}
+
+/* Divine Burning Glow Effect for Eagle */
+.eagle-glow {
+  background: linear-gradient(135deg, #fff6b0 0%, #ffcc00 40%, #ff6600 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 204, 0, 0.8)) drop-shadow(0 0 20px rgba(255, 102, 0, 0.5));
+  font-weight: 900;
+}
+
+/* Error State Styles */
+.input-group-wrapper {
+  margin-bottom: 14px;
+}
+
+.input-container.error-border {
+  border-color: #ef4444 !important;
+  background: #fef2f2 !important;
+}
+
+.error-msg {
+  color: #ef4444;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 4px;
+  padding-left: 4px;
+}
+
+.login-card {
+  background: #ffffff;
+  width: 100%;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 28px 22px 22px 22px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+  margin-top: 10px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 0 6px 0 12px;
+  margin-bottom: 14px;
+  transition: all 0.2s ease;
+
+  &:focus-within {
+    background: #ffffff;
+    border-color: #ff7b00;
+    box-shadow: 0 0 0 4px rgba(255, 123, 0, 0.1);
+
+    .icon-box ion-icon {
+      color: #ff7b00;
+    }
+  }
+
+  .icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+
+    ion-icon {
+      font-size: 1.15rem;
+      color: #94a3b8;
+    }
+  }
+
+  ion-input {
+    --background: transparent;
+    --box-shadow: none;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    font-size: 0.9rem;
+    color: #1e293b;
+    font-weight: 500;
+  }
+}
+
+.forgot-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  margin-top: -4px;
+
+  .forgot-link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #7b1113;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.action-btn {
+  --background: #ff7b00;
+  --background-hover: #e56d00;
+  --border-radius: 14px;
+  height: 50px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.8px;
+  margin-top: 4px;
+  --box-shadow: 0 6px 16px rgba(255, 123, 0, 0.3);
+}
+
+.divider {
+  text-align: center;
+  margin: 18px 0 12px 0;
+  position: relative;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: #e2e8f0;
+  }
+
+  &::before { left: 0; }
+  &::after { right: 0; }
+
+  span {
+    background: #ffffff;
+    padding: 0 8px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.social-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 4px;
+
+  .social-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid #e2e8f0;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+
+    ion-icon {
+      font-size: 1.3rem;
+    }
+
+    &.facebook ion-icon { color: #1877f2; }
+    &.tiktok ion-icon { color: #000000; }
+    &.google ion-icon { color: #ea4335; }
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: #ff7b00;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+}

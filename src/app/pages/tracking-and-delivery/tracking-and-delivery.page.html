@@ -1,0 +1,331 @@
+<ion-content [fullscreen]="true">
+  <div class="page">
+
+    <!-- ===== Hero header: brand + title + search ===== -->
+    <header class="hero">
+      <div class="hero-brand">
+        <div class="logo">
+          <img src="assets/images/food-eagle-logo.png" alt="Food Eagle Logo" />
+          <span class="online"></span>
+        </div>
+        <div class="titles">
+          <h1>My Orders</h1>
+          <p>Track every bite in real time</p>
+        </div>
+      </div>
+
+      <label class="search">
+        <span class="search-lead"><ion-icon name="search-outline"></ion-icon></span>
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (input)="filterOrders()"
+          placeholder="Search food, store or order ID"
+          autocomplete="off"
+        />
+        @if (searchQuery) {
+          <button type="button" class="search-clear anim-scale" (click)="searchQuery = ''; filterOrders()" aria-label="Clear search">
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        }
+      </label>
+    </header>
+
+    <!-- ===== Sticky status tabs (all 5 fit the screen) ===== -->
+    <div class="tabs-sticky">
+      <nav class="tabs">
+        @for (tab of tabs; track tab.key) {
+          <button
+            type="button"
+            class="tab"
+            [class.active]="currentActiveTab === tab.key"
+            (click)="switchTab(tab.key)"
+          >
+            <span class="tab-icon">
+              <ion-icon [name]="tab.icon"></ion-icon>
+              @if (getCount(tab.key) > 0) {
+                <span class="tab-count">{{ getCount(tab.key) }}</span>
+              }
+            </span>
+            <span class="tab-label">{{ tab.label }}</span>
+          </button>
+        }
+      </nav>
+    </div>
+
+    <!-- ===== Orders ===== -->
+    <main class="list">
+      @if (filteredOrders.length > 0) {
+        @for (order of filteredOrders; track order.id) {
+          <article class="card anim-slide">
+
+            <div class="card-top">
+              <div class="store">
+                <span class="store-ico"><ion-icon name="storefront-outline"></ion-icon></span>
+                <span class="store-name">{{ order.store }}</span>
+              </div>
+              <span class="status" [ngClass]="order.badgeColorClass">
+                @if (order.status === 'toreceive') {
+                  <i class="dot"></i>
+                }
+                {{ order.badgeText }}
+              </span>
+            </div>
+
+            <div class="card-body">
+              <div class="thumb">
+                <img [src]="order.image" [alt]="order.item" />
+              </div>
+              <div class="info">
+                <h4>{{ order.item }}</h4>
+                <p class="oid"><ion-icon name="receipt-outline"></ion-icon> Order #{{ order.id }}</p>
+                @if (order.status === 'delivered') {
+                  <div class="stars">
+                    @for (star of [1,2,3,4,5]; track star) {
+                      <ion-icon name="star"></ion-icon>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+
+            @if (order.status === 'toreceive') {
+              <div class="tracker">
+                <div class="step done">
+                  <span class="node"><ion-icon name="restaurant-outline"></ion-icon></span>
+                  <small>Preparing</small>
+                </div>
+                <div class="line done"></div>
+                <div class="step current">
+                  <span class="node"><ion-icon name="bicycle-outline"></ion-icon></span>
+                  <small>On the way</small>
+                </div>
+                <div class="line"></div>
+                <div class="step">
+                  <span class="node"><ion-icon name="home-outline"></ion-icon></span>
+                  <small>Arriving</small>
+                </div>
+              </div>
+            }
+
+            <div class="card-foot">
+              <div class="price-wrap">
+                <span class="price-label">Total</span>
+                <span class="price">{{ order.price }}</span>
+              </div>
+              <button
+                type="button"
+                class="action"
+                [class.outline]="order.status === 'delivered' || order.status === 'refunds'"
+                (click)="handleAction(order, order.actionHandler)"
+              >
+                <ion-icon [name]="getActionIcon(order.actionHandler)"></ion-icon>
+                <span>{{ order.actionText }}</span>
+              </button>
+            </div>
+          </article>
+        }
+      } @else {
+        <div class="empty anim-fade">
+          <div class="empty-art">
+            <ion-icon name="restaurant-outline"></ion-icon>
+            <span class="empty-badge"><ion-icon name="search-outline"></ion-icon></span>
+          </div>
+          <h3>No orders found</h3>
+          <p>
+            @if (searchQuery) {
+              Nothing matches "{{ searchQuery }}". Try a different keyword.
+            } @else {
+              You don't have any orders here yet. Hungry? Let's fix that.
+            }
+          </p>
+          <button type="button" class="action big" routerLink="/explore">
+            <ion-icon name="compass-outline"></ion-icon>
+            <span>Explore Campus Menu</span>
+          </button>
+        </div>
+      }
+    </main>
+  </div>
+
+  <!-- ===== Live map (full screen) ===== -->
+  @if (isMapModalOpen) {
+    <div class="overlay full anim-fade">
+      <div class="map-screen">
+
+        <div class="map-view">
+          <div class="map-canvas" [style.transform]="'scale(' + mapScale + ')'">
+            <img src="assets/images/campus-map.jpg" alt="Campus Map" class="map-img" />
+            <div class="rider">
+              <span class="rider-ring"></span>
+              <div class="rider-bubble">
+                <ion-icon name="time-outline"></ion-icon> Rider is 5 mins away
+              </div>
+              <div class="rider-dot"><ion-icon name="bicycle"></ion-icon></div>
+            </div>
+          </div>
+
+          <div class="map-topbar">
+            <button type="button" class="round-btn" (click)="closeMapModal()" aria-label="Close map">
+              <ion-icon name="close"></ion-icon>
+            </button>
+            <span class="map-chip"><i class="live-dot"></i> Live tracking</span>
+          </div>
+
+          <div class="zoom">
+            <button type="button" (click)="zoomIn()" aria-label="Zoom in"><ion-icon name="add"></ion-icon></button>
+            <button type="button" (click)="zoomOut()" aria-label="Zoom out"><ion-icon name="remove"></ion-icon></button>
+          </div>
+        </div>
+
+        <div class="map-sheet">
+          <div class="handle"></div>
+
+          <div class="meta">
+            <div class="meta-ico"><ion-icon name="fast-food-outline"></ion-icon></div>
+            <div class="meta-text">
+              <h4>{{ selectedOrder?.item || 'Active Food Delivery' }}</h4>
+              <p>{{ selectedOrder?.store || 'Campus Partner' }}</p>
+            </div>
+            <span class="status amber"><i class="dot"></i> On the way</span>
+          </div>
+
+          <div class="eta">
+            <ion-icon name="navigate-outline"></ion-icon>
+            <span>Estimated arrival</span>
+            <strong>~5 mins</strong>
+          </div>
+
+          <button type="button" class="action big" (click)="closeMapModal()">Back to Orders</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ===== Rating & Review (bottom sheet) ===== -->
+  @if (isReviewModalOpen) {
+    <div class="overlay anim-fade" (click)="closeReviewModal()">
+      <div class="sheet anim-sheet" (click)="$event.stopPropagation()">
+        <div class="handle"></div>
+        <div class="sheet-head">
+          <button type="button" class="round-btn soft" (click)="closeReviewModal()" aria-label="Close">
+            <ion-icon name="arrow-back"></ion-icon>
+          </button>
+          <h3>Rating &amp; Review</h3>
+          <span class="head-spacer"></span>
+        </div>
+
+        <div class="banner">
+          <p><ion-icon name="checkmark-circle"></ion-icon> Order delivered successfully</p>
+          <h4>Rate your meal experience</h4>
+        </div>
+
+        <div class="rate">
+          <p>Tap a star to rate your food</p>
+          <div class="rate-stars">
+            @for (star of [1, 2, 3, 4, 5]; track star) {
+              <button type="button" class="rate-star" [class.on]="star <= currentRating" (click)="setRating(star)" [attr.aria-label]="star + ' star'">
+                <ion-icon name="star"></ion-icon>
+              </button>
+            }
+          </div>
+          @if (currentRating > 0) {
+            <span class="rate-label">
+              @switch (currentRating) {
+                @case (1) { Poor 😞 }
+                @case (2) { Fair 😐 }
+                @case (3) { Good 😊 }
+                @case (4) { Very Good 😋 }
+                @case (5) { Excellent! 🤩 }
+              }
+            </span>
+          }
+        </div>
+
+        <div class="field">
+          <label>Write your review</label>
+          <textarea
+            [(ngModel)]="reviewText"
+            placeholder="Masarap ba ang pagkain? Mainit pa ba nung dumating?"
+          ></textarea>
+        </div>
+
+        <button type="button" class="action big" (click)="submitReview()">Submit Review</button>
+      </div>
+    </div>
+  }
+
+  <!-- ===== Payment (bottom sheet) ===== -->
+  @if (isPaymentModalOpen) {
+    <div class="overlay anim-fade" (click)="closePaymentModal()">
+      <div class="sheet anim-sheet" (click)="$event.stopPropagation()">
+        <div class="handle"></div>
+        <div class="sheet-head">
+          <button type="button" class="round-btn soft" (click)="closePaymentModal()" aria-label="Close">
+            <ion-icon name="arrow-back"></ion-icon>
+          </button>
+          <h3>Complete Payment</h3>
+          <span class="head-spacer"></span>
+        </div>
+
+        <div class="banner">
+          <p>Pending food order #{{ selectedOrder?.id }}</p>
+          <h2>{{ selectedOrder?.price || '₱25.00' }}</h2>
+        </div>
+
+        <div class="field">
+          <label>Select payment method</label>
+
+          <div class="pay" [class.selected]="selectedPaymentMethod === 'gcash'" (click)="selectedPaymentMethod = 'gcash'">
+            <span class="pay-ico gcash"><ion-icon name="wallet-outline"></ion-icon></span>
+            <span class="pay-name">GCash</span>
+            <span class="radio"></span>
+          </div>
+
+          <div class="pay" [class.selected]="selectedPaymentMethod === 'maya'" (click)="selectedPaymentMethod = 'maya'">
+            <span class="pay-ico maya"><ion-icon name="card-outline"></ion-icon></span>
+            <span class="pay-name">Maya</span>
+            <span class="radio"></span>
+          </div>
+
+          <div class="pay" [class.selected]="selectedPaymentMethod === 'cod'" (click)="selectedPaymentMethod = 'cod'">
+            <span class="pay-ico cod"><ion-icon name="cash-outline"></ion-icon></span>
+            <span class="pay-name">Cash on Delivery (COD)</span>
+            <span class="radio"></span>
+          </div>
+        </div>
+
+        <button type="button" class="action big" (click)="confirmPayment()">
+          Confirm payment via {{ selectedPaymentMethod | uppercase }}
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- ===== Refund (bottom sheet) ===== -->
+  @if (isRefundModalOpen) {
+    <div class="overlay anim-fade" (click)="closeRefundModal()">
+      <div class="sheet anim-sheet" (click)="$event.stopPropagation()">
+        <div class="handle"></div>
+        <div class="sheet-head">
+          <button type="button" class="round-btn soft" (click)="closeRefundModal()" aria-label="Close">
+            <ion-icon name="arrow-back"></ion-icon>
+          </button>
+          <h3>Refund Status</h3>
+          <span class="head-spacer"></span>
+        </div>
+
+        <div class="banner blue">
+          <p><ion-icon name="time-outline"></ion-icon> Refund request overview</p>
+          <h4>Status: Processing review</h4>
+        </div>
+
+        <p class="refund-text">
+          Your refund request for order <strong>#{{ selectedOrder?.id }}</strong> is being validated by merchant support. Funds will be returned to your wallet account shortly.
+        </p>
+
+        <button type="button" class="action big dark" (click)="closeRefundModal()">Close</button>
+      </div>
+    </div>
+  }
+</ion-content>

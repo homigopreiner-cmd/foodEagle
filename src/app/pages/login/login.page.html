@@ -1,0 +1,107 @@
+<ion-content [fullscreen]="true" style="--background: #7b1113;">
+  
+  <!-- Floating Back Button Overlay -->
+  <button (click)="goBack()" class="floating-back-btn">
+    <ion-icon name="arrow-back"></ion-icon>
+  </button>
+
+  <div class="login-wrapper">
+    
+    <!-- Top Solid Maroon Brand Header Section -->
+    <div class="brand-header">
+      <div class="eagle-avatar-container">
+        <div class="avatar-ring"></div>
+        <div class="eagle-avatar">
+  <!-- Put your image source URL or local path here -->
+  <img src="assets/images/food-eagle-logo.png" alt="Food Eagle Logo" style="width: 100%; height: 100%; object-fit: cover;" />
+</div>
+      </div>
+      <!-- Updated Title with Divine Burning Eagle Design -->
+      <h2 class="welcome-title">food<span class="eagle-glow">Eagle</span></h2>
+      <p class="welcome-subtitle">Fast campus delivery, wherever you are in the campus 🦅</p>
+    </div>
+
+    <!-- Structured White Sheet Container -->
+    <div class="login-card">
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+        
+        <!-- Identifier Input (Email or Phone) -->
+        <div class="input-group-wrapper">
+          <div class="input-container" [class.error-border]="identifierError">
+            <div class="icon-box">
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+            <ion-input 
+              [(ngModel)]="identifier" 
+              name="identifier" 
+              type="text" 
+              placeholder="Enter email or phone number" 
+              mode="ios"
+              (ionInput)="validateIdentifier()">
+            </ion-input>
+          </div>
+          <!-- Dynamic Validation Error Message -->
+          <div *ngIf="identifierError" class="error-msg">
+            {{ identifierError }}
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="input-group-wrapper">
+          <div class="input-container" [class.error-border]="passwordError">
+            <div class="icon-box">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+            </div>
+            <ion-input [(ngModel)]="password" name="password" type="password" placeholder="Password" mode="ios"></ion-input>
+          </div>
+          <!-- Dynamic Validation Error Message -->
+          <div *ngIf="passwordError" class="error-msg">
+            {{ passwordError }}
+          </div>
+        </div>
+
+        <!-- General Login Error (unknown account / account needs reset) -->
+        <div *ngIf="loginError" class="error-msg" style="margin-top: 8px; text-align: center;">
+          {{ loginError }}
+        </div>
+
+        <!-- Forgot Password Link -->
+        <div class="forgot-container">
+          <a routerLink="/forgot-password" class="forgot-link">Forgot Password?</a>
+        </div>
+
+        <!-- Log In Button -->
+        <ion-button expand="block" type="submit" class="action-btn" [disabled]="isSubmitting">
+          <span>{{ isSubmitting ? 'LOGGING IN…' : 'LOGIN' }}</span>
+          <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+        </ion-button>
+      </form>
+
+      <!-- OR Divider -->
+      <div class="divider">
+        <span>or connect with</span>
+      </div>
+
+      <!-- Social Sign-In Buttons -->
+      <div class="social-buttons-container">
+        <!-- Facebook Button -->
+        <button routerLink="/facebook-signup" class="social-btn facebook">
+          <ion-icon name="logo-facebook"></ion-icon>
+        </button>
+
+        <!-- TikTok Button -->
+        <button routerLink="/tiktok-signup" class="social-btn tiktok">
+          <ion-icon name="logo-tiktok"></ion-icon>
+        </button>
+
+        <!-- Google Button -->
+        <button routerLink="/google-signup" class="social-btn google">
+          <ion-icon name="logo-google"></ion-icon>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

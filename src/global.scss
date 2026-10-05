@@ -1,0 +1,147 @@
+@import "@ionic/angular/css/core.css";
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/* Mobile Device Frame Simulation on Desktop - Centered */
+@media (min-width: 768px) {
+  html, body {
+    background-color: #222222 !important;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  ion-app {
+    position: relative !important;
+    width: 390px !important;
+    height: 844px !important;
+    max-height: 90vh;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+    border-radius: 40px;
+    overflow: hidden;
+    border: 10px solid #111111;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+}
+
+/* Prevents floating action buttons from overlapping the curved bottom navigation bar */
+ion-fab[vertical="bottom"],
+.fab-bottom-right,
+.floating-action-button {
+  bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+  z-index: 1050 !important;
+  transition: bottom 0.2s ease-out;
+}
+
+/* Hide scrollbars globally across all pages */
+ion-content::part(scroll) {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+ion-content::part(scroll)::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+/* --- FOOD EAGLE DESIGN SYSTEM --- */
+:root {
+  --fe-maroon: #6d1a1d;
+  --fe-orange: #f58220;
+  --fe-bg-light: #f7f3f2;
+}
+
+.fe-brand-header {
+  background-color: var(--fe-maroon);
+  color: #ffffff;
+  padding: 30px 20px 40px 20px;
+  text-align: center;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 10px 0 0 0;
+  }
+
+  .eagle-avatar {
+    width: 60px;
+    height: 60px;
+    background: #ffffff;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+}
+
+.fe-content-sheet {
+  background: #ffffff;
+  margin: -20px 16px 16px 16px;
+  padding: 24px 20px;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.fe-input-item {
+  --background: #f1f1f3;
+  --border-radius: 24px;
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  margin-bottom: 14px;
+  border-radius: 24px;
+  overflow: hidden;
+
+  ion-input {
+    font-size: 0.9rem;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+  }
+}
+
+.fe-orange-btn {
+  --background: var(--fe-orange);
+  --background-hover: #e07218;
+  --border-radius: 24px;
+  height: 48px;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  margin-top: 16px;
+  box-shadow: 0 4px 12px rgba(245, 130, 32, 0.3);
+}
+
+.fe-social-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+
+  .social-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f1f3;
+    color: #333;
+    font-size: 1.2rem;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+}

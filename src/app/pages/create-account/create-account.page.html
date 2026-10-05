@@ -1,0 +1,85 @@
+<ion-content [fullscreen]="true" style="--background: #791717;">
+  
+  <!-- Floating Back Button Overlay -->
+  <button (click)="goBack()" class="floating-back-btn">
+    <ion-icon name="arrow-back"></ion-icon>
+  </button>
+
+  <div class="fe-brand-header">
+    <div class="eagle-avatar-container">
+      <div class="eagle-glow-ring"></div>
+      <div class="eagle-avatar">
+        <img src="assets/images/food-eagle-logo.png" alt="Food Eagle Logo" />
+      </div>
+    </div>
+    
+    <!-- Clean, Boxless Highlighted Title Section -->
+    <div class="brand-title-wrapper">
+      <h2 class="brand-title-highlight">food<span>Eagle</span></h2>
+    </div>
+  </div>
+
+  <div class="fe-content-sheet">
+    <form>
+      <ion-item lines="none" class="fe-input-item">
+        <ion-input type="text" placeholder="Full Name" [(ngModel)]="fullName" name="fullName"></ion-input>
+      </ion-item>
+
+      <!-- Contact Input with Dynamic Error State -->
+      <ion-item lines="none" class="fe-input-item" [class.input-error-item]="contactError">
+        <ion-input 
+          type="text" 
+          placeholder="Enter email or phone number" 
+          [value]="contactInput"
+          (ionInput)="onContactInput($event)"
+          name="contactInput">
+        </ion-input>
+      </ion-item>
+      
+      <!-- Inline Error Message matching video style -->
+      <div class="error-message-container" *ngIf="contactError">
+        <span class="error-text">{{ contactError }}</span>
+      </div>
+
+      <ion-item lines="none" class="fe-input-item">
+        <ion-input type="password" placeholder="Password" [(ngModel)]="password" name="password"></ion-input>
+      </ion-item>
+
+      <!-- Password error (too short) -->
+      <div class="error-message-container" *ngIf="passwordError">
+        <span class="error-text">{{ passwordError }}</span>
+      </div>
+
+      <!-- General form error -->
+      <div class="error-message-container" *ngIf="formError">
+        <span class="error-text">{{ formError }}</span>
+      </div>
+
+      <div style="display: flex; align-items: center; margin: 12px 4px; font-size: 0.85rem; color: #555;">
+        <ion-checkbox [(ngModel)]="agreedToTerms" name="terms" style="margin-right: 8px;"></ion-checkbox>
+        <span (click)="showTerms()" style="cursor: pointer; text-decoration: underline; color: var(--fe-maroon);">
+          Agree to Terms
+        </span>
+      </div>
+
+      <ion-button 
+        expand="block" 
+        class="fe-orange-btn animated-action-btn" 
+        [disabled]="!isFormValid()" 
+        (click)="validateAndCreate()">
+        {{ isSubmitting ? 'Creating…' : 'Create Account' }}
+      </ion-button>
+    </form>
+
+    <div class="ion-text-center" style="margin: 12px 0 4px 0; color: #888; font-size: 0.85rem; font-weight: 600;">
+      OR
+    </div>
+
+    <div class="fe-social-row">
+      <a [routerLink]="['/facebook-signup']" class="social-icon-btn animated-icon" style="color: #1877f2;"><ion-icon name="logo-facebook"></ion-icon></a>
+      <a [routerLink]="['/tiktok-signup']" class="social-icon-btn animated-icon" style="color: #000000;"><ion-icon name="logo-tiktok"></ion-icon></a>
+      <a [routerLink]="['/google-signup']" class="social-icon-btn animated-icon" style="color: #ea4335;"><ion-icon name="logo-google"></ion-icon></a>
+    </div>
+  </div>
+
+</ion-content>

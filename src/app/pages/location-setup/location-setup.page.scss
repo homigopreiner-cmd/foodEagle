@@ -1,0 +1,243 @@
+.content-background {
+  --background: linear-gradient(135deg, #6d1a1d 0%, #4a1012 100%);
+}
+
+.location-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 8px 4px 24px 4px;
+}
+
+.location-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 20px;
+  padding: 20px 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.header-block {
+  text-align: center;
+  margin-bottom: 2px;
+
+  .title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #2c1a1a;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+    color: #666666;
+    margin: 0;
+    line-height: 1.3;
+  }
+}
+
+.input-group-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .custom-input-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #333333;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+}
+
+.custom-dropdown-item {
+  --background: #f8f9fa;
+  --border-radius: 12px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  border: 1px solid #dcdde1;
+  border-radius: 12px;
+  min-height: 46px;
+  font-size: 0.85rem;
+
+  ion-icon {
+    font-size: 18px;
+    color: #6d1a1d;
+    margin-right: 8px;
+  }
+}
+
+// Anchored container for search and dropdown list
+.search-anchor-container {
+  position: relative;
+  width: 100%;
+}
+
+.search-container {
+  width: 100%;
+  
+  ion-searchbar {
+    --background: #f8f9fa;
+    --border-radius: 12px;
+    --box-shadow: none;
+    --placeholder-color: #888888;
+    --color: #2c2c2c;
+    padding: 0;
+    height: 44px;
+    border: 1px solid #dcdde1;
+    border-radius: 12px;
+  }
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #dcdde1;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  z-index: 999;
+  max-height: 190px;
+  overflow-y: auto;
+
+  .suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 11px 14px;
+    font-size: 0.8rem;
+    color: #333333;
+    border-bottom: 1px solid #f1f2f6;
+    cursor: pointer;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: #fdf2f2;
+      color: #6d1a1d;
+    }
+
+    .suggestion-icon {
+      font-size: 16px;
+      color: #6d1a1d;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.map-viewport {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: #111111;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1.5px solid #dcdde1;
+  touch-action: none;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  .map-transform-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.05s ease-out;
+
+    .map-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+  }
+
+  .map-pin {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    pointer-events: none;
+    z-index: 10;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  }
+
+  .map-tip {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    font-size: 0.65rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+    backdrop-filter: blur(4px);
+  }
+}
+
+.textarea-container {
+  border: 1px solid #dcdde1;
+  border-radius: 12px;
+  background: #f8f9fa;
+  padding: 4px;
+  
+  ion-textarea {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    font-size: 0.85rem;
+    --color: #333333;
+  }
+}
+
+// Clean Divine Yellow Glowing Button (No White Artifacts)
+.divine-glow-btn {
+  --background: transparent;
+  --background-activated: transparent;
+  --background-focused: transparent;
+  --background-hover: transparent;
+  --box-shadow: none;
+  background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+  color: #3d2200;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.4px;
+  height: 50px;
+  margin-top: 6px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 170, 0, 0.4), 0 6px 18px rgba(0, 0, 0, 0.15);
+  animation: divineGlowPulse 2.5s infinite alternate;
+
+  ion-icon {
+    color: #3d2200;
+  }
+
+  &.success-state {
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 20px rgba(46, 125, 50, 0.7) !important;
+    animation: none;
+  }
+}
+
+@keyframes divineGlowPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 20px rgba(255, 170, 0, 0.3), 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    box-shadow: 0 0 22px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 200, 0, 0.6), 0 6px 22px rgba(0, 0, 0, 0.2);
+  }
+}

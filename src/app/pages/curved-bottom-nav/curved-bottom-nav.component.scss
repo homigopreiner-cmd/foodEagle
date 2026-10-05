@@ -1,0 +1,158 @@
+$primary-maroon: #7a001e;
+$text-muted: #9e9a9c;
+
+:host {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: transparent !important;
+  pointer-events: none;
+}
+
+/* Override Ionic footer styles if app-curved-bottom-nav is placed inside ion-footer */
+ion-footer {
+  --background: transparent !important;
+  --border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  overflow: visible !important;
+}
+
+.custom-bottom-nav {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  background: transparent !important;
+  display: flex;
+  justify-content: center;
+  padding-bottom: env(safe-area-inset-bottom);
+  pointer-events: auto;
+  overflow: visible !important;
+
+  .nav-container {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    align-items: center;
+    background: transparent !important;
+    overflow: visible !important;
+
+    /* Dynamic SVG navbar background */
+    .navbar-bg-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: visible;
+      /* Drop shadow hugging the curved SVG outline */
+      filter: drop-shadow(0 -4px 10px rgba(0, 0, 0, 0.08));
+
+      .navbar-svg-path {
+        transition: d 200ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: d;
+      }
+    }
+
+    /* Sliding indicator track */
+    .indicator-track {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 8;
+      transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+      display: flex;
+      justify-content: center;
+
+      .floating-bubble {
+        position: absolute;
+        top: 8px; /* Perfectly centered inside the y=20 to y=58 U-socket */
+        width: 52px;
+        height: 52px;
+        background: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 18px rgba(122, 0, 30, 0.25), 0 2px 6px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        z-index: 10;
+
+        ion-icon {
+          font-size: 26px;
+          color: $primary-maroon;
+        }
+      }
+    }
+
+    /* Individual tab items */
+    .nav-tab {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 8px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      z-index: 12;
+
+      .icon-slot {
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        ion-icon {
+          font-size: 22px;
+          color: $text-muted;
+          transition: opacity 120ms ease, transform 120ms ease;
+
+          &.is-hidden {
+            opacity: 0 !important;
+            transform: translateY(12px) scale(0.2) !important;
+            visibility: hidden;
+          }
+        }
+      }
+
+      .tab-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: $text-muted;
+        margin-top: 3px;
+        transition: color 150ms ease, font-weight 150ms ease;
+      }
+
+      &.active {
+        .tab-label {
+          color: $primary-maroon;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-bottom-nav .nav-container {
+    .navbar-bg-svg .navbar-svg-path,
+    .indicator-track {
+      transition: none;
+    }
+  }
+}

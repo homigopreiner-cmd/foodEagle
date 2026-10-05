@@ -1,0 +1,72 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: #791717; --color: #ffffff; padding: 6px 10px;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="font-size: 1.3rem; font-weight: 700; text-align: center; letter-spacing: 0.5px;">My Food Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" style="--background: #791717;">
+  <!-- Content Sheet Container -->
+  <div style="background: #ffffff; margin: 10px 16px 24px 16px; padding: 20px 16px; border-radius: 26px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);">
+    
+    <!-- Empty Cart -->
+    <div *ngIf="items.length === 0" style="text-align: center; padding: 40px 0; color: #8e8e93;">
+      <ion-icon name="cart-outline" style="font-size: 3.5rem; color: #d1d1d6; margin-bottom: 10px;"></ion-icon>
+      <p style="font-weight: 600; font-size: 1rem; margin: 0;">Your cart is empty</p>
+    </div>
+
+    <!-- Item Cards Loop -->
+    <div *ngIf="items.length > 0">
+      <div *ngFor="let item of items; let i = index" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 12px; background: #faf9f6; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f0eae1; gap: 10px;">
+        
+        <!-- Product Name & Price -->
+        <div style="flex: 1; min-width: 0;">
+          <h4 style="margin: 0; font-size: 0.92rem; font-weight: 700; color: #2c2c2c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.name }}</h4>
+          <span style="font-size: 0.85rem; color: #ff9f43; font-weight: 700;">₱{{ item.price.toFixed(2) }}</span>
+        </div>
+
+        <!-- Quantity Changer & Delete Button Group -->
+        <div style="display: flex; align-items: center; gap: 8px;">
+          
+          <!-- Quantity Changer -->
+          <div style="display: flex; align-items: center; background: #ffffff; border-radius: 10px; padding: 4px 6px; gap: 8px; border: 1px solid #e2dacd;">
+            <button (click)="decrease(i)" style="background: none; border: none; cursor: pointer; color: #555; display: flex; padding: 0;"><ion-icon name="remove-outline" style="font-size: 0.9rem;"></ion-icon></button>
+            <span style="font-weight: 700; font-size: 0.85rem; min-width: 14px; text-align: center;">{{ item.quantity }}</span>
+            <button (click)="increase(i)" style="background: none; border: none; cursor: pointer; color: #555; display: flex; padding: 0;"><ion-icon name="add-outline" style="font-size: 0.9rem;"></ion-icon></button>
+          </div>
+
+          <!-- Delete/Remove Item Button -->
+          <button (click)="removeItem(i)" style="background: #fee2e2; border: none; border-radius: 10px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #dc2626;" title="Remove item">
+            <ion-icon name="trash-outline" style="font-size: 1rem;"></ion-icon>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Financial Summary Box -->
+      <div style="margin-top: 20px; background: #fdfbf7; padding: 16px; border-radius: 16px; border: 1px solid #f0eae1;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.88rem; color: #666; margin-bottom: 8px;">
+          <span>Subtotal</span>
+          <span style="font-weight: 600; color: #333;">₱{{ getSubtotal().toFixed(2) }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.88rem; color: #666; margin-bottom: 12px;">
+          <span>Delivery Fee</span>
+          <span style="font-weight: 600; color: #333;">₱25.00</span>
+        </div>
+        <div style="border-top: 1px dashed #e2dacd; padding-top: 10px; display: flex; justify-content: space-between; font-size: 1rem; font-weight: 800; color: #791717;">
+          <span>Total Amount</span>
+          <span>₱{{ getTotal().toFixed(2) }}</span>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <ion-button expand="block" (click)="proceedToCheckout()" style="--background: linear-gradient(135deg, #ff9f43 0%, #ff7b00 100%); --border-radius: 14px; height: 50px; font-weight: 700; font-size: 1rem; margin-top: 20px;">
+        <span>PROCEED TO CHECKOUT</span>
+        <ion-icon name="arrow-forward-outline" slot="end" style="margin-left: 6px;"></ion-icon>
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

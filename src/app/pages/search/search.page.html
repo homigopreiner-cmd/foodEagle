@@ -1,0 +1,131 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text=""></ion-back-button>
+    </ion-buttons>
+
+    <ion-searchbar
+      class="custom-searchbar"
+      placeholder="Search dishes or restaurants"
+      [value]="searchQuery"
+      [debounce]="150"
+      [animated]="true"
+      enterkeyhint="search"
+      inputmode="search"
+      show-clear-button="always"
+      (ionInput)="onSearchChange($event)"
+      (keyup.enter)="onSearchSubmit()">
+    </ion-searchbar>
+  </ion-toolbar>
+
+  <!-- Category chips: tap again to turn off -->
+  <div class="chips-container">
+    <ion-chip
+      *ngFor="let filter of quickFilters"
+      [class.selected]="selectedFilter === filter"
+      (click)="selectFilter(filter)">
+      <ion-label>{{ filter }}</ion-label>
+    </ion-chip>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScrollStart)="dismissKeyboard()">
+
+  <!-- 1. Idle: nothing typed, no category picked -->
+  <ng-container *ngIf="isSearching; else idleState">
+
+    <!-- 2. Results / empty -->
+    <section class="section fade-swap">
+      <div class="section-header">
+        <h3>
+          {{ filteredResults.length }}
+          {{ filteredResults.length === 1 ? 'result' : 'results' }}
+        </h3>
+      </div>
+
+      <ion-list lines="none" class="results-list" *ngIf="filteredResults.length">
+        <ion-item
+          class="result-card"
+          *ngFor="let result of filteredResults; trackBy: trackByResult"
+          button
+          detail="false"
+          (click)="selectItem(result)">
+          <img
+            class="result-thumb"
+            slot="start"
+            [src]="result.imageUrl || placeholderImg"
+            [alt]="result.title"
+            loading="lazy"
+            (error)="onImgError($event)" />
+          <ion-label>
+            <h2>
+              <span
+                *ngFor="let part of highlightParts(result.title)"
+                [class.hit]="part.match">{{ part.text }}</span>
+            </h2>
+            <p>
+              {{ formatCategory(result.category) }}
+              <span *ngIf="result.distance">• {{ result.distance }}</span>
+            </p>
+            <div class="rating-row" *ngIf="result.rating">
+              <ion-icon name="star"></ion-icon>
+              <span>{{ result.rating }}</span>
+              <span class="reviews" *ngIf="result.reviews">({{ result.reviews }}+)</span>
+            </div>
+          </ion-label>
+          <div class="price-tag" slot="end" *ngIf="result.price != null">
+            ₱{{ formatPrice(result.price) }}
+          </div>
+        </ion-item>
+      </ion-list>
+
+      <div class="empty-state" *ngIf="!filteredResults.length">
+        <ion-icon name="search-outline"></ion-icon>
+        <h4>
+          {{ searchQuery.trim() ? 'No results for “' + searchQuery.trim() + '”' : 'Nothing here yet' }}
+        </h4>
+        <p>Check the spelling or try a different category.</p>
+        <button class="reset-btn" (click)="resetSearch()">Clear search</button>
+      </div>
+    </section>
+
+  </ng-container>
+
+  <ng-template #idleState>
+    <!-- Only appears after the user has actually searched for something -->
+    <section class="section fade-swap" *ngIf="recentSearches.length">
+      <div class="section-header">
+        <h3>Recent searches</h3>
+        <ion-button fill="clear" size="small" (click)="clearRecent()">Clear all</ion-button>
+      </div>
+
+      <ul class="recent-list">
+        <li
+          class="recent-row"
+          *ngFor="let term of recentSearches; trackBy: trackByTerm"
+          [class.removing]="removingTerm === term">
+          <button class="recent-main" (click)="applySearch(term)">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ term }}</span>
+          </button>
+          <button class="recent-remove" (click)="removeRecent(term)" [attr.aria-label]="'Remove ' + term">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section fade-swap">
+      <div class="section-header">
+        <h3>Popular searches</h3>
+      </div>
+      <div class="popular-tags">
+        <button class="tag" *ngFor="let tag of popularTags; trackBy: trackByTerm" (click)="applySearch(tag)">
+          <ion-icon name="trending-up-outline"></ion-icon>
+          {{ tag }}
+        </button>
+      </div>
+    </section>
+  </ng-template>
+
+</ion-content>

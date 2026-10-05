@@ -1,0 +1,112 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: #6d1a1d; --color: #ffffff;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" text="" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>OTP Verification</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #f4f0ed;" class="ion-no-padding">
+  
+  <div style="display: flex; flex-direction: column; height: 100%; justify-content: space-between; padding: 12px;">
+    
+    <!-- Top Card / Verification Area -->
+    <div style="background: linear-gradient(135deg, #6d1a1d 0%, #4a1113 100%); margin: 4px; padding: 20px 16px; border-radius: 24px; text-align: center; color: white; box-shadow: 0 10px 25px rgba(109, 26, 29, 0.3); position: relative; overflow: hidden;">
+      
+      <!-- Decorative background glow -->
+      <div style="position: absolute; top: -50px; right: -50px; width: 120px; height: 120px; background: rgba(255, 159, 67, 0.2); border-radius: 50%; filter: blur(20px);"></div>
+
+      <div style="font-size: 1.8rem; margin-bottom: 4px;">🔒</div>
+      <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px;">Enter Security Code</h2>
+      <p style="font-size: 0.78rem; color: #f2e3db; margin-bottom: 12px;">We've sent a 4-digit code to your device</p>
+
+      <!-- Countdown Row (Moved here for high visibility) -->
+      <div style="font-size: 0.8rem; color: #f2e3db; margin-bottom: 16px;">
+        Didn't receive code? 
+        <span (click)="resendCode()" 
+              [style.color]="resendSeconds === 0 ? '#ff9f43' : '#d1a38f'" 
+              [style.cursor]="resendSeconds === 0 ? 'pointer' : 'not-allowed'"
+              [style.text-decoration]="resendSeconds === 0 ? 'underline' : 'none'"
+              style="font-weight: 700; margin-left: 4px;">
+              Resend
+        </span>
+        <span *ngIf="resendSeconds > 0" style="color: #f2e3db; margin-left: 4px;">({{ resendSeconds }}s)</span>
+      </div>
+
+      <!-- 4 Digit Input Boxes -->
+      <div style="display: flex; justify-content: center; gap: 10px;">
+        <div *ngFor="let digit of otpDigits; let i = index" 
+             [style.border-color]="digit !== '' ? '#ff9f43' : '#e2c4a9'"
+             [style.background]="digit !== '' ? '#fffaf5' : 'rgba(255, 255, 255, 0.12)'"
+             [style.color]="digit !== '' ? '#333' : '#ffffff'"
+             style="width: 48px; height: 54px; border-radius: 14px; border: 2px solid; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.2s ease;">
+          {{ digit }}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Custom iOS Style Numeric Keypad -->
+    <div style="background: #e2e8f0; padding: 6px 6px 20px 6px; border-top-left-radius: 28px; border-top-right-radius: 28px; box-shadow: 0 -8px 24px rgba(0,0,0,0.08);">
+      
+      <!-- Keypad Header / Done Bar -->
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 16px; border-bottom: 1px solid #cbd5e1; margin-bottom: 6px;">
+        <span style="font-size: 0.72rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Secure Keypad</span>
+        <span (click)="onDone()" 
+              [style.color]="isComplete() ? '#d3524b' : '#94a3b8'" 
+              [style.cursor]="isComplete() ? 'pointer' : 'not-allowed'"
+              style="font-weight: 700; font-size: 0.85rem;">Done</span>
+      </div>
+
+      <!-- Keypad Grid -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 0 4px;">
+        <button (click)="appendNumber('1')" style="background: #ffffff; border: none; border-radius: 10px; padding: 10px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">1</button>
+        <button (click)="appendNumber('2')" style="background: #ffffff; border: none; border-radius: 10px; padding: 4px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">
+          <div>2</div>
+          <div style="font-size: 0.48rem; color: #64748b; font-weight: 700; letter-spacing: 1.5px;">ABC</div>
+        </button>
+        <button (click)="appendNumber('3')" style="background: #ffffff; border: none; border-radius: 10px; padding: 4px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">
+          <div>3</div>
+          <div style="font-size: 0.48rem; color: #64748b; font-weight: 700; letter-spacing: 1.5px;">DEF</div>
+        </button>
+
+        <button (click)="appendNumber('4')" style="background: #ffffff; border: none; border-radius: 10px; padding: 4px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">
+          <div>4</div>
+          <div style="font-size: 0.48rem; color: #64748b; font-weight: 700; letter-spacing: 1.5px;">GHI</div>
+        </button>
+        <button (click)="appendNumber('5')" style="background: #ffffff; border: none; border-radius: 10px; padding: 4px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">
+          <div>5</div>
+          <div style="font-size: 0.48rem; color: #64748b; font-weight: 700; letter-spacing: 1.5px;">JKL</div>
+        </button>
+        <button (click)="appendNumber('6')" style="background: #ffffff; border: none; border-radius: 10px; padding: 4px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">
+          <div>6</div>
+          <div style="font-size: 0.48rem; color: #64748b; font-weight: 700; letter-spacing: 1.5px;">MNO</div>
+        </button>
+
+        <button (click)="appendNumber('7')" style="background: #ffffff; border: none; border-radius: 10px; padding: 4px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">
+          <div>7</div>
+          <div style="font-size: 0.48rem; color: #64748b; font-weight: 700; letter-spacing: 1.5px;">PQRS</div>
+        </button>
+        <button (click)="appendNumber('8')" style="background: #ffffff; border: none; border-radius: 10px; padding: 4px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">
+          <div>8</div>
+          <div style="font-size: 0.48rem; color: #64748b; font-weight: 700; letter-spacing: 1.5px;">TUV</div>
+        </button>
+        <button (click)="appendNumber('9')" style="background: #ffffff; border: none; border-radius: 10px; padding: 4px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">
+          <div>9</div>
+          <div style="font-size: 0.48rem; color: #64748b; font-weight: 700; letter-spacing: 1.5px;">WXYZ</div>
+        </button>
+
+        <!-- Empty bottom-left cell -->
+        <div></div>
+        
+        <button (click)="appendNumber('0')" style="background: #ffffff; border: none; border-radius: 10px; padding: 10px 0; font-size: 1.2rem; font-weight: 600; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">0</button>
+
+        <button (click)="deleteNumber()" style="background: #cbd5e1; border: none; border-radius: 10px; padding: 10px 0; font-size: 1.1rem; color: #0f172a; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">⌫</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,500 @@
+// ---------- Tokens ----------
+$maroon: #7a001e;
+$maroon-deep: #4d0012;
+$maroon-soft: #9e1234;
+$rose: #fdeef1;
+$gold: #e9b949;
+$page-bg: #fbf5f6;
+$ink: #1e1e24;
+$ink-muted: #71717a;
+$danger: #c81e1e;
+
+// Height reserved for <app-curved-bottom-nav>. Adjust if your nav is taller/shorter.
+$nav-clearance: 96px;
+
+// ---------- Header ----------
+.page-header {
+  ion-toolbar {
+    --background: transparent;
+    --color: #{$maroon};
+    --border-width: 0;
+    padding-top: env(safe-area-inset-top);
+  }
+
+  ion-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: $ink;
+  }
+
+  ion-back-button {
+    --color: #{$maroon};
+  }
+}
+
+// ---------- Page ----------
+.profile-content {
+  --background: #{$page-bg};
+}
+
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 4px 16px calc(#{$nav-clearance} + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// ---------- Student ID card ----------
+.id-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  color: #fff;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(233, 185, 73, 0.16) 0%, rgba(233, 185, 73, 0) 55%),
+    linear-gradient(150deg, $maroon 0%, $maroon-deep 100%);
+  box-shadow: 0 14px 28px -10px rgba(77, 0, 18, 0.45);
+  animation: card-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  &__main {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 18px 14px;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 18px;
+    padding: 12px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  // Decorative barcode strip. Swap for a real QR/barcode if you generate one.
+  &__stripe {
+    height: 22px;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        $maroon-deep 0 2px,
+        transparent 2px 5px,
+        $maroon-deep 5px 6px,
+        transparent 6px 9px,
+        $maroon-deep 9px 12px,
+        transparent 12px 14px
+      ),
+      $gold;
+    background-size: 100% 100%, 100% 100%;
+    opacity: 0.95;
+  }
+}
+
+.avatar {
+  position: relative;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid $gold;
+  }
+
+  &__badge {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff;
+    color: $maroon;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.identity {
+  min-width: 0; // lets long names/emails truncate instead of overflowing
+
+  &__name {
+    margin: 0 0 3px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__email {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.72);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.id-number {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+
+  &__label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  &__value {
+    font-size: 15px; // Adjusted slightly smaller to fit longer email strings nicely
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    font-variant-numeric: tabular-nums;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.edit-btn {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: $gold;
+  color: $maroon-deep;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 16px;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+// ---------- Menu ----------
+.menu {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(122, 0, 30, 0.07);
+  box-shadow: 0 1px 2px rgba(30, 30, 36, 0.04);
+  overflow: hidden;
+
+  &__item {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 12px 16px;
+    border: 0;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+
+    // inset divider, aligned with the text rather than the icon
+    & + & {
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 68px;
+        right: 0;
+        height: 1px;
+        background: rgba(30, 30, 36, 0.07);
+      }
+    }
+
+    &:active {
+      background: rgba(122, 0, 30, 0.04);
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: $rose;
+    color: $maroon;
+    font-size: 20px;
+  }
+
+  &__text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  &__title {
+    font-size: 15px;
+    font-weight: 600;
+    color: $ink;
+  }
+
+  &__hint {
+    font-size: 12px;
+    color: $ink-muted;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__chevron {
+    flex-shrink: 0;
+    font-size: 16px;
+    color: #a1a1aa;
+  }
+}
+
+// ---------- Log out ----------
+.logout {
+  position: relative;
+  overflow: hidden;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: $danger;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 18px;
+  }
+
+  &:active {
+    background: rgba(200, 30, 30, 0.08);
+  }
+}
+
+// ---------- Focus + motion ----------
+.avatar:focus-visible,
+.edit-btn:focus-visible,
+.menu__item:focus-visible,
+.logout:focus-visible,
+.modal-avatar:focus-visible,
+.btn-save-modal:focus-visible {
+  outline: 2px solid $gold;
+  outline-offset: 2px;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .id-card {
+    animation: none;
+  }
+}
+
+// Short phones: tighten so everything fits without scrolling
+@media (max-height: 640px) {
+  .page {
+    gap: 12px;
+  }
+
+  .id-card__main {
+    padding-top: 14px;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .menu__item {
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+}
+
+// ---------- Edit profile sheet ----------
+.edit-profile-modal {
+  --height: auto;
+  --border-radius: 26px 26px 0 0;
+
+  .modal-header ion-toolbar {
+    --background: #fff;
+    --color: #{$ink};
+    padding-top: 8px;
+
+    ion-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    ion-icon {
+      font-size: 22px;
+      color: $ink-muted;
+    }
+  }
+
+  .modal-body {
+    background: #fff;
+    padding: 8px 20px calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .modal-avatar {
+    position: relative;
+    display: block;
+    width: 88px;
+    height: 88px;
+    margin: 0 auto;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid $maroon;
+    }
+
+    &__badge {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: $maroon;
+      color: #fff;
+      font-size: 15px;
+      border: 2px solid #fff;
+    }
+  }
+
+  .change-photo-text {
+    margin: 8px 0 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: $maroon;
+  }
+
+  .input-group {
+    margin-bottom: 14px;
+  }
+
+  .input-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: $ink-muted;
+  }
+
+  .custom-input-field {
+    padding: 2px 14px;
+    border-radius: 14px;
+    background: #f7f7f9;
+    border: 1.5px solid #e4e4e7;
+    transition: border-color 0.15s ease, background 0.15s ease;
+
+    &:focus-within {
+      border-color: $maroon;
+      background: #fff;
+    }
+
+    ion-input {
+      --padding-start: 0;
+      font-size: 15px;
+      font-weight: 500;
+      color: $ink;
+    }
+  }
+
+  .btn-save-modal {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 50px;
+    margin-top: 22px;
+    border: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, $maroon, $maroon-soft);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 18px -6px rgba(122, 0, 30, 0.5);
+
+    ion-icon {
+      font-size: 18px;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}

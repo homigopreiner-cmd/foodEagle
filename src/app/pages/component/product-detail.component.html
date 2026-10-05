@@ -1,0 +1,63 @@
+<ion-content class="detail-page">
+  <div class="card-container">
+    
+    <!-- Close Button Top Right -->
+    <div class="header-row">
+      <button class="close-btn" type="button" aria-label="Close" (click)="dismiss()">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Product Image & Rating Showcase -->
+    <div class="image-wrapper">
+      <img [src]="imageUrl" [alt]="title" />
+      <div class="image-gradient-overlay"></div>
+      
+      <!-- Rating Chip (Restored & Floating) -->
+      <div class="rating-chip">
+        <ion-icon name="star"></ion-icon>
+        <span>{{ rating }}</span>
+      </div>
+    </div>
+
+    <!-- Title & Description -->
+    <div class="info-block">
+      <h1 class="product-title">{{ title }}</h1>
+      <p class="product-desc">{{ description }}</p>
+    </div>
+
+    <!-- Restaurant Tag -->
+    <div class="restaurant-tag" (click)="openRestaurant()">
+      <span class="logo-box">KR</span>
+      <span class="restaurant-name">{{ restaurantName }}</span>
+    </div>
+
+    <!-- Quantity & Price Row -->
+    <div class="pricing-row">
+      <div class="quantity-control">
+        <button class="qty-btn" type="button" (click)="decreaseQuantity()">−</button>
+        <span class="qty-number">{{ quantity }}</span>
+        <button class="qty-btn" type="button" (click)="increaseQuantity()">+</button>
+      </div>
+
+      <div class="price-display">
+        <span class="currency">₱</span>
+        <span class="amount">{{ totalPrice.toFixed(2) }}</span>
+      </div>
+    </div>
+
+    <!-- Bottom Actions Row (Interactive Cart & Checkout) -->
+    <div class="action-row">
+      <button class="cart-pill" type="button" (click)="addToCartWithToast()" title="Add to Cart">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span class="badge">{{ quantity }}</span>
+      </button>
+
+      <button class="checkout-pill" type="button" (click)="addToCart()">
+        <span>CHECKOUT</span>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+    </div>
+
+  </div>
+</ion-content>

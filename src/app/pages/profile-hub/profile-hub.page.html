@@ -1,0 +1,148 @@
+<ion-header class="ion-no-border page-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="profile-content" [fullscreen]="true">
+  <div class="page">
+
+    <!-- Profile card with Contact Info sync -->
+    <section class="id-card">
+      <div class="id-card__main">
+        <button class="avatar" (click)="openEditModal()" aria-label="Change profile photo">
+          <img [src]="userProfile.avatarUrl" alt="" />
+          <span class="avatar__badge">
+            <ion-icon name="camera-outline"></ion-icon>
+          </span>
+        </button>
+
+        <div class="identity">
+          <h2 class="identity__name">{{ userProfile.name }}</h2>
+          <p class="identity__email">{{ userProfile.email }}</p>
+        </div>
+      </div>
+
+      <div class="id-card__footer">
+        <div class="id-number">
+          <span class="id-number__label">Contact Info</span>
+          <span class="id-number__value">{{ userProfile.contact }}</span>
+        </div>
+
+        <button class="edit-btn ion-activatable" (click)="openEditModal()">
+          <ion-icon name="create-outline"></ion-icon>
+          <span>Edit profile</span>
+          <ion-ripple-effect></ion-ripple-effect>
+        </button>
+      </div>
+
+      <div class="id-card__stripe" aria-hidden="true"></div>
+    </section>
+
+    <!-- One list, no duplicates -->
+    <nav class="menu" aria-label="Account settings">
+      <button
+        class="menu__item ion-activatable"
+        *ngFor="let item of menuItems"
+        (click)="navigateTo(item.route)">
+        <span class="menu__icon">
+          <ion-icon [name]="item.icon"></ion-icon>
+        </span>
+        <span class="menu__text">
+          <span class="menu__title">{{ item.title }}</span>
+          <span class="menu__hint">{{ item.hint }}</span>
+        </span>
+        <ion-icon class="menu__chevron" name="chevron-forward-outline"></ion-icon>
+        <ion-ripple-effect></ion-ripple-effect>
+      </button>
+    </nav>
+
+    <button class="logout ion-activatable" (click)="logout()">
+      <ion-icon name="log-out-outline"></ion-icon>
+      <span>Log out</span>
+      <ion-ripple-effect></ion-ripple-effect>
+    </button>
+
+  </div>
+</ion-content>
+
+<!-- Hidden native file input for photo selection -->
+<input
+  type="file"
+  #fileInput
+  accept="image/*"
+  (change)="onFileSelected($event)"
+  style="display: none;"
+/>
+
+<!-- Edit profile sheet -->
+<ion-modal [isOpen]="isEditModalOpen" (didDismiss)="closeEditModal()" class="edit-profile-modal">
+  <ng-template>
+    <ion-header class="ion-no-border modal-header">
+      <ion-toolbar>
+        <ion-title>Edit profile</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeEditModal()" aria-label="Close">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <div class="modal-body">
+      <button class="modal-avatar" (click)="triggerFileInput(fileInput)" aria-label="Change profile photo">
+        <img [src]="editData.avatarUrl" alt="" />
+        <span class="modal-avatar__badge">
+          <ion-icon name="camera-outline"></ion-icon>
+        </span>
+      </button>
+      <p class="change-photo-text">Tap to change photo</p>
+
+      <div class="input-group">
+        <label class="input-label">Full name</label>
+        <div class="custom-input-field">
+          <ion-input
+            [(ngModel)]="editData.name"
+            placeholder="Enter your full name"
+            type="text">
+          </ion-input>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Contact Info (Phone or Gmail)</label>
+        <div class="custom-input-field">
+          <ion-input
+            [(ngModel)]="editData.contact"
+            placeholder="e.g. 09123456789 or user@gmail.com"
+            type="text">
+          </ion-input>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Email</label>
+        <div class="custom-input-field">
+          <ion-input
+            [(ngModel)]="editData.email"
+            placeholder="Enter your email"
+            type="email">
+          </ion-input>
+        </div>
+      </div>
+
+      <p *ngIf="editError" style="color: #b3261e; font-size: 0.8rem; margin: 4px 4px 0 4px;">{{ editError }}</p>
+
+      <button class="btn-save-modal ion-activatable" (click)="saveProfile()" [disabled]="isSaving">
+        <ion-icon name="checkmark-outline"></ion-icon>
+        <span>{{ isSaving ? 'Saving…' : 'Save changes' }}</span>
+        <ion-ripple-effect></ion-ripple-effect>
+      </button>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<app-curved-bottom-nav></app-curved-bottom-nav>

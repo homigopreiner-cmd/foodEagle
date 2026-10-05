@@ -1,0 +1,40 @@
+<nav class="custom-bottom-nav" *ngIf="showNav">
+  <div class="nav-container">
+
+    <!-- Morphing SVG background with 80px viewBox and prominent U-socket cutout -->
+    <svg class="navbar-bg-svg" viewBox="0 0 500 80" preserveAspectRatio="none" aria-hidden="true">
+      <path 
+        class="navbar-svg-path" 
+        [attr.d]="navbarPath" 
+        fill="#ffffff" />
+    </svg>
+
+    <!-- Sliding floating circular bubble -->
+    <div 
+      class="indicator-track" 
+      [style.transform]="'translate3d(' + (activeIndex * 100) + '%, 0, 0)'">
+      
+      <div class="floating-bubble">
+        <ion-icon [name]="navItems[activeIndex]?.icon"></ion-icon>
+      </div>
+    </div>
+
+    <!-- 5 Navigation Tabs -->
+    <div 
+      *ngFor="let item of navItems; let i = index" 
+      class="nav-tab" 
+      [class.active]="activeIndex === i"
+      (pointerdown)="selectTab(i, item)">
+      
+      <div class="icon-slot">
+        <ion-icon 
+          [name]="item.icon" 
+          [class.is-hidden]="activeIndex === i">
+        </ion-icon>
+      </div>
+      
+      <span class="tab-label">{{ item.label }}</span>
+    </div>
+
+  </div>
+</nav>

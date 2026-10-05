@@ -1,0 +1,75 @@
+<ion-header class="ion-no-border red-theme-header">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="returnUrl" text="" (click)="goBack()" class="custom-back-btn"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="page-title">{{ categoryName }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openFilter()" class="header-icon-btn">
+        <ion-icon name="options-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="search-toolbar">
+    <ion-searchbar 
+      placeholder="Search items..." 
+      class="custom-searchbar"
+      [(ngModel)]="searchQuery"
+      (ionInput)="filterItems()">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="red-theme-content">
+  <div class="content-wrapper with-bottom-nav">
+    <!-- Results Header -->
+    <div class="results-header" *ngIf="filteredItems.length">
+      <span class="count-badge">🔥 {{ filteredItems.length }} ITEMS AVAILABLE</span>
+    </div>
+
+    <!-- Items Grid (2 Columns) -->
+    <ion-grid class="items-grid" *ngIf="filteredItems.length; else emptyState">
+      <ion-row>
+        <ion-col size="6" *ngFor="let item of filteredItems">
+          <div class="item-card" (click)="selectItem(item)">
+            <div class="item-image-box">
+              <img [src]="item.imageUrl" [alt]="item.title" />
+              <div class="image-gradient-overlay"></div>
+              <ion-chip class="rating-badge">
+                <ion-icon name="star"></ion-icon>
+                <span>{{ item.rating }}</span>
+              </ion-chip>
+            </div>
+            <div class="item-info">
+              <h4 class="item-title">{{ item.title }}</h4>
+              <p class="item-subtitle">{{ item.subtitle }}</p>
+              <div class="item-bottom">
+                <div class="price-container">
+                  <span class="currency">₱</span>
+                  <span class="price">{{ item.price.toFixed(2) }}</span>
+                </div>
+                <button class="circle-add-btn" (click)="addToCart(item, $event)" type="button">
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Empty State -->
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="empty-icon-box">
+          <ion-icon name="fast-food-outline"></ion-icon>
+        </div>
+        <h4>No items found</h4>
+        <p>Try searching for a different dish or category.</p>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>
+
+<!-- Bottom navigation renders globally via app.component (pages/curved-bottom-nav) -->

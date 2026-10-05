@@ -1,0 +1,58 @@
+<ion-header class="ion-no-border red-theme-header">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text="" (click)="goBack()" class="custom-back-btn"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="page-title">Categories</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="red-theme-content">
+  <div class="search-container ion-padding-horizontal">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="filterCategories()"
+      placeholder="Search categories..."
+      class="custom-searchbar"
+      debounce="250"
+    ></ion-searchbar>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="page-intro">
+      <span class="eyebrow">BROWSE CATEGORIES</span>
+      <h1>What are you<br /><span class="highlight-text">in the mood for?</span></h1>
+    </div>
+
+    <ion-grid class="categories-grid" *ngIf="filteredCategories.length; else emptyState">
+      <ion-row>
+        <ion-col *ngFor="let category of filteredCategories" size="6" size-sm="4">
+          <div class="category-card" (click)="openCategory(category)">
+            <div class="card-image-box">
+              <span class="icon-circle">
+                <ion-icon [name]="category.icon"></ion-icon>
+              </span>
+              <span class="item-badge">{{ category.itemCount }} items</span>
+            </div>
+            <div class="card-footer">
+              <h4>{{ category.name }}</h4>
+              <span class="explore-link">Explore <span class="arrow">→</span></span>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="empty-icon-box">
+          <ion-icon name="search-outline"></ion-icon>
+        </div>
+        <h4>No categories found</h4>
+        <p>Try searching for snacks, drinks, or hot meals.</p>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>
+
+<!-- Bottom navigation renders globally via app.component (pages/curved-bottom-nav) -->

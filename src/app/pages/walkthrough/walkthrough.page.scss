@@ -1,0 +1,199 @@
+.walkthrough-content {
+  --background: linear-gradient(135deg, #7b1113 0%, #4a0a0b 100%) !important;
+}
+
+.walkthrough-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px 20px 24px;
+  text-align: center;
+  height: calc(100% - 200px);
+}
+
+.illustration-hero-card {
+  position: relative;
+  margin-bottom: 10px;
+  animation: floatingAnimation 3.5s ease-in-out infinite;
+
+  .floating-badge {
+    position: absolute;
+    top: -16px;
+    right: -24px;
+    background: #ff7b00;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(255, 123, 0, 0.4);
+    z-index: 5;
+    animation: bounceBadge 3s infinite ease-in-out;
+  }
+
+  .logo-circle-container {
+    position: relative;
+    width: 175px;
+    height: 175px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .pulsing-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 123, 0, 0.35);
+      border-radius: 50%;
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+
+    .inner-logo-box {
+      position: relative;
+      width: 155px;
+      height: 155px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      padding: 0px;
+
+      .brand-logo-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.15) translateY(10px);
+      }
+    }
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.2); opacity: 0.1; }
+}
+
+@keyframes bounceBadge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes floatingAnimation {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.text-narrative-section {
+  max-width: 320px;
+
+  .hero-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    letter-spacing: 0.4px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .hero-description {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+// Glowing & Shimmering Animation for the word "Eagle"
+::ng-deep .eagle-glow {
+  color: #ff9f43;
+  text-shadow: 0 0 10px rgba(255, 123, 0, 0.8), 0 0 20px rgba(255, 123, 0, 0.5), 0 0 30px rgba(255, 123, 0, 0.3);
+  animation: divineTextGlow 2.5s infinite ease-in-out;
+}
+
+@keyframes divineTextGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 123, 0, 0.6), 0 0 20px rgba(255, 123, 0, 0.3);
+    filter: brightness(1);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(255, 165, 0, 1), 0 0 30px rgba(255, 123, 0, 0.8), 0 0 45px rgba(255, 69, 0, 0.5);
+    filter: brightness(1.2);
+  }
+}
+
+.bottom-action-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  padding: 24px 24px 32px 24px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+
+  .pagination-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+
+      &.active {
+        width: 24px;
+        background: #ff7b00;
+      }
+    }
+  }
+
+  .get-started-btn {
+    --background: linear-gradient(135deg, #ff7b00 0%, #ff5500 100%);
+    --background-hover: #e56d00;
+    --border-radius: 14px;
+    height: 52px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    // Standard subtle shadow for NEXT buttons
+    --box-shadow: 0 4px 12px rgba(255, 123, 0, 0.25);
+    margin-bottom: 16px;
+  }
+
+  // Radiant Divine Glow applied only to the GET STARTED button on the final slide
+  .divine-glow-btn {
+    --box-shadow: 0 8px 25px rgba(255, 123, 0, 0.6);
+  }
+
+  .login-prompt-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+
+    .login-link-text {
+      color: #7b1113;
+      font-weight: 700;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

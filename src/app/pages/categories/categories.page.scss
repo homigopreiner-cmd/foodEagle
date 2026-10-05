@@ -1,0 +1,249 @@
+// Red is now an ACCENT, not the base. Neutral dark surfaces carry the page;
+// red shows up only where it should draw the eye (badges, links, active states).
+$primary-red: #c1272d;
+$soft-coral: #d9645c;
+$accent-gold: #dba14a;
+
+$bg-base: #131212;      // neutral near-black, no red cast
+$surface: #1c1a1a;      // header / searchbar strip
+$card-bg: #201d1d;
+$tile-bg: #262222;       // icon tile, one step lighter than card
+$border-subtle: rgba(255, 255, 255, 0.07);
+$text-muted: #948888;
+
+:host {
+  --theme-red: #{$primary-red};
+  --theme-coral: #{$soft-coral};
+}
+
+.red-theme-header {
+  background: $surface;
+  border-bottom: 3px solid $primary-red; // brand shows as a stripe, not a slab
+}
+
+.custom-toolbar {
+  --background: transparent;
+  --color: #ffffff;
+
+  .custom-back-btn {
+    --color: #ffffff;
+  }
+
+  .page-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.1px;
+    color: #ffffff;
+  }
+}
+
+.custom-bottom-nav-container, .navigation-wrapper {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0;
+  right: 0;
+  z-index: 99999 !important;
+}
+
+.search-container {
+  padding: 12px 16px 14px;
+  background: $surface;
+
+  .custom-searchbar {
+    padding: 0;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    --background: #ffffff;
+    --border-radius: 14px;
+    --placeholder-color: #8a8a8a;
+    --icon-color: #{$primary-red};
+    --color: #1a1a1a;
+    font-weight: 500;
+  }
+}
+
+.red-theme-content {
+  --background: #{$bg-base};
+}
+
+.content-wrapper {
+  min-height: 100%;
+  padding: 16px 12px 105px 12px;
+}
+
+/* Page Title & Banner */
+.page-intro {
+  padding: 10px 8px 20px;
+
+  .eyebrow {
+    background: rgba($primary-red, 0.1);
+    color: $soft-coral;
+    border: 1px solid rgba($primary-red, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    margin: 4px 0 0;
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+
+    .highlight-text {
+      color: $soft-coral;
+    }
+  }
+}
+
+/* Grid & Cards */
+.categories-grid {
+  padding: 0;
+
+  ion-col {
+    padding: 8px;
+  }
+}
+
+.category-card {
+  background: $card-bg;
+  border-radius: 16px;
+  padding: 14px;
+  border: 1px solid $border-subtle;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+
+  &:active {
+    transform: scale(0.97);
+    border-color: rgba($primary-red, 0.4);
+  }
+
+  .card-image-box {
+    width: 100%;
+    height: 96px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+    background: $tile-bg;
+    border: 1px solid $border-subtle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    // Icon sits inside a small tinted circle — the only red in the tile
+    .icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba($primary-red, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 24px;
+        color: $primary-red;
+      }
+    }
+
+    .item-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      color: $accent-gold;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .card-footer {
+    width: 100%;
+    text-align: left;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    h4 {
+      margin: 0 0 6px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 2.3em;
+    }
+
+    .explore-link {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: $text-muted;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .arrow {
+        color: $soft-coral;
+        transition: transform 0.2s ease;
+      }
+    }
+  }
+
+  &:hover .card-footer .explore-link .arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  background: $card-bg;
+  border-radius: 16px;
+  border: 1px dashed $border-subtle;
+  margin: 10px;
+
+  .empty-icon-box {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 14px;
+    background: rgba($primary-red, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 26px;
+      color: $primary-red;
+    }
+  }
+
+  h4 {
+    margin: 0 0 6px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: $text-muted;
+  }
+}
