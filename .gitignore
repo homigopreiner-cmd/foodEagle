@@ -34,6 +34,14 @@ log.txt
 npm-debug.log
 yarn-error.log
 
+# Local environment (secrets, e.g. EXA_API_KEY) — .env.example is the template
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+!.env.example
+
 # IDEs and editors
 .idea/
 .project

@@ -1,0 +1,134 @@
+<ion-header class="ion-no-border cart-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text="" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      My Cart<span class="title-count" *ngIf="items.length"> · {{ totalQty }} {{ totalQty === 1 ? 'item' : 'items' }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="cart-content">
+  <div class="cart-page">
+
+    <!-- Empty cart: a friendly dead-end with a way out -->
+    <div class="empty-state" *ngIf="!groups.length">
+      <div class="empty-art">
+        <span class="orbit orbit-1"></span>
+        <span class="orbit orbit-2"></span>
+        <ion-icon name="cart-outline"></ion-icon>
+      </div>
+      <h2>Your cart is empty</h2>
+      <p>Browse the campus stores and add something delicious — drinks, meals, merienda and more.</p>
+      <button class="btn-primary" (click)="browseStores()">
+        <ion-icon name="storefront-outline"></ion-icon>
+        Browse categories
+      </button>
+    </div>
+
+    <!-- Store groups -->
+    <section class="store-group" *ngFor="let group of groups; let gi = index" [style.--gi]="gi">
+      <header class="store-head" (click)="goToStore(group)">
+        <span class="store-avatar">{{ group.initials }}</span>
+        <div class="store-meta">
+          <h3>{{ group.vendorName }}</h3>
+          <span>{{ group.lines.length }} {{ group.lines.length === 1 ? 'item' : 'items' }} · {{ peso(group.subtotal) }}</span>
+        </div>
+        <span class="store-link">View store <ion-icon name="chevron-forward-outline"></ion-icon></span>
+      </header>
+
+      <div class="line" *ngFor="let line of group.lines">
+        <img
+          class="line-img"
+          *ngIf="line.item.image"
+          [src]="line.item.image"
+          [alt]="line.item.name"
+          loading="lazy"
+          (error)="line.item.image = undefined"
+        />
+        <span class="line-img line-img--fallback" *ngIf="!line.item.image">
+          <ion-icon name="cart-outline"></ion-icon>
+        </span>
+
+        <div class="line-main">
+          <h4>{{ line.item.name }}</h4>
+          <span class="line-unit">{{ peso(line.item.price) }} each</span>
+
+          <div class="line-actions">
+            <div class="stepper">
+              <button
+                class="step"
+                (click)="decrease(line.index)"
+                [disabled]="line.item.quantity <= 1"
+                aria-label="Decrease quantity"
+              >
+                <ion-icon name="remove-outline"></ion-icon>
+              </button>
+              <span class="qty">{{ line.item.quantity }}</span>
+              <button class="step" (click)="increase(line.index)" aria-label="Increase quantity">
+                <ion-icon name="add-outline"></ion-icon>
+              </button>
+            </div>
+            <span class="line-total">{{ peso(line.item.price * line.item.quantity) }}</span>
+          </div>
+        </div>
+
+        <button class="trash" (click)="removeLine(line)" title="Remove item" aria-label="Remove item">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
+      </div>
+    </section>
+
+    <!-- Trust strip — real promises the app keeps -->
+    <div class="trust-strip" *ngIf="groups.length">
+      <span class="trust-chip">
+        <ion-icon name="bicycle-outline"></ion-icon>
+        10–15 min delivery
+      </span>
+      <span class="trust-chip">
+        <ion-icon name="navigate-outline"></ion-icon>
+        Live rider tracking
+      </span>
+      <span class="trust-chip">
+        <ion-icon name="cash-outline"></ion-icon>
+        Cash or GCash
+      </span>
+    </div>
+
+    <!-- Order summary -->
+    <div class="summary" *ngIf="groups.length">
+      <h3>Order summary</h3>
+      <div class="row">
+        <span>Subtotal</span>
+        <span>{{ peso(getSubtotal()) }}</span>
+      </div>
+      <div class="row">
+        <span>Delivery fee</span>
+        <span>{{ peso(deliveryFee) }}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="row total">
+        <span>Total</span>
+        <span>{{ peso(getTotal()) }}</span>
+      </div>
+      <p class="note">
+        <ion-icon name="storefront-outline"></ion-icon>
+        A basket from different stores is placed as one order per kitchen and may arrive as separate deliveries.
+      </p>
+    </div>
+
+    <!-- Sticky checkout: floats above the curved bottom nav -->
+    <div class="checkout-bar" *ngIf="groups.length">
+      <div class="bar-total">
+        <span>Total</span>
+        <strong>{{ peso(getTotal()) }}</strong>
+      </div>
+      <button class="bar-btn" (click)="proceedToCheckout()">
+        Checkout · {{ totalQty }}
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </button>
+    </div>
+
+  </div>
+</ion-content>

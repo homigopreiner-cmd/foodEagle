@@ -1,0 +1,118 @@
+<ion-content [fullscreen]="true" style="--background: #f4f1eb;">
+
+  <!-- Hero Banner Section (uses the store's own hero photo) -->
+  <div class="animate-fade-down" [style.background]="'url(\'' + (vendor?.heroUrl || 'assets/images/street food.jpg') + '\') center/cover no-repeat'" style="position: relative; height: 310px;">
+
+    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(83, 14, 14, 0.94) 100%);"></div>
+
+    <!-- Navigation Header -->
+    <div style="position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; backdrop-filter: blur(4px); background: rgba(0,0,0,0.2);">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/dashboard" color="light" text=""></ion-back-button>
+      </ion-buttons>
+      <h2 style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 0; letter-spacing: 0.3px;">Store Detail</h2>
+
+      <!-- Cart Icon Link -->
+      <a [routerLink]="['/cart']" class="interactive-bounce" style="color: white; display: flex; align-items: center; text-decoration: none; position: relative; background: rgba(255,255,255,0.25); padding: 8px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+        <ion-icon name="cart-outline" style="font-size: 1.2rem;"></ion-icon>
+      </a>
+    </div>
+
+    <!-- Store Info Overlay -->
+    <div *ngIf="vendor" style="position: absolute; bottom: 32px; left: 20px; right: 20px; z-index: 10; color: #fff;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        <span *ngIf="vendor.acceptingOrders" style="background: rgba(255,255,255,0.92); color: #791717; font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 999px; letter-spacing: 0.4px;">OPEN</span>
+        <span *ngIf="!vendor.acceptingOrders" style="background: rgba(31,8,14,0.85); color: #fff; font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 999px; letter-spacing: 0.4px;">CLOSED</span>
+      </div>
+      <h1 style="font-size: 1.6rem; font-weight: 900; margin: 0 0 4px 0; text-shadow: 0 2px 6px rgba(0,0,0,0.4); letter-spacing: -0.3px;">{{ vendor.name }}</h1>
+      <p style="font-size: 0.83rem; margin: 0 0 10px 0; color: rgba(255,255,255,0.92); font-weight: 600;">{{ vendor.tagline }}</p>
+
+      <div style="display: flex; align-items: center; gap: 16px; font-size: 0.8rem; color: rgba(255,255,255,0.95); font-weight: 600;">
+        <span style="display: flex; align-items: center; gap: 6px;">
+          <ion-icon name="location-outline" style="color: #ffb800; font-size: 1.1rem;"></ion-icon> {{ vendor.spot }}
+        </span>
+        <span style="display: flex; align-items: center; gap: 6px;">
+          <ion-icon name="time-outline" style="color: #ffb800; font-size: 1.1rem;"></ion-icon> {{ vendor.prepTime }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Body -->
+  <div class="animate-slide-up" style="background: #ffffff; border-top-left-radius: 32px; border-top-right-radius: 32px; margin-top: -16px; padding: 26px 18px 110px 18px; position: relative; z-index: 20; min-height: 60vh; box-shadow: 0 -15px 35px rgba(0,0,0,0.1);">
+
+    <!-- Rating Card Box -->
+    <div *ngIf="vendor" style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #fdf6f6 0%, #faeded 100%); border: 1px solid #f2dcdc; padding: 16px 20px; border-radius: 20px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(121, 23, 23, 0.08);">
+      <div>
+        <span style="font-size: 0.75rem; font-weight: 800; color: #791717; text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 6px;">Restaurant Rating</span>
+        <div style="display: flex; gap: 4px;">
+          <ion-icon *ngFor="let star of getVendorStars()" [name]="star" style="color: #ffb800; font-size: 1.15rem;"></ion-icon>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 1.4rem; font-weight: 900; color: #791717; line-height: 1;">{{ vendor.rating }}</span>
+        <span style="font-size: 0.75rem; color: #777; display: block; margin-top: 4px; font-weight: 600;">({{ vendor.reviews }} reviews)</span>
+      </div>
+    </div>
+
+    <!-- Opening hours -->
+    <p *ngIf="vendor" style="margin: -12px 0 20px; font-size: 0.75rem; color: #8a8a8a; font-weight: 600;">
+      <ion-icon name="time-outline" style="vertical-align: -3px; margin-right: 4px;"></ion-icon>{{ vendor.hours }}
+    </p>
+
+    <!-- Category Filter Tabs -->
+    <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 24px; scrollbar-width: none;">
+      <button *ngFor="let cat of menuCategories"
+              (click)="selectedCategory = cat"
+              [style.background]="selectedCategory === cat ? 'linear-gradient(135deg, #791717 0%, #530e0e 100%)' : '#f1f3f5'"
+              [style.color]="selectedCategory === cat ? '#ffffff' : '#495057'"
+              class="category-btn"
+              style="border: none; padding: 10px 20px; border-radius: 24px; font-size: 0.86rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
+        {{ cat }}
+      </button>
+    </div>
+
+    <!-- Empty state: a store with no published dishes yet -->
+    <div *ngIf="!loading && !filteredItems.length" class="empty-state">
+      <ion-icon name="cart-outline" style="font-size: 34px; color: #cfcfcf;"></ion-icon>
+      <h4 style="margin: 10px 0 4px; font-size: 0.9rem; color: #555; font-weight: 800;">Nothing on the menu yet</h4>
+      <p style="margin: 0; font-size: 0.76rem; color: #8a8a8a;">This store has no dishes in this category right now.</p>
+    </div>
+
+    <!-- Menu Items Grid (the store's real catalogue) -->
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;" *ngIf="filteredItems.length">
+      <div *ngFor="let item of filteredItems; let i = index" class="menu-card" [style.animation-delay]="(i * 0.1) + 's'" style="background: #ffffff; border: 1px solid #eaeaea; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px rgba(0,0,0,0.04); cursor: pointer;" (click)="openDetails(item)">
+
+        <!-- Image Container -->
+        <div style="position: relative; height: 130px; background: #f8f9fa; overflow: hidden;">
+          <img [src]="item.imageUrl" [alt]="item.title" class="food-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80'" />
+
+          <!-- Add Button -->
+          <button (click)="addToCart(item); $event.stopPropagation()" class="interactive-bounce" aria-label="Add to cart" style="position: absolute; bottom: 10px; right: 10px; background: linear-gradient(135deg, #791717 0%, #530e0e 100%); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(121, 23, 23, 0.4);">
+            <ion-icon name="add-outline" style="font-size: 1.25rem;"></ion-icon>
+          </button>
+        </div>
+
+        <!-- Item Info Block -->
+        <div style="padding: 14px 14px 16px 14px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+          <div>
+            <h4 style="margin: 0 0 6px 0; font-size: 0.92rem; font-weight: 800; color: #212529; line-height: 1.3;">{{ item.title }}</h4>
+
+            <!-- Item Rating Stars -->
+            <div style="display: flex; align-items: center; gap: 3px; margin-bottom: 12px;">
+              <ion-icon *ngFor="let star of getItemStars(item.rating)" [name]="star" style="color: #ffb800; font-size: 0.8rem;"></ion-icon>
+              <span style="font-size: 0.75rem; color: #666; font-weight: 700; margin-left: 4px;">{{ item.rating }}</span>
+            </div>
+          </div>
+
+          <!-- Price Display -->
+          <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 4px;">
+            <span style="font-size: 1.05rem; font-weight: 900; color: #791717;">₱{{ item.price.toFixed(2) }}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>

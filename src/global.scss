@@ -8,9 +8,28 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* Mobile Device Frame Simulation on Desktop - Centered */
+/* The desktop preview shell injects its watermark badge as a bare <div>
+   directly under <html>. The HTML spec only permits <head>/<body> there, so
+   this selector can never match application markup — it just keeps the demo
+   screen recordings clean. */
+html > div {
+  display: none !important;
+}
+
+/* Mobile Device Frame Simulation on Desktop - Centered
+ *
+ * Scoped with the `app-admin` class on <html> (toggled by AppComponent when
+ * the route is under /admin) so the Admin console — a real desktop
+ * dashboard — opts out of the phone frame entirely. This is what previously
+ * clipped the admin layout into 390px next to a viewport-fixed sidebar.
+ *
+ * `transform: translateZ(0)` on ion-app makes the frame the containing block
+ * for every `position: fixed` child (bottom nav, maroon headers, FABs), so
+ * they anchor to the phone frame instead of escaping to the browser window.
+ */
 @media (min-width: 768px) {
-  html, body {
+  html:not(.app-admin),
+  html:not(.app-admin) body {
     background-color: #222222 !important;
     height: 100vh;
     width: 100vw;
@@ -21,7 +40,7 @@
     overflow: hidden;
   }
 
-  ion-app {
+  html:not(.app-admin) ion-app {
     position: relative !important;
     width: 390px !important;
     height: 844px !important;
@@ -33,6 +52,7 @@
     display: flex;
     flex-direction: column;
     margin: auto;
+    transform: translateZ(0);
   }
 }
 
@@ -57,7 +77,9 @@ ion-content::part(scroll)::-webkit-scrollbar {
 
 /* --- FOOD EAGLE DESIGN SYSTEM --- */
 :root {
-  --fe-maroon: #6d1a1d;
+  /* Canonical Food Eagle brand maroon — every header, accent and active
+     state across the four apps resolves to this. */
+  --fe-maroon: #791717;
   --fe-orange: #f58220;
   --fe-bg-light: #f7f3f2;
 }

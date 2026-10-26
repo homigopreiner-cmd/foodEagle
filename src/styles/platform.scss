@@ -1,0 +1,673 @@
+/* =========================================================================
+   platform.scss — styling shared by the three NEW apps
+   (vendor, rider, admin panel).
+
+   Kept out of individual components on purpose: these shells are chrome,
+   not page-specific UI, and the Angular build budgets component styles to
+   4 KB. Chrome belongs in the global sheet, next to theme/variables.scss.
+   Registered in angular.json -> architect.build.options.styles.
+   ========================================================================= */
+
+:root {
+  /* Food Eagle brand (already used by the customer app) */
+  --fe-maroon: #791717;
+  --fe-amber: #ffb300;
+
+  /* Per-app accents — all one Food Eagle theme (maroon + amber) */
+  --vendor-accent: #791717;
+  --vendor-accent-soft: #f5e8e8;
+  --rider-accent: #791717;
+  --rider-accent-soft: #f5e8e8;
+  --admin-accent: #791717;
+  --admin-accent-soft: #f5e8e8;
+  --admin-ink: #2b1113;
+
+  --card-radius: 16px;
+  --hairline: #ececec;
+}
+
+/* ---------------------------------------------------------------------
+   App shells — identical skeleton, different accent + layout
+   --------------------------------------------------------------------- */
+
+.shell {
+  /* The app frame behind every page is dark (global.scss paints the body
+     #222222), so each shell must paint its own backdrop.
+
+     The shell itself is the scroll region: vendor/rider pages render plain
+     markup (no ion-content), so with the old `min-height: 100vh` they
+     simply overflowed the 844px desktop phone frame with nothing to scroll
+     — everything below the fold was unreachable. `inset: 0` fills the
+     router outlet with a definite height, then scrolls inside it. */
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--shell-bg, #fff);
+  --background: var(--shell-bg, #fff);
+
+  .shell-topbar {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+    background: var(--shell-bg, #fff);
+    border-bottom: 1px solid var(--hairline);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+
+      .brand-badge {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: var(--shell-accent, var(--fe-maroon));
+        color: #fff;
+        font-weight: 800;
+        font-size: 0.82rem;
+        flex: 0 0 auto;
+      }
+
+      .brand-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: 0 0 auto;
+        border: 2px solid var(--shell-accent, var(--fe-maroon));
+      }
+
+      .brand-text {
+        min-width: 0;
+        .brand-title { font-weight: 800; font-size: 0.95rem; color: var(--shell-ink, #111); }
+        .brand-sub { font-size: 0.7rem; color: #7a7a7a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      }
+    }
+
+    .topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+      background: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: #444;
+      ion-icon { font-size: 18px; }
+      &:hover { background: #fafafa; }
+    }
+  }
+
+  /* Bottom tab bar (rider; vendor embeds the shared curved nav). Sticky
+     inside the shell's scroll region — `position: fixed` escaped the phone
+     frame and anchored to the browser window on desktop. margin-top:auto
+     keeps it pinned to the bottom when a page's content is short. */
+  .shell-tabs {
+    display: flex;
+    background: #fff;
+    border-top: 1px solid var(--hairline);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    position: sticky;
+    bottom: 0;
+    flex: none;
+    margin-top: auto;
+    z-index: 20;
+
+    button {
+      flex: 1;
+      border: 0;
+      background: transparent;
+      padding: 8px 4px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #8a8a8a;
+      cursor: pointer;
+      ion-icon { font-size: 20px; }
+      &.active { color: var(--shell-accent, var(--fe-maroon)); }
+    }
+  }
+
+  .shell-body {
+    padding: 16px 16px 96px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+}
+
+/* Vendor: warm kitchen paper. Rider: the same warm paper — both follow
+   the Food Eagle theme (maroon accent, warm neutrals). */
+.app-shell--vendor { --shell-bg: #fffaf6; --shell-accent: var(--vendor-accent); --shell-ink: #3b1d1d; }
+.app-shell--rider  { --shell-bg: #faf6f6; --shell-accent: var(--rider-accent);  --shell-ink: #2a1416; }
+
+/* ---------------------------------------------------------------------
+   Building blocks reused by all three new apps
+   --------------------------------------------------------------------- */
+
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+
+  h1 { font-size: 1.15rem; font-weight: 800; margin: 0; color: var(--shell-ink, #111); }
+  p  { margin: 4px 0 0; font-size: 0.78rem; color: #7a7a7a; }
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-radius: var(--card-radius);
+  padding: 14px;
+  & + .card { margin-top: 12px; }
+  h3 { margin: 0 0 8px; font-size: 0.86rem; font-weight: 800; color: #232323; }
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+
+  .stat {
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-radius: var(--card-radius);
+    padding: 12px 14px;
+
+    .stat-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: #8a8a8a; font-weight: 700; }
+    .stat-value { font-size: 1.35rem; font-weight: 800; color: var(--shell-ink, #111); margin-top: 4px; }
+    .stat-hint  { font-size: 0.7rem; color: #9a9a9a; margin-top: 2px; }
+    &.is-accent { background: var(--shell-accent, var(--fe-maroon)); border-color: transparent;
+      .stat-label, .stat-value, .stat-hint { color: #fff; opacity: 1; }
+      .stat-label, .stat-hint { opacity: 0.8; }
+    }
+  }
+}
+
+/* Status pills — same vocabulary across every app */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: capitalize;
+  white-space: nowrap;
+  border: 1px solid transparent;
+
+  &.pill--placed   { background: #fff7e0; color: #8a6100; border-color: #ffe9a8; }
+  &.pill--confirmed{ background: #e8f1ff; color: #1a4f9c; border-color: #c9ddff; }
+  &.pill--preparing{ background: #fff1e6; color: #a8480b; border-color: #ffdcc2; }
+  &.pill--ready    { background: #ede9ff; color: #4a3ab8; border-color: #d8d1ff; }
+  &.pill--picked_up,
+  &.pill--delivering { background: #e6f5fa; color: #0f6f8f; border-color: #bfe6f0; }
+  &.pill--delivered { background: #e6f8ee; color: #0b7a4b; border-color: #bdebd3; }
+  &.pill--declined,
+  &.pill--cancelled { background: #ffecec; color: #b02323; border-color: #ffcfcf; }
+}
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  background: var(--shell-accent, var(--fe-maroon));
+  color: #fff;
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &.btn--ghost { background: #fff; color: var(--shell-accent, var(--fe-maroon)); border: 1.5px solid currentColor; }
+  &.btn--muted { background: #f1f1f1; color: #555; }
+  &.btn--danger { background: #d64545; }
+  &.btn--sm { padding: 7px 11px; font-size: 0.74rem; border-radius: 10px; }
+}
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+.empty-state {
+  text-align: center;
+  padding: 34px 18px;
+  color: #8a8a8a;
+  background: #fff;
+  border: 1px dashed #dcdcdc;
+  border-radius: var(--card-radius);
+
+  ion-icon { font-size: 34px; color: #cfcfcf; }
+  h4 { margin: 10px 0 4px; font-size: 0.9rem; color: #555; font-weight: 800; }
+  p  { margin: 0; font-size: 0.76rem; line-height: 1.5; }
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--hairline);
+  &:last-child { border-bottom: 0; }
+
+  .list-main { flex: 1; min-width: 0; }
+  .list-title { font-weight: 700; font-size: 0.85rem; color: #232323; }
+  .list-sub { font-size: 0.72rem; color: #8a8a8a; margin-top: 2px; }
+  .list-end { text-align: right; font-weight: 800; font-size: 0.85rem; color: #232323; }
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  .toggle-label { font-size: 0.84rem; font-weight: 700; color: #232323; }
+  .toggle-hint { font-size: 0.72rem; color: #8a8a8a; margin-top: 2px; }
+}
+
+/* Forms — shared by the vendor editor, store profile and rider sign-up */
+.field {
+  display: block;
+  margin-bottom: 10px;
+
+  > span {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #7a7a7a;
+    margin-bottom: 4px;
+  }
+
+  input, textarea, select {
+    width: 100%;
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    background: #fff;
+    color: #232323;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: 2px solid var(--shell-accent, var(--fe-maroon));
+      outline-offset: 0;
+      border-color: transparent;
+    }
+  }
+
+  textarea { resize: vertical; }
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.chip {
+  border: 1px solid var(--hairline);
+  background: #fff;
+  color: #666;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  cursor: pointer;
+  &.active { background: var(--shell-accent, var(--fe-maroon)); border-color: transparent; color: #fff; }
+}
+
+.thumb { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; background: #f3f3f3; flex: 0 0 auto; }
+
+.pill ion-icon { font-size: 13px; }
+.btn ion-icon { font-size: 15px; vertical-align: -2px; }
+
+/* Pages render inside the shell rather than their own ion-content. */
+.shell ion-content, .app-shell ion-content { --background: transparent; }
+
+.seg-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+
+  button {
+    border: 1px solid var(--hairline);
+    background: #fff;
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: #666;
+    white-space: nowrap;
+    cursor: pointer;
+    .count { opacity: 0.6; margin-left: 4px; }
+    &.active {
+      background: var(--shell-accent, var(--fe-maroon));
+      border-color: transparent;
+      color: #fff;
+      .count { opacity: 0.85; }
+    }
+  }
+}
+
+/* =========================================================================
+   Admin panel — desktop-first: fixed sidebar + fluid content
+   ========================================================================= */
+
+.admin-layout {
+  /* Full-viewport desktop console — AppComponent sets html.app-admin on
+     /admin routes so the phone frame never wraps it (the old frame squeezed
+     this into 390px next to an overflowing 100vh sidebar, so only the
+     sidebar was visible). Owns its own scrolling: the flex column plus
+     `overflow: hidden` keeps the chrome fixed and .admin-content scrolls. */
+  position: absolute;
+  inset: 0;
+  display: flex;
+  overflow: hidden;
+  /* Covers the dark app frame behind the dashboard. */
+  background: #f1f5f9;
+
+  .admin-sidebar {
+    width: 246px;
+    flex: 0 0 246px;
+    background: var(--admin-ink);
+    color: #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+
+    .admin-brand {
+      display: flex; align-items: center; gap: 11px;
+      padding: 20px 18px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+
+      .brand-logo {
+        width: 42px; height: 42px; object-fit: contain; flex: 0 0 auto;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+      }
+      .brand-title {
+        color: #fff; font-weight: 900; font-size: 1.08rem;
+        letter-spacing: -0.01em; line-height: 1.1;
+      }
+      /* The divine glow: gold wordmark, pulsing halo on "Eagle". */
+      .brand-glow {
+        color: #ffd54a;
+        text-shadow:
+          0 0 6px rgba(255, 213, 74, 0.85),
+          0 0 16px rgba(255, 179, 0, 0.65),
+          0 0 34px rgba(255, 152, 0, 0.45);
+        animation: eagle-divine 3.4s ease-in-out infinite;
+      }
+      .brand-sub {
+        font-size: 0.64rem; color: #94a3b8;
+        letter-spacing: 0.08em; text-transform: uppercase;
+      }
+    }
+
+    nav { padding: 14px 10px; display: flex; flex-direction: column; gap: 3px; flex: 1; overflow-y: auto; }
+
+    button.nav-item {
+      display: flex; align-items: center; gap: 11px;
+      border: 0; background: transparent; color: #cbd5e1;
+      padding: 11px 13px; border-radius: 10px; cursor: pointer;
+      font-size: 0.84rem; font-weight: 600; text-align: left;
+      ion-icon { font-size: 18px; }
+      .nav-badge {
+        margin-left: auto; background: var(--fe-amber); color: #241300;
+        border-radius: 999px; font-size: 0.64rem; font-weight: 900; padding: 2px 7px;
+      }
+      &:hover { background: rgba(255,255,255,0.06); color: #fff; }
+      &.active { background: var(--admin-accent); color: #fff; }
+    }
+
+    .admin-user {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 14px;
+      display: flex; align-items: center; gap: 10px;
+      .admin-user-name { color: #fff; font-size: 0.8rem; font-weight: 700; }
+      .admin-user-role { font-size: 0.68rem; color: #94a3b8; }
+      .icon-btn {
+        margin-left: auto; width: 32px; height: 32px; border-radius: 8px;
+        background: rgba(255,255,255,0.08); border: 0; color: #cbd5e1;
+        display: grid; place-items: center; cursor: pointer;
+      }
+    }
+  }
+
+  .admin-main { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+
+  .admin-topbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 14px 24px; background: #fff; border-bottom: 1px solid #e2e8f0;
+    position: sticky; top: 0; z-index: 5; flex: none;
+    h2 { margin: 0; font-size: 1.05rem; font-weight: 800; color: #0f172a; }
+    .admin-topbar-sub { font-size: 0.74rem; color: #64748b; }
+  }
+
+  .admin-content { flex: 1; min-height: 0; padding: 24px; max-width: 1400px; width: 100%; margin: 0 auto; box-sizing: border-box; overflow-y: auto; }
+}
+
+.admin-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px;
+  h3 { margin: 0 0 12px; font-size: 0.9rem; font-weight: 800; color: #0f172a; }
+}
+.admin-card + .admin-card { margin-top: 16px; }
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.kpi {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px;
+  display: flex; align-items: center; gap: 13px;
+  .kpi-icon {
+    width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+    background: var(--admin-accent-soft); color: var(--admin-accent); font-size: 20px;
+  }
+  .kpi-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; }
+  .kpi-value { font-size: 1.4rem; font-weight: 800; color: #0f172a; line-height: 1.2; }
+  .kpi-hint { font-size: 0.68rem; color: #94a3b8; }
+}
+
+.admin-table { width: 100%; border-collapse: collapse; font-size: 0.8rem;
+  th { text-align: left; padding: 10px 12px; color: #64748b; font-size: 0.68rem; text-transform: uppercase;
+       letter-spacing: 0.05em; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
+  td { padding: 12px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: middle; }
+  tr:hover td { background: #f8fafc; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+}
+
+.admin-two-col { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; align-items: start; }
+
+/* ---------------------------------------------------------------------
+   Admin · Users — CRUD toolbar, form panel and row actions
+   --------------------------------------------------------------------- */
+
+.users-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+
+  .users-search {
+    width: 100%;
+    max-width: 380px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    &:focus { outline: 2px solid var(--admin-accent); border-color: transparent; }
+  }
+}
+
+.users-panel {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  margin-bottom: 16px;
+}
+
+.pw-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+
+  input { flex: 1; min-width: 0; }
+
+  .pw-toggle {
+    flex: 0 0 auto;
+    width: 40px;
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    background: #fff;
+    color: #555;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    &:hover { background: #f1f5f9; }
+  }
+}
+
+.pw-hint {
+  margin: 2px 0 0;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+.panel-msg {
+  margin: 10px 0 0;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0b7a4b;
+
+  &.is-error { color: #b02323; }
+}
+
+.admin-table {
+  .row-actions {
+    text-align: right;
+    white-space: nowrap;
+
+    .btn + .btn { margin-left: 6px; }
+    ion-icon { margin-right: 3px; }
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Rider · profile portrait — pick / preview / remove a profile photo
+   --------------------------------------------------------------------- */
+
+.rider-avatar {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  margin: 2px auto 10px;
+
+  .rider-avatar__img,
+  .rider-avatar__fallback {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+  }
+
+  .rider-avatar__img {
+    object-fit: cover;
+    display: block;
+    border: 3px solid var(--rider-accent-soft);
+  }
+
+  .rider-avatar__fallback {
+    font-size: 92px;
+    color: #d9c3c3;
+  }
+
+  .rider-avatar__btn {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: var(--rider-accent);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    ion-icon { font-size: 16px; }
+    &:hover { filter: brightness(1.12); }
+  }
+}
+
+/* "Eagle" breathing halo — the gold half of the admin wordmark. */
+@keyframes eagle-divine {
+  0%, 100% {
+    text-shadow:
+      0 0 6px rgba(255, 213, 74, 0.85),
+      0 0 16px rgba(255, 179, 0, 0.65),
+      0 0 34px rgba(255, 152, 0, 0.45);
+  }
+  50% {
+    text-shadow:
+      0 0 8px rgba(255, 224, 102, 1),
+      0 0 22px rgba(255, 202, 40, 0.85),
+      0 0 46px rgba(255, 179, 0, 0.6),
+      0 0 70px rgba(255, 152, 0, 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-sidebar .brand-glow { animation: none; }
+}
+
+/* Small screens: the sidebar collapses to a horizontal scroller. */
+@media (max-width: 900px) {
+  /* Single scrolling column on small screens: let the body scroll instead
+     of clipping against the fixed-height desktop layout. */
+  .admin-layout { position: static; inset: auto; height: auto; overflow: visible; flex-direction: column; }
+  .admin-layout .admin-sidebar {
+    width: 100%; flex: none; height: auto; position: static;
+    flex-direction: row; align-items: center; overflow-x: auto;
+    .admin-brand { padding: 12px 14px; border-bottom: 0; border-right: 1px solid rgba(255,255,255,0.08); }
+    nav { flex-direction: row; padding: 8px; }
+    .admin-user { border-top: 0; padding: 8px 12px; }
+  }
+  .admin-two-col { grid-template-columns: 1fr; }
+  .admin-content { padding: 16px; }
+}

@@ -1,0 +1,552 @@
+// Cart — same warm paper + maroon vocabulary as the dashboard and items
+// pages. This page used to be an inline-styled pinkish slab (#b86868) with
+// black text; every colour here resolves to the canonical Food Eagle theme.
+$maroon: #791717;
+$maroon-deep: #530e0e;
+$amber: #f59e0b;
+
+$bg-base: #fbf5f6;
+$card-bg: #ffffff;
+$border-subtle: rgba(121, 23, 23, 0.10);
+$text-dark: #2a1416;
+$text-muted: #8a7477;
+
+// The curved bottom nav is 80px tall on every customer page; the checkout
+// bar and the page padding clear it so nothing hides underneath.
+$nav-height: calc(80px + env(safe-area-inset-bottom, 0px));
+
+:host {
+  --theme-red: #{$maroon};
+}
+
+.cart-header {
+  background: linear-gradient(135deg, $maroon-deep 0%, $maroon 100%);
+  box-shadow: 0 4px 20px rgba(83, 14, 14, 0.25);
+
+  ion-toolbar {
+    --background: transparent;
+    --color: #ffffff;
+
+    ion-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.1px;
+      color: #ffffff;
+
+      .title-count {
+        font-size: 0.8rem;
+        font-weight: 600;
+        opacity: 0.75;
+      }
+    }
+  }
+}
+
+.cart-content {
+  --background: #{$bg-base};
+}
+
+.cart-page {
+  padding: 14px 14px 20px;
+  // Room for the curved nav so the last card is never covered.
+  padding-bottom: calc(#{$nav-height} + 20px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Empty state                                                          */
+/* ------------------------------------------------------------------ */
+
+.empty-state {
+  text-align: center;
+  padding: 46px 24px;
+  background: $card-bg;
+  border: 1px solid $border-subtle;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(83, 14, 14, 0.06);
+
+  .empty-art {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: rgba($maroon, 0.07);
+    display: grid;
+    place-items: center;
+
+    ion-icon {
+      font-size: 44px;
+      color: $maroon;
+    }
+
+    .orbit {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px dashed rgba($maroon, 0.25);
+
+      &.orbit-1 {
+        inset: -8px;
+        animation: cart-orbit 14s linear infinite;
+      }
+
+      &.orbit-2 {
+        inset: 6px;
+        border-color: rgba($amber, 0.4);
+        animation: cart-orbit 9s linear infinite reverse;
+      }
+    }
+  }
+
+  h2 {
+    margin: 0 0 6px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: $text-dark;
+  }
+
+  p {
+    margin: 0 auto 18px;
+    max-width: 300px;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: $text-muted;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 0;
+    border-radius: 14px;
+    padding: 12px 22px;
+    background: linear-gradient(135deg, $maroon 0%, $maroon-deep 100%);
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba($maroon, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+    ion-icon {
+      font-size: 17px;
+    }
+
+    &:active {
+      transform: scale(0.96);
+      box-shadow: 0 4px 10px rgba($maroon, 0.3);
+    }
+  }
+}
+
+@keyframes cart-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Store groups                                                         */
+/* ------------------------------------------------------------------ */
+
+.store-group {
+  background: $card-bg;
+  border: 1px solid $border-subtle;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(83, 14, 14, 0.07);
+  overflow: hidden;
+  margin-bottom: 14px;
+  animation: cart-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  // Staggered entrance, one step per store group.
+  animation-delay: calc(var(--gi, 0) * 70ms);
+
+  .store-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, rgba($maroon, 0.06) 0%, rgba($amber, 0.07) 100%);
+    border-bottom: 1px solid $border-subtle;
+    cursor: pointer;
+
+    .store-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, $maroon 0%, $maroon-deep 100%);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .store-meta {
+      flex: 1;
+      min-width: 0;
+
+      h3 {
+        margin: 0;
+        font-size: 0.9rem;
+        font-weight: 800;
+        color: $text-dark;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      span {
+        font-size: 0.72rem;
+        color: $text-muted;
+        font-weight: 600;
+      }
+    }
+
+    .store-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: $maroon;
+      white-space: nowrap;
+
+      ion-icon {
+        font-size: 14px;
+      }
+    }
+
+    &:active {
+      background: rgba($maroon, 0.1);
+    }
+  }
+}
+
+@keyframes cart-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Line items                                                           */
+/* ------------------------------------------------------------------ */
+
+.line {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+
+  & + .line {
+    border-top: 1px solid rgba(121, 23, 23, 0.06);
+  }
+
+  .line-img {
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    object-fit: cover;
+    background: #f6ecec;
+    flex: 0 0 auto;
+  }
+
+  .line-img--fallback {
+    display: grid;
+    place-items: center;
+    border: 1px dashed rgba($maroon, 0.3);
+
+    ion-icon {
+      font-size: 24px;
+      color: rgba($maroon, 0.5);
+    }
+  }
+
+  .line-main {
+    flex: 1;
+    min-width: 0;
+
+    h4 {
+      margin: 0 0 2px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: $text-dark;
+      line-height: 1.3;
+    }
+
+    .line-unit {
+      font-size: 0.75rem;
+      color: $text-muted;
+    }
+
+    .line-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 8px;
+    }
+  }
+
+  .stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #f9f1f1;
+    border: 1px solid $border-subtle;
+    border-radius: 12px;
+    padding: 3px;
+
+    .step {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      border-radius: 9px;
+      background: #fff;
+      color: $maroon;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(83, 14, 14, 0.12);
+
+      ion-icon {
+        font-size: 15px;
+      }
+
+      // At one you cannot go lower — removal is the trash button's job.
+      &:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      &:active:not(:disabled) {
+        transform: scale(0.9);
+      }
+    }
+
+    .qty {
+      min-width: 22px;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: $text-dark;
+    }
+  }
+
+  .line-total {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: $maroon;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .trash {
+    align-self: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 11px;
+    background: rgba(220, 38, 38, 0.08);
+    color: #d64545;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    flex: 0 0 auto;
+
+    ion-icon {
+      font-size: 17px;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Trust strip — quick reassurance above the summary                    */
+/* ------------------------------------------------------------------ */
+
+.trust-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 2px 12px;
+  animation: cart-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--gi, 0) * 70ms + 40ms);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .trust-chip {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: $card-bg;
+    border: 1px solid $border-subtle;
+    border-radius: 999px;
+    padding: 6px 11px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: $text-muted;
+    box-shadow: 0 2px 8px rgba(83, 14, 14, 0.05);
+
+    ion-icon {
+      font-size: 14px;
+      color: $maroon;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Summary + sticky checkout bar                                        */
+/* ------------------------------------------------------------------ */
+
+.summary {
+  background: $card-bg;
+  border: 1px solid $border-subtle;
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(83, 14, 14, 0.06);
+  margin-bottom: 12px;
+
+  h3 {
+    margin: 0 0 10px;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: $text-dark;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.85rem;
+    color: $text-muted;
+    margin-bottom: 8px;
+
+    span:last-child {
+      font-weight: 700;
+      color: $text-dark;
+      font-variant-numeric: tabular-nums;
+    }
+
+    &.total {
+      font-size: 1rem;
+      font-weight: 800;
+      color: $text-dark;
+      margin-bottom: 0;
+
+      span:last-child {
+        color: $maroon;
+        font-size: 1.08rem;
+      }
+    }
+  }
+
+  .divider {
+    border-top: 1px dashed rgba(121, 23, 23, 0.2);
+    margin: 10px 0;
+  }
+
+  .note {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin: 12px 0 0;
+    padding: 9px 11px;
+    background: rgba($amber, 0.08);
+    border: 1px solid rgba($amber, 0.25);
+    border-radius: 12px;
+    font-size: 0.71rem;
+    line-height: 1.5;
+    color: #8a6100;
+
+    ion-icon {
+      font-size: 14px;
+      flex: 0 0 auto;
+      margin-top: 1px;
+    }
+  }
+}
+
+.checkout-bar {
+  position: sticky;
+  // Floats just above the curved bottom nav while scrolling.
+  bottom: calc(#{$nav-height} + 8px);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid $border-subtle;
+  border-radius: 20px;
+  padding: 10px 12px 10px 16px;
+  box-shadow: 0 14px 34px rgba(83, 14, 14, 0.22);
+
+  .bar-total {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+
+    span {
+      font-size: 0.66rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $text-muted;
+    }
+
+    strong {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: $text-dark;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .bar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 0;
+    border-radius: 15px;
+    padding: 13px 20px;
+    background: linear-gradient(135deg, $maroon 0%, $maroon-deep 100%);
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba($maroon, 0.35);
+    transition: transform 0.15s ease;
+
+    ion-icon {
+      font-size: 16px;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-group,
+  .empty-state .orbit {
+    animation: none;
+  }
+}

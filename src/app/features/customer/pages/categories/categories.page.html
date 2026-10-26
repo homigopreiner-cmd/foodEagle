@@ -1,0 +1,129 @@
+<ion-header class="ion-no-border red-theme-header">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text="" (click)="goBack()" class="custom-back-btn"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="page-title">Categories</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="red-theme-content">
+  <div class="search-container ion-padding-horizontal">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="filterCategories()"
+      placeholder="Search categories..."
+      class="custom-searchbar"
+      debounce="250"
+    ></ion-searchbar>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="page-intro">
+      <span class="eyebrow">BROWSE CATEGORIES</span>
+      <h1>What are you<br /><span class="highlight-text">in the mood for?</span></h1>
+      <p class="intro-sub">{{ filteredCategories.length }} categories · fresh from campus kitchens</p>
+    </div>
+
+    <ng-container *ngIf="filteredCategories.length; else emptyState">
+
+      <!-- Wide hero tile for the crown-jewel category -->
+      <div class="feature-card" *ngIf="feature" (click)="openCategory(feature)">
+        <img
+          class="feature-img"
+          *ngIf="feature.cover && !feature.coverFailed"
+          [src]="feature.cover"
+          [alt]="feature.name"
+          loading="lazy"
+          (error)="feature.coverFailed = true"
+        />
+        <div class="feature-fallback" *ngIf="!feature.cover || feature.coverFailed">
+          <ion-icon [name]="feature.icon"></ion-icon>
+        </div>
+        <div class="feature-scrim"></div>
+        <div class="feature-body">
+          <span class="feature-badge">
+            <ion-icon name="flame-outline"></ion-icon>
+            TRENDING NOW
+          </span>
+          <h2>{{ feature.name }}</h2>
+          <p *ngIf="feature.sample">{{ feature.sample }}</p>
+          <span class="feature-cta">
+            Browse {{ feature.itemCount }} {{ feature.itemCount === 1 ? 'item' : 'items' }}
+            <span class="arrow">→</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Quick-jump chips: filter the grid without typing -->
+      <div class="chip-row" *ngIf="gridCategories.length">
+        <button
+          class="chip"
+          [class.active]="activeChip === 'all'"
+          (click)="setChip('all')"
+        >All</button>
+        <button
+          class="chip"
+          *ngFor="let c of gridCategories"
+          [class.active]="activeChip === c.id"
+          (click)="setChip(c.id)"
+        >{{ c.name }}</button>
+      </div>
+
+      <div class="section-label" *ngIf="shownCategories.length">
+        All categories
+        <span class="count">{{ shownCategories.length }}</span>
+      </div>
+
+      <ion-grid class="categories-grid">
+        <ion-row>
+          <!-- Always two columns: `size-sm` would respond to the BROWSER
+               width on desktop and cram three tiles into the 390px frame. -->
+          <ion-col
+            *ngFor="let category of shownCategories; let i = index"
+            size="6"
+            [style.--i]="i"
+          >
+            <div class="category-card" (click)="openCategory(category)">
+              <div class="card-image-box" [class.no-cover]="!category.cover || category.coverFailed">
+                <img
+                  *ngIf="category.cover && !category.coverFailed"
+                  class="cover-img"
+                  [src]="category.cover"
+                  [alt]="category.name"
+                  loading="lazy"
+                  (error)="category.coverFailed = true"
+                />
+                <span
+                  class="icon-circle"
+                  [class.on-photo]="category.cover && !category.coverFailed"
+                >
+                  <ion-icon [name]="category.icon"></ion-icon>
+                </span>
+                <span class="item-badge">{{ category.itemCount }} items</span>
+              </div>
+              <div class="card-footer">
+                <h4>{{ category.name }}</h4>
+                <span class="sample" *ngIf="category.sample">{{ category.sample }}</span>
+                <span class="explore-link">Explore <span class="arrow">→</span></span>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ng-container>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="empty-icon-box">
+          <ion-icon name="search-outline"></ion-icon>
+        </div>
+        <h4>No categories found</h4>
+        <p>Try searching for snacks, drinks, or hot meals.</p>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>
+
+<!-- Bottom navigation renders globally via app.component (pages/curved-bottom-nav) -->

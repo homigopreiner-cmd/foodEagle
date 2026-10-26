@@ -1,0 +1,1566 @@
+======================================================================
+ERD.pdf
+======================================================================
+--- page 1 ---
+ENTITY – RELATIONSHIP 
+MODEL
+--- page 2 ---
+ It is a person, place, object, event or concept in the 
+user environment about which the organization 
+wishes to maintain data.
+ Examples:
+ Person – EMPLOYEE, STUDENT, PATIENT
+ Place – STORE, WAREHOUSE, STATE
+ Object – MACHINE, BUILDING, AUTOMOBILE
+ Event – SALE, REGISTRATION, RENEWAL
+ Concept – ACCOUNT, COURSE, WORK CENTER
+Entities
+--- page 3 ---
+Entities
+ Entity Type 
+ It is a collection of entities that share common 
+properties or characteristics. Each entity type in an E-R 
+model is given a name which is placed inside a box 
+representing the entity type.
+ Entity Instance
+ Is a singular occurrence of an entity type.
+◼ Example: There is one EMPLOYEE entity type in most 
+organizations, but there may be hundreds (or even thousands ) 
+of instances of this entity type stored in the database.
+--- page 4 ---
+Employee type with two instances
+Entity type: EMPLOYEE
+Attributes:
+Employee Number
+Name
+Address
+Two Instances of EMPLOYEE
+12345 56789
+Maria Jesus Jose Cruz
+Tuguegarao City Santiago City
+--- page 5 ---
+ Strong Entity Type
+ An entity type that exists independently of other entity 
+types.
+ Always have a unique characteristic called an identifier. 
+ Examples include: STUDENT, EMPLOYEE, CLIENT, 
+PATIENT, COURSE
+ Weak Entity Type
+ An entity type whose existence depends on some other 
+entity type.
+ It has no business meaning in the E-R diagram without 
+the entity on which it depends.
+--- page 6 ---
+ It does not have its own identifier.
+ The entity type on which the weak entity  depends in 
+called “identifying owner”
+ The relationship between a weak entity and its 
+identifying owner is called “identifying relationship”.
+ Example:
+EMPLOYEE Has DEPENDENT
+Identifying Owner
+Identifying Relationship
+Weak Entity Type
+--- page 7 ---
+Naming and Defining Entity Types
+ An entity type name is a singular noun.
+ An entity type name should be specific to the 
+organization.
+ The name should be descriptive for the organization and distinct 
+from all other entity type names within an organization.
+ An entity type name should be concise, using as 
+few words as possible.
+ The name use for the same entity type should be 
+the same on all E-R diagrams on which the entity 
+type appears.
+--- page 8 ---
+ A property or characteristic of an entity type that 
+is of interest to the organization.
+ Examples of entity types and its attributes:
+ STUDENT : Student_ID, Lastname, Firstname, Address
+ AUTOMOBILE : Vehicle_ID, Color, Weight
+ EMPLOYEE : Employee_ID, Lastname, Firstname, 
+    Address, Skills
+* In naming attributes, we use an initial capital letter followed by 
+lowercase letters. If it consists of two words, use an underscore 
+character the words and start each word with a capital letter.
+Attributes
+--- page 9 ---
+Attributes
+ Simple Attribute
+ Is an attribute that cannot be broken down into smaller 
+components.
+◼ All of the attributes associated with AUTOMOBILE are simple: 
+Vehicle_ID, Color, Weight.
+ Composite Attribute
+ Is an attribute that can be broken down into component 
+parts such as Address.
+ Symbol:
+Address
+Color
+--- page 10 ---
+ Single_Valued Attribute
+ An attribute that has only one value.
+ Multivalued Attribute
+ An attribute that may take on more than one value for 
+a given entity instance.
+ Derived Attribute
+ An attribute whose values can be calculated from 
+related attribute values (plus possibly data not in the 
+database, such as today’s date, current_time or a 
+security code provided by the system user.)
+Employee_ID
+Skill
+Years_ 
+Employed
+--- page 11 ---
+EMPLOYEE
+Emp_ID
+Date_
+Employed
+Skill
+Years_ 
+Employed
+Example of Derived Attribute
+* Suppose that for an organization, the EMPLOYEE entity type has a 
+Date_Employed attribute. If users need to know how many years a person has 
+been employed, that value can be calculated using Date_Employed and the 
+current date.
+--- page 12 ---
+ Identifier attribute
+ It is an attribute that uniquely identifies individual 
+instances of an entity type.
+◼ STUDENT : Student_ID
+◼ EMPLOYEE : Employee_ID
+Student_ID
+--- page 13 ---
+Relationships
+ It is an association among the instances of one or 
+more entity types that is of interest to the 
+organization.
+◼ Are the glue that holds together the various components of an 
+E-R model.
+ Relationship Type 
+ Is a meaningful association between (or among) entity 
+types. 
+ It is denoted by a diamond symbol containing the name 
+of the relationship.
+--- page 14 ---
+Example
+ In naming relationship, use a descriptive verb 
+phrase that is meaningful to the user.
+EMPLOYEE Completes COURSE
+--- page 15 ---
+Degree of Relationship
+ The degree of relationship is the number of entity 
+types that participate in that relationship.
+ The three (3) most common relationship degrees in 
+E-R model are:
+ Unary relationships (Degree 1)
+ Binary relationships (Degree 2)
+ Ternary relationships (Degree 3)
+--- page 16 ---
+Unary Relationships
+ It is a relationship between the instances of a 
+single entity type.
+ It is also called as “recursive relationship”.
+ 
+PERSON
+Is_
+married_
+to
+EMPLOYEE Manages
+One-to-one One-to-many
+--- page 17 ---
+Binary Relationships
+ Is a relationship between the instances of two 
+entity types and is the most common type of 
+relationship encountered in data modeling.
+EMPLOYEE Is_assigned PARKING PLACE
+PRODUCT 
+LINE Contains PRODUCT
+STUDENT Registers_for COURSE
+--- page 18 ---
+Ternary Relationships
+ It is a simultaneous relationship among the 
+instances of three(3) entity types. 
+VENDOR Supplies WAREHOUSE
+PART
+The vendors can supply various parts to warehouses.
+--- page 19 ---
+Stocks
+Cardinality Constraints
+ Specifies the number of instances of one entity 
+that can(or must) be associated with each instance 
+of another entity.
+ Basic relationship
+ Relationship with cardinality constraints
+MOVIE Stocks VIDEOTAPE
+MOVIE VIDEOTAPE
+--- page 20 ---
+ Minimum Cardinality
+ It is the minimum number of instances of entity B that 
+may be associated with each instance of entity A.
+◼ In the example, the minimum number of videotapes for a 
+movie is 0. If it is 0, entity type B is an optional participant in 
+the relationship.
+ Maximum Cardinality
+ It is the maximum number of instances of entity B that 
+may be associated with each instance of entity A.
+◼ In the example, the maximum cardinality for the VIDEOTAPE 
+entity is many.(unspecified number greater than one.)
+--- page 21 ---
+Examples
+ Mandatory Cardinalities
+PATIENT has PATIENT HISTORY. Each patient has one 
+or more patient histories. Each PATIENT HISTORY 
+belongs to exactly one PATIENT.
+PATIENT Has PATIENT HISTORY
+--- page 22 ---
+ One optional, one mandatory cardinality
+EMPLOYEE is_assigned_to PROJECT. Each PROJECT 
+has at least one EMPLOYEE assigned to it. Each 
+EMPLOYEE may or may not be assigned to any 
+existing PROJECT or may be assigned to one or 
+more PROJECTs. 
+EMPLOYEE Is_Assigned_to PROJECT
+--- page 23 ---
+ Optional Cardinalities
+PERSON Is_married_to PERSON. This is an optional 
+zero or one cardinality in both directions since a 
+person may or not be married.
+PERSON
+Is_
+married_
+to
+--- page 24 ---
+Example: Problem 1
+ The company sells a number of different furniture 
+products. These products are group into several product 
+lines. The identifier for a PRODUCT is Product_ID, while 
+the identifier for a PRODUCT LINE is Product_Line_Id. The 
+following are the additional attributes for PRODUCT: 
+Product_Description, Product_Finish, and Standard_Price. 
+Another attribute for a PRODUCT LINE is 
+Product_Line_Name. A PRODUCT LINE may group any 
+number of PRODUCTs but must group at least one 
+PRODUCT. Each PRODUCT must belong to exactly one 
+PRODUCT LINE.
+--- page 25 ---
+E-R Diagram:
+PRODUCT LINE
+PRODUCT
+iIncludes
+Product_Line_
+Id
+Product_Line_
+Name
+Product_
+Description
+Product_
+Id
+Product_
+Finish
+Standard_
+Price
+--- page 26 ---
+Example: Problem 2
+ CUSTOMERs submit ORDERs for products. The 
+identifier for an ORDER is Order_Id and another 
+attribute is Order_Date. A CUSTOMER may submit 
+any number of ORDERs. Each ORDER is submitted 
+by exactly one CUSTOMER. The identifier for 
+CUSTOMER is Customer_Id. Other attributes 
+include Customer_Name and Address which 
+includes Street, City and Postal_Code.
+--- page 27 ---
+Example: Problem 3
+ A professor teaches zero, one or many classes and 
+a class is taught by only one professor.
+======================================================================
+Week-13-SE-Contents-Unit-5.1-Data-Diagrams-and-Charts.pdf
+======================================================================
+--- page 1 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+99 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+Software Analysis 
+and Design Tools 5 UNIT 
+ 
+ 
+ 
+Introduction 
+ 
+Software analysis and design includes all activities, which help the 
+transformation of requirement specification into implementation. 
+Requirement specifications specify all functional and non -functional 
+expectations from the software. These requirement specifications come in the 
+shape of human readable and understandable documents, to which a 
+computer has nothing to do.  
+ 
+Software analysis and design is the intermediate stage, which helps 
+human-readable requirements to be transformed into actual code.  
+ 
+In this unit, l et us see few analysis and design tools used by software 
+designers. 
+ 
+ 
+ Unit Learning Outcomes 
+ 
+   At the end of the unit, you will be able to: 
+ 
+a. create diagrams and charts that would serve as solutions for 
+business transactions; 
+b. write and explain a program source code; 
+c. design tables and relationship models for existing processes; 
+and  
+d. describe and define data elements in the project.  
+ 
+ 
+Topic  
+1 
+Data Diagrams and Charts 
+Time Allotment: 5 hours
+--- page 2 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+100 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ Learning Objectives 
+ 
+   At the end of the session, you will be able to: 
+ 
+a. prepare data flow diagrams; 
+b. present transactions using charts; and 
+c. write programs in structured and pseudo-coding. 
+ 
+ 
+ Activate Prior Learning 5.1 
+ 
+1. When do you use the following illustrations? What particular data 
+would you present?  
+ 
+a. Diagrams      
+_____________________    
+_____________________ 
+_____________________ 
+_____________________ 
+_____________________ 
+ 
+b. Charts 
+_____________________ 
+_____________________ 
+_____________________ 
+_____________________ 
+_____________________
+--- page 3 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+101 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+Presentation of Content 
+ 
+Data Flow Diagram  
+ 
+The following discussions are based from Tutorials Point (I) Pvt. Ltd.  
+(2014). Data Flow Diagram (DFD) is a graphical representation of flow of data 
+in an information system. It is capable of depicting incoming data flow, 
+outgoing data flow, and stored data. The DFD does not mention anything 
+about how data flows through the system.  
+ 
+There is a prominent difference between DFD and Flowchart. The 
+flowchart depicts flow of control in program modules. DFDs depict flow of 
+data in the system at various levels. It does not contain any control or branch 
+elements.  
+ 
+Types of DFD  
+ 
+Data Flow Diagrams are either Logical or Physical.  
+ 
+• Logical DFD - This type of DFD concentrates on the system process, and 
+flow of data in the system. For example, in a banking software system, 
+how data is moved between different entities.  
+• Physical DFD - This type of DFD shows how the data flow is actually 
+implemented in the system. It is more specific and closer to the 
+implementation.  
+ 
+DFD Components  
+ 
+DFD can represent source, destination, storage, and flow of data using 
+the following set of components 
+ 
+ 
+The DFD Components 
+ 
+ 
+• Entities - Entities are sources and destinations of information data. 
+Entities are represented by rectangles with their respective names.
+--- page 4 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+102 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+• Process - Activities and action taken on the data are represented  by 
+Circle or Round-edged rectangles.  
+• Data Storage - There are two variants of data storage - it can either be 
+represented as a rectangle with absence of both smaller sides or as an 
+open-sided rectangle with only one side missing.  
+• Data Flow - Movement of  data is shown by pointed arrows. Data 
+movement is shown from the base of arrow as its source towards head 
+of the arrow as destination.  
+ 
+Levels of DFD 
+ 
+• Level 0 - Highest abstraction level DFD is known as Level 0 DFD, which 
+depicts the entire information system as one diagram concealing all 
+the underlying details. Level 0 DFDs are also known as context level 
+DFDs. 
+ 
+ 
+An example of Level 1 DFD 
+ 
+• Level 1 - The Level 0 DFD is broken down into more specific, Level 1 
+DFD. Level 1 DFD depicts basic modules in the system and flow of data 
+among various modules. Level 1 DFD also mentions basic processes 
+and sources of information.
+--- page 5 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+103 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+An example of Level 2 DFD 
+ 
+ 
+• Level 2 - At this level, DFD shows how data flows inside the modules 
+mentioned in Level 1.  
+ 
+Higher level DFDs can be transformed into more specific lower level 
+DFDs with deeper level of understanding unless the desired level of 
+specification is achieved.  
+ 
+Structure Charts  
+ 
+The following discussions are based from Tutorials Point (I) Pvt. Ltd.  
+(2014). Structure chart is a chart derived from Data Flow Diagram. It represents 
+the system in more detail than DFD. It breaks down the entire system into 
+lowest functional modules, describes functions and sub -functions of each 
+module of the system to a greater detail than DFD.  
+ 
+Structure chart represents hierarchical structure of modules. At each 
+layer a specific task is performed.  
+ 
+Here are the symbols used in construction of structure charts  
+ 
+• Module - It represents process or subroutine or task. A control mod ule 
+branches to more than one sub-module. Library Modules are re-usable 
+and invokable from any module.
+--- page 6 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+104 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+A sample Module 
+ 
+• Condition - It is represented by small diamond at base of the module. 
+It depicts that control module can select any of sub-routine based on 
+some condition.  
+ 
+ 
+A sample Condition 
+ 
+• Jump - An arrow is shown pointing inside the module to depict that the 
+control will jump in the middle of the sub-module.  
+ 
+ 
+A sample Jump
+--- page 7 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+105 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+• Loop - A curved arrow represents loop in the module. All sub-modules 
+covered by loop repeat execution of module.  
+ 
+ 
+A sample Loop 
+ 
+• Data flow - A directed arrow with empty circle at the end represents 
+data flow.  
+ 
+ 
+A sample Data Flow 
+ 
+• Control flow - A directed arrow with filled circle at the end represents 
+control flow.  
+ 
+A sample Control Flow
+--- page 8 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+106 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+HIPO Diagram  
+ 
+The following discussions are based from Tutorials Point (I) Pvt. Ltd.  
+(2014). Hierarchical Input Process Output (HIPO) diagram is a combination of 
+two organized methods to analyze the system and provide the means of 
+documentation. HIPO model was developed by IBM in year 1970.  
+ 
+HIPO diagram represents the hierarchy of modules in the  software 
+system. Analyst uses HIPO diagram in order to obtain high-level view of system 
+functions. It  decomposes functions into sub -functions in a hierarchical 
+manner. It depicts the functions performed by system.  
+ 
+HIPO diagrams are good for documentatio n purpose. Their graphical 
+representation makes it easier for designers and managers to get the pictorial 
+idea of the system structure. 
+ 
+A sample HIPO Diagram 
+ 
+In contrast to Input Process Output (IPO) diagram, which depicts the 
+flow of control and data in a module, HIPO does not provide any information 
+about data flow or control flow. 
+ 
+ 
+A sample IPO Diagram
+--- page 9 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+107 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+Both parts of HIPO diagram, Hierarchical presentation, and IPO Chart 
+are used for structure designing of software program as well as 
+documentation of the same. 
+ 
+Structured English  
+ 
+The following discussions are based from Tutorials Point (I) Pvt. Ltd.  
+(2014). Most programmers are unaware of the large picture of software so 
+they only rely on what their managers tell them to do. It is the responsibility of 
+higher software management to provide accurate information to the 
+programmers to develop accurate yet fast code.  
+ 
+Different methods, which use graphs or diagrams, at times might be 
+interpreted in a different way by different people.  
+ 
+Hence, analysts and designers of the software come up with tools such 
+as Structured English. It is nothing but the description o f what is required to 
+code and how to code it. Structured English helps the programmer to write 
+error-free code. Here, both Structured English and Pseudo -Code tries to 
+mitigate that understanding gap.  
+ 
+Structured English uses plain English words in struct ured programming 
+paradigm. It is not the ultimate code but a kind of description what is required 
+to code and how to code it. The following are some tokens of structured 
+programming: 
+ 
+ 
+Sample structured tokens 
+ 
+Analyst uses the same variable and data name , which are stored in 
+Data Dictionary, making it much simpler to write and understand the code.  
+ 
+Example  
+ 
+We take the same example of Customer Authentication in the online 
+shopping environment. This procedure to authenticate customer can be 
+written in Structured English as: 
+ one
+--- page 10 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+108 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+Sample Structured English token 
+ 
+The code written in Structured English is more like day-to-day spoken 
+English. It cannot be implemented directly as a code of software. Structured 
+English is independent of programming language.  
+ 
+Pseudo-Code  
+ 
+The following discussions are based from Tutorials Point (I) Pvt. Ltd.  
+(2014). Pseudo code is written closer to programming language. It may be 
+considered as augmented programming language, full of comments, and 
+descriptions.  
+ 
+Pseudo code avoids variable declaration but they are written using 
+some actual programming language’s constructs, like C, Fortran, Pascal, etc.  
+Pseudo code contains more programming details than Structured English. It 
+provides a method to perform the task, as if a computer is executing the 
+code. 
+ 
+Example  
+ 
+Program to print Fibonacci up to n numbers.
+--- page 11 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+109 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+Sample pseudo code 
+ 
+ 
+ Additional Reading 
+ 
+URL:   
+t.ly/AXfO 
+t.ly/k8Ax 
+t.ly/U3fW 
+t.ly/LWVY 
+t.ly/zae2
+--- page 12 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+110 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+Application 5.1 
+ 
+Using one of the diagrams or charts, present the latest software 
+program/project you developed.
+--- page 13 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+111 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ References 
+ 
+Business Information Management (2018). HIPO (hierarchy plus input-
+process-output). Retrieved from t.ly/U3fW. 
+ 
+GeeksforGeeks (2019). Software engineering | structure charts. Retrieved 
+from t.ly/k8Ax. 
+ 
+Guru99 (2018). Decision table testing: learn with example . Retrieved from 
+t.ly/JD3U. 
+ 
+Lucid Chart (2018). What is a data flow Diagram? Retrieved from t.ly/AXfO. 
+ 
+Lucidchart (2018). What is an entity relationship diagram (ERD)? Retrieved 
+from t.ly/mK9Q. 
+ 
+Study.com (2018). Writing pseudocode: algorithms & examples. Retrieved 
+from t.ly/zae2. 
+ 
+Technopedia (2018). Structured English. Retrieved from t.ly/LWVY. 
+ 
+Tutorialspoint (2018). What is data dictionary. Retrieved from t.ly/6LyX. 
+ 
+Tutorials Point (I) Pvt. Ltd. (2014). Software engineering tutorial. Retrieved 
+from t.ly/2Gor. 
+ 
+W3computing (2018). A decision table example. Retrieved from t.ly/RZWa.
+======================================================================
+Week-14-SE-Contents-Unit-5.2-Design-Tables-and-Models.pdf
+======================================================================
+--- page 1 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+112 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+Software Analysis 
+and Design Tools 5 UNIT 
+ 
+Topic  
+2 
+Design Tables and Models 
+Time Allotment: 5 hours 
+ 
+ 
+ Learning Objectives 
+ 
+   At the end of the session, you will be able to: 
+ 
+a. create decision tables;  
+b. draw and provide relationship to entities; and 
+c. describe and define data elements; and 
+ 
+ 
+ Activate Prior Learning 5.2 
+ 
+What comes to your mind when you hear the following words? Write your 
+ideas on the shapes provided.
+--- page 2 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+113 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+Presentation of Content 
+ 
+Decision Tables  
+ 
+The following discussions are based from Tutorials Point (I) Pvt. Ltd.  
+(2014). A decision table represents conditions and the respective actions to 
+be taken to address them, in a structured tabular format. It is a powerful tool 
+to debug and prevent errors. It helps group similar information into a single 
+table and then by combining tables it delivers easy and convenient decision-
+making.  
+ 
+Creating Decision Table  
+ 
+To create the decision table, the developer must follow basic four 
+steps:  
+• Identify all possible conditions to be addressed  
+• Determine actions for all identified conditions  
+• Create Maximum possible rules  
+• Define action for each rule  
+ 
+ 
+Decision Tables should be verified by end -users and can lately be 
+simplified by eliminating duplicate rules and actions.  
+ 
+Example  
+ 
+Let us take a simple example of day -to-day problem with our Internet 
+connectivity. We begin by identifying all problems that can arise while starting 
+the internet and their respective possible solutions.  
+ 
+We list all possible problems under column conditi ons and the 
+prospective actions under column Actions.
+--- page 3 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+114 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+Sample Decision Table 
+ 
+Entity-Relationship Model  
+ 
+The following discussions are based from Tutorials Point (I) Pvt. Ltd.  
+(2014). Entity-Relationship model is a type of database model based on the 
+notion of real-world entities and relationship among them. We can map real 
+world scenario onto ER database model. ER Model creates a set of entities 
+with their attributes, a set of constraints and relation among them. 
+ 
+ER Model is best used for the conceptual design of database. ER Model 
+can be represented as follows: 
+ 
+ 
+Sample ER Model
+--- page 4 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+115 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+• Entity - An entity in ER Model is a real world being, which has some 
+properties called attributes. Every attribute is defined by its 
+corresponding set of values, called domain.  
+For example, Consider a school database. Here, a student is an entity. 
+Student has various attributes like name, id, age and class etc.  
+• Relationship - The logical association among entities is called 
+relationship. Relationships are mapped with entities in  various ways. 
+Mapping cardinalities define the number of associations between two 
+entities.  
+ 
+Mapping cardinalities:  
+• one to one  
+• one to many  
+• many to one  
+• many to many  
+ 
+Data Dictionary  
+ 
+The following discussions are based from Tutorials Point (I) Pvt. Ltd.  
+(2014). Data dictionary is the centralized collection of information about data. 
+It stores meaning and origin of data, its relationship with other data, data 
+format for usage, etc. Data dictionary has rigorous definitions of all names in 
+order to facilitate user and software designers.  
+ 
+Data dictionary is often referenced as meta -data (data about data) 
+repository. It is created along with DFD (Data Flow Diagram) model of 
+software program and is expected to be updated whenever DFD is changed 
+or updated.  
+ 
+Requirement of Data Dictionary  
+ 
+The data is referenced via data dictionary while designing and 
+implementing software. Data dictionary removes any chances of ambiguity. 
+It helps keeping work of programmers and designers synchronized while using 
+same object reference everywhere in the program.  
+Data dictionary provides a way of documentation for the complete 
+database system in one place. Validation of DFD is carried out using data 
+dictionary.  
+ 
+Contents 
+  
+Data dictionary should contain information about the following:  
+• Data Flow  
+• Data Structure
+--- page 5 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+116 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+• Data Elements  
+• Data Stores  
+• Data Processing  
+Data Flow is described by means of DFDs as studied earlier and 
+represented in algebraic form as described. 
+ 
+ 
+Sample Symbol Description 
+ 
+Example  
+ 
+Address = House No + (Street / Area) + City + State  
+ 
+Course ID = Course Number + Course Name + Course Level + Course Grades  
+ 
+Data Elements  
+ 
+Data elements consist of name and descriptions of data and control 
+items, internal or external data stores etc. with the following details:  
+• Primary Name  
+• Secondary Name (Alias)  
+• Use-case (How and where to use)  
+• Content Description (Notation etc.)  
+• Supplementary Information (preset values, constraints etc.)  
+ 
+Data Store  
+ 
+It stores the information from where the data enters into the system and 
+exists out of the system. The Data Store may include -  
+• Files  
+o Internal to software.  
+o External to software but on the same machine.  
+o External to software and system, located on different 
+machine.  
+• Tables
+--- page 6 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+117 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+o Naming convention  
+o Indexing property  
+ 
+Data Processing  
+ 
+There are two types of Data Processing:  
+• Logical: As user sees it  
+• Physical: As software sees it  
+  
+ 
+ Additional Reading 
+ 
+URL:    
+t.ly/JD3U 
+t.ly/RZWa 
+t.ly/mK9Q 
+t.ly/6LyX
+--- page 7 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+118 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+Application 5.2 
+ 
+You observed that in schools, offices and other establishments provide a 
+flowchart of their services/transactions. What do you think is the reason for 
+this? Does it help you as a clients or customers to get or do your purpose?
+--- page 8 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+119 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ 
+Reflection 5 
+ 
+ 
+What information can be best presented using: 
+ 
+A. Text 
+ 
+ 
+ 
+ 
+ 
+B. Diagrams 
+ 
+ 
+ 
+ 
+ 
+C. Charts 
+ 
+ 
+ 
+ 
+D. Tables
+--- page 9 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+120 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ Summary Unit 
+ 
+Software analysis and design includes all activities, which help the 
+transformation of requirement specification into implementation. There are 
+different ways to present data, information, possesses and the like. This 
+includes; data flow diagram is a graphical representation of flow of data in 
+an information system , either logical or physical. Another is the HIPO 
+(Hierarchical Input Process Output) diagram, a combination of two organized 
+method to analyze the system and provide the means of documentation.  It 
+was developed by IBM in year 1970. In contrast to IPO (Input Process Output) 
+diagram, which depicts the flow of control and data in a module, HIPO does 
+not provide any information about data flow or control flow. 
+ 
+Other form of presentation methods, which use graphs or diagrams, 
+are sometimes interpreted differently by different people. Here, both 
+structured English and pseudo-code tries to mitigate that understanding gap. 
+Also, a decision table represents conditions and the respective actions to be 
+taken to address them, in a structured tabular format.  On the other hand, 
+Entity-Relationship model is a type of database model based on the notion of 
+real-world entities and relationship among them. We can map real world 
+scenario onto ER database model. ER Model is best used for the conceptual 
+design of database. 
+  
+ Lastly, data dictionary is the centralized collection of information about 
+data. It stores meaning and origin of data, its relationship with other data, 
+data format for usage etc. There are two types of data processing; logical or 
+physical.
+--- page 10 ---
+Unit 5: Software Analysis and Design Tools 
+ 
+121 
+Module in Software Engineering 1. For validation and evaluation purposes. 
+Dexter P. Dumayag, CICS Faculty Member. First Semester, SY 2020-2021 
+ References 
+ 
+Business Information Management (2018). HIPO (hierarchy plus input-
+process-output). Retrieved from t.ly/U3fW. 
+ 
+GeeksforGeeks (2019). Software engineering | structure charts. Retrieved 
+from t.ly/k8Ax. 
+ 
+Guru99 (2018). Decision table testing: learn with example . Retrieved from 
+t.ly/JD3U. 
+ 
+Lucid Chart (2018). What is a data flow Diagram? Retrieved from t.ly/AXfO. 
+ 
+Lucidchart (2018). What is an entity relationship diagram (ERD)? Retrieved 
+from t.ly/mK9Q. 
+ 
+Study.com (2018). Writing pseudocode: algorithms & examples. Retrieved 
+from t.ly/zae2. 
+ 
+Technopedia (2018). Structured English. Retrieved from t.ly/LWVY. 
+ 
+Tutorialspoint (2018). What is data dictionary. Retrieved from t.ly/6LyX. 
+ 
+Tutorials Point (I) Pvt. Ltd. (2014). Software engineering tutorial. Retrieved 
+from t.ly/2Gor. 
+ 
+W3computing (2018). A decision table example. Retrieved from t.ly/RZWa.
+======================================================================
+SE-Module-6s-Software-Design-Strategies-and-Interface-Design.pdf
+======================================================================
+--- page 1 ---
+1 
+ 
+Unit VII 
+Software Design Strategies and Interface Design 
+ 
+INTRODUCTION 
+ 
+Software design transforms requirements into code. Software design challenges 
+user requirements and seeks optimal  solutions. The optimum design for 
+implementing the solution is planned when the software is conceptualized. 
+ 
+User interface design helps complete tasks without bringing attention to itself. 
+Graphic design and typography promote its usability, affecting ho w users interact 
+and boosting the design's visual appeal. Design aesthetics may improve or hinder 
+users' ability to use the interface's functionality. 
+ 
+In this unit, a s a future software developer, you will be learning and apply 
+appropriate  interface desi gn to your project that facilitate smooth transaction 
+between your product and its user. 
+Lesson 13 
+Software Design Strategies 
+ 
+When it comes to the process of creating and developing software, software 
+engineers adhere to a set of standards and principles that are referred to as 
+software design strategies. These methods are utilized to guarantee that software 
+is developed in a method that is well -organized, productive, and successful, and 
+that it satisfies the requirements of the end-users. 
+ 
+In this unit, you will be learning the different design strategies that as future software 
+developer must observe.   
+ 
+Software Design Strategies 
+ 
+Software design strategies are a collection of best practices, fundamental ideas, 
+and guiding principles that are utilized by software engineers in the process of 
+developing high-quality software systems. There are many different approaches to 
+the design of software, such as: 
+ 
+ Object-oriented design is a way of making software that focuses on using 
+objects to represent real-world things and how they work together. Here's an 
+example of a design based on objects: 
+ 
+ Imagine that you are making a program for a library. In object -oriented 
+design, you would make objects to reflect things like books, library patrons, 
+and library staff. Each object would have attributes (data) and methods
+--- page 2 ---
+2 
+ 
+(functions) that reflect the real -world entity it stands for in terms of its 
+properties and actions. 
+ 
+ The Book object , for example, would have properties like title, author, and 
+ISBN, as well as methods like borrow() and return(). The Patron object would 
+have properties and functions like name, ID, requestBook(), and 
+returnBook(). The LibraryStaff object would have things like name and ID as 
+properties and checkInBook() and checkOutBook() as methods. 
+ 
+These items would talk to each other to show how things work in a real library, like 
+checking out and returning books. For instance, when a Patron checks out a book, 
+the borrow() method of the Book object is called, and the book's availability state is 
+changed. The due date of the book would also be added to the Patron object. 
+ 
+Object-oriented design helps make software that is modular, adjustable, and can 
+be used over and over again. By dividing software into objects, we can make code 
+that is easier to manage and add to over time. 
+ 
+ Service-Oriented Architecture (SOA) creates a network of distributed 
+services that connect to provide end -user functionality. Service -Oriented 
+Architecture: 
+ 
+ Let's you will develop an e -commerce web app. Services for the shopping 
+cart, order processing, and payment processing would be created in a 
+Service-Oriented Architecture. 
+ 
+Each service would have a well-defined interface for interacting with other services. 
+The shopping cart service may expose addItem() and removeItem(), whereas the 
+payment processing service may expose authorizePayment() and 
+capturePayment(). 
+ 
+These services would communicate with each other using standardized protocols 
+such as SOAP or REST. For example, when a user adds an item to their shopping 
+cart, the shopping cart service would send a message to the order processing 
+service to create a new order, and then the payment processing service would be 
+called to authorize the payment. 
+ 
+Service-Oriented Architecture creates flexible, scalable software. We can readily 
+adjust systems to changing business needs and handle high traffic by separating 
+the software into smaller, independently deployable services. 
+ 
+ The Model -View-Controller (MVC) software design pattern divides an 
+application into three interconnected parts: the model, view, and controller. 
+Model-View-Controller example:
+--- page 3 ---
+3 
+ 
+ Let's say you are designing a web application that displays a list of products 
+and allows users to add products to their cart. In the MVC pattern, you would 
+create a model that represents the data (the products and the cart), a view 
+that displays the data to the user, and a controller that handles user input 
+and updates the model and view accordingly. 
+ 
+The model would include product data, cart data, and cart add/remove methods. 
+The user would see the cart and product list. The controller would change the model 
+and view based on user input like adding a product to the cart. 
+ 
+When a user clicks "Add to Cart"  for a product, the controller calls the model's 
+addProduct() method to update the cart data and then updates the view. 
+ 
+MVC helps build modular, manageable, and scalable software. By dividing the 
+program into three components, we may alter one without aff ecting the others and 
+reuse components in other projects. 
+ 
+ Agile software development stresses flexibility, cooperation, and quick 
+iteration. Agile design: 
+ 
+ Let's say you are designing a mobile app that allows users to track their 
+fitness goals. In an Agile design approach, you would work in short iterations, 
+called sprints, and prioritize features based on their value to the user. 
+ 
+You work on a few things per sprint and collaborate with the development team and 
+product owner to address user needs. We also reviewed and adjusted our progress 
+often. 
+ 
+In the first sprint, you might create a fitness goal -setting and progress -tracking 
+interface. We may include a social component in the second sprint. 
+ 
+Agile design creates user -responsive software. Working in short iterations and 
+focusing user value helps us find and fix issues and deliver product that fulfills user 
+demands rapidly. 
+ 
+Software Design Approaches  
+ 
+Software design techniques are the different ways that developers can make 
+software systems that work well. Here are some different ways to create software: 
+ 
+ Top-Down Design: Top-down design is a way of making software that starts 
+with a big picture view of the system and then breaks it down into smaller, 
+more doable parts. This method is often used in structured programming, 
+and it can help make sure that the software system is well -organized and 
+easy to manage (Dijkstra, 1968).
+--- page 4 ---
+4 
+ 
+ Bottom-Up Design: Bottom-up design is a way of making software that starts 
+with the parts of the system and then puts them to gether to make a whole 
+system. This method is often used in object -oriented programming, and it 
+can help make sure that the software system is simple and flexible (Johnson 
+& Foote, 1988). 
+ 
+ Component-based design is a way of making software that focuses on 
+making flexible, reusable parts that can be put together to make a bigger 
+software system. This method is often used in software engineering, and it 
+can help make sure that the software system is scalable and flexible 
+(Szyperski, 1999). 
+ 
+ Domain-Driven Design: Domain-driven design is a way of making software 
+that focuses on getting both the software writers and the domain experts to 
+agree on how the domain works and what it needs. This method is often 
+used when making enterprise software, and it can help make sure the system 
+meets the wants of the end users (Evans, 2003). 
+ 
+In conclusion, software design methods are very important for making good 
+software systems. Some of the most popular ways to design software are top-down 
+design, bottom-up design, component-based design, and domain-driven design. By 
+using these methods, software writers can make software that is well -organized, 
+modular, reusable, and meets the needs of end users. 
+ 
+ 
+ 
+ 
+Additional Reading 
+ 
+Structured analysis and design technique (URL: t.ly/rdhn) 
+ 
+Function-oriented 15 Design (URL: t.ly/C1He) 
+ 
+Object Oriented Software Design (URL: t.ly/niUp) 
+ 
+CS302: Software Engineering (URL: t.ly/JAWa)
+--- page 5 ---
+5 
+ 
+Lesson 14 
+Software User Interface Design 
+ 
+The user interface ( UI) design creates a visually appealing, user -friendly, and 
+intuitive interface to help consumers use the software system. UI design simplifies 
+software use, understanding, and navigation. It entails designing software that 
+meets user wants and preferences and is easy to use.  
+ 
+In this lesson, you will be learning considerations when design the interface of your 
+project such as l ayout, typography, colors, images, and animations make an 
+interesting and efficient user interface in UI design. 
+ 
+Graphical User Interface (GUI) elements  
+ 
+GUI elements are the visual components that make up a graphical user interface, 
+such as buttons, text fields, menus, and icons. These elements are essential for 
+creating a user -friendly and intuitive interface for users to interact wi th software 
+applications. 
+ 
+There are numerous GUI elements, and some of the common ones include: 
+ 
+Buttons: Buttons are the most 
+common GUI element, and they are 
+used to trigger actions or navigate 
+through an application. They can be 
+customized with differ ent shapes, 
+sizes, colors, and text. 
+ 
+Text fields: Text fields allow users to 
+input text or numerical data into an 
+application. They can be single -line 
+or multi -line, and they can be 
+customized with different fonts, sizes, and colors. 
+ 
+Menus: Menus provid e a list of 
+options for users to select. They 
+can be in the form of drop -down 
+menus, pop -up menus, or 
+context menus. 
+ 
+Checkboxes and radio buttons: 
+Checkboxes and radio buttons 
+are used for selecting one or 
+more options from a list. 
+ 
+Sliders: Sliders allow  users to 
+adjust values by dragging a 
+handle along a horizontal or vertical bar.
+--- page 6 ---
+6 
+ 
+ 
+Progress bars: Progress bars are used to indicate the progress of a task or 
+operation. 
+ 
+Icons: Icons are graphical 
+representations of 
+functions or objects in an 
+application. They can be 
+used to represent files, 
+folders, applications, and 
+more. 
+ 
+Dialog boxes: Dialog 
+boxes are windows that 
+display messages, alerts, 
+or prompts to users. They can be used to gather input or to confirm actions. 
+ 
+User Interface Design 
+ 
+User Interface Design (UID) is the process of developing user interfaces for digital 
+systems such as websites, apps, and other software. It entails a number of activities 
+aimed at creating intuitive and user -friendly interfaces that meet user needs and 
+improve user experience (UX) (Dix et al., 2004). 
+ 
+Some of the primary actions involved in User Interface Design are as follows: 
+ 
+ 
+ User Research: Understanding user needs and requirements, as well as 
+their behavior when dealing with digital systems, is part of this  activity. 
+Surveys, interviews, observations, and other approaches can be used to do 
+this (Rubin and Chisnell, 2008). 
+ 
+ User Analysis is the process of evaluating user data in order to uncover 
+trends, preferences, and behaviors. This assists designers in de veloping 
+user personas that represent their target audience and serve as a guide for 
+the design process (Cooper, Reimann, and Cronin, n.d). 
+ 
+ Task analysis entails breaking down complex jobs into smaller, more 
+manageable ones. This assists designers in iden tifying the stages users 
+must take to complete a task and designing interfaces to support these steps 
+(Preece, Rogers, and Sharp, 2015). 
+ 
+ Information Architecture is the process of organizing information in a logical 
+and ordered manner. This allows users t o discover information quickly and 
+simply, as well as traverse the interface (Morville andRosenfeld, n.d.). 
+ 
+ Wireframing is the process of producing low-fidelity sketches of the interface 
+layout and design. This allows designers to visualize the interface structure
+--- page 7 ---
+7 
+ 
+and test several design concepts before committing to a final design (Tidwell, 
+2010). 
+ 
+ Prototyping is the process of producing interactive, high-fidelity models of an 
+interface design. This allows designers to test the interface with consumers 
+and identify any usability concerns before developing the final product 
+(Snyder, 2003). 
+ 
+ User Testing: This activity entails putting the interface through its paces with 
+real users in order to assess its usability and effectiveness. This can be 
+accomplished through a variety of approaches, including usability testing, 
+A/B testing, and user feedback (Sauro and Lewis, 2016). 
+ 
+Finally, user interface design entails a number of actions aimed at creating intuitive 
+and user-friendly interfaces. These actions assist designers in understanding user 
+needs and behavior, designing interfaces that aid in user tasks, and testing  the 
+interface with users to guarantee usability and effectiveness. 
+ 
+GUI Implementation Tools 
+ 
+GUIs can be made with a range of tools and technologies. Some of the tools that 
+are often used to make a GUI are: 
+ 
+ Qt: Qt is a framework for building application s that works on multiple 
+platforms and is often used for GUI programming. It gives you a number of 
+tools and libraries, such as a visual designer, a layout manager, and a set of 
+widgets, that you can use to make and build GUIs. Many software writers 
+and companies around the world use Qt because it is flexible and easy to 
+use (Qt, n.d.). 
+ 
+ JavaFX is a graphical user interface (GUI) toolkit for Java. It gives you a set 
+of tools and libraries for making rich, cross -platform GUI apps. JavaFX has 
+a visual designer, a set of layout tools, and a variety of controls and widgets 
+for making user interfaces. JavaFX is used a lot to make desktop and mobile 
+apps, and a big community of developers backs it up (Oracle, n.d.). 
+ 
+ .NET Framework: The.NET Framework is a popular platform for making 
+Windows apps, including GUI applications. It gives you a number of tools 
+and packages, such as Windows Forms, WPF, and UWP, for making user 
+interfaces. Windows Forms is a basic graphical user interface (GUI) toolkit 
+that is easy to use and comes with a set of controls and widgets already 
+made. WPF is a new GUI toolkit with advanced features like vector images 
+and support for multimedia. Microsoft (n.d.) says that UWP is a newer GUI 
+toolkit that is made for making apps that work on multiple devices. 
+ 
+ Electron is a framework for making cross -platform desktop apps using web 
+technologies like HTML, CSS, and JavaScript. It lets developers make 
+desktop apps using tools and methods from web development, and it gives 
+them a variety of tools and l ibraries for making user interfaces. Electron is
+--- page 8 ---
+8 
+ 
+used by a lot of well -known programs, like Visual Studio Code and Slack 
+(Electron, n.d.). 
+ 
+The following are some of the user interface golden rules: 
+ 
+1. Strive for consistency: Users should not have to wonder whether different 
+words, situations, or actions mean the same thing. A consistent interface is 
+easier to use and learn (Shneiderman, 1998). 
+ 
+2. Keep it simple: The interface should be simple and easy to use. The design 
+should not be more complex than necessary (Nielsen, 1993). 
+ 
+3. Provide clear and concise feedback: Users should be able to understand the 
+system’s state and what to expect next. Feedback should be provided in a 
+timely manner (Shneiderman, 1998). 
+ 
+4. Use appropriate language and terminology: The langua ge and terminology 
+used in the interface should be appropriate for the users’ level of 
+understanding. Use language and terminology that users are familiar with 
+(Nielsen, 1993). 
+ 
+5. Minimize user memory load: Users should not be required to remember 
+information from one part of the interface to another. The system should help 
+users keep track of their location and provide clear navigation options 
+(Shneiderman, 1998). 
+ 
+6. Make it easy to recover from errors: Users should be able to recover from 
+errors easily and with minimal loss of data. The interface should be designed 
+in such a way that it prevents errors from occurring in the first place (Nielsen, 
+1993). 
+ 
+7. Provide clear navigation: Users should be able to move easily and efficiently 
+through the interface. Navigation should be clear and intuitive (Shneiderman, 
+1998). 
+ 
+8. Make it visually appealing: The interface should be visually appealing and 
+aesthetically pleasing. The design should be consistent with the users’ 
+expectations and preferences (Nielsen, 1993). 
+ 
+ 
+Additional Reading 
+ 
+What is Command Line Interface (CLI)? (URL: t.ly/wRyr) 
+ 
+Graphical User Interface (URL: t.ly/4CI7) 
+ 
+User Interface Design Basics (URL: t.ly/uSGE)
+--- page 9 ---
+9 
+ 
+References: 
+ 
+A. Dix, J. Finlay, G. Abowd, and R. Beale (2004). Interaction between humans 
+and computers. Prentice Hall is a publisher. 
+ 
+Beck, K. Extreme programming: Adapt. Addison-Wesley Pro. 
+ 
+Booch, G., J. Rumbaugh, and I. Jacobson. The second edition of the uniform 
+modeling language user guide. Professional Addison-Wesley. 
+ 
+C. Snyder (2003). Paper Prototyping: A Quick and Easy Method for Designing 
+and Refining User Interfaces. Morgan Kaufmann is a publisher. 
+ 
+Cooper, A., Reimann, R., and Cronin, D. About Face 3: Interaction Design 
+Fundamentals. John Wiley & Sons, Inc. 
+ 
+Dijkstra, E. W. (1968). Go to statement considered harmful. Communications of 
+the ACM, 11(3), 147-148. 
+ 
+Electron. (n.d.). Build cross-platform desktop apps with JavaScript, HTML, and 
+CSS. Retrieved from https://www.electronjs.org/ 
+ 
+Erl, T. (2005). Service-oriented architecture: Integrating XML and web services. 
+Prentice-Hall PTR. 
+ 
+Erl, T. (2007). SOA design guidelines. Prentice-Hall PTR. 
+ 
+Evans, E. (2003). Domain-driven design: Tackling complexity in the heart of 
+software. Addison-Wesley.J. Preece, Y. Rogers, and H. Sharp (2015). 
+Beyond Human-Computer Interaction: Interaction Design. John Wiley & 
+Sons, Inc. 
+ 
+Fowler (2001). New approach. From 
+https://martinfowler.com/articles/newMethodology.html 
+ 
+Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1995). Design patterns: 
+Elements of reusable object-oriented software. Addison-Wesley 
+Professional. 
+ 
+Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1995). Design patterns are 
+parts of object-oriented software that can be reused. Professional Addison-
+Wesley. 
+ 
+J. Tidwell (2010). Patterns for Effective Interaction Design in Interface Design. The 
+company O'Reilly Media, Inc. 
+ 
+Johnson, R. E., & Foote, B. (1988). Designing reusable classes. Journal of 
+Object-Oriented Programming, 1(2), 22-35.
+--- page 10 ---
+10 
+ 
+Krasner, G. E., & Pope, S. T. (1988). A cookbook for using the model-view-
+controller user interface paradigm in Smalltalk-80. Journal of Object-
+Oriented Programming, 1(3), 26-49. 
+ 
+M.Cohn (2004). User stories: Agile software development. Addison-Wesley Pro. 
+ 
+Microsoft. (2021). Graphical user interface. Microsoft Developer Network. 
+https://docs.microsoft.com/en-us/windows/win32/learnwin32/graphical-
+user-interface 
+ 
+Microsoft. (n.d.). Windows Desktop Development. Retrieved from 
+https://docs.microsoft.com/en-us/windows/desktop/ 
+ 
+Morville, P., and L. Rosenfeld. Designing Large-Scale Web Sites using 
+Information Architecture for the World Wide Web. The company O'Reilly 
+Media, Inc. 
+ 
+Nielsen, J. (1993). Usability engineering. Academic press. 
+ 
+Oracle. (n.d.). JavaFX. Retrieved from 
+https://www.oracle.com/java/technologies/javafx-overview.html 
+ 
+Papazoglou, M.P. (2003). Service-oriented computing: Principles and directions. 
+Web Information Systems Engineering 4th International Conference 
+Proceedings, 3-12. 
+ 
+Qt. (n.d.). Qt for making applications. Oracle. (n.d.). Retrieved from 
+https://www.qt.io/. JavaFX. Retrieved from 
+http://www.oracle.com/java/technologies/javafx-overview.html 
+ 
+R. C. Martin (2003). The principles, methods, and practices of agile software 
+development. Prentice Hall. 
+ 
+Reenskaug, T. (1979). Models-view-controller (MVC) pattern. Journal of Object-
+Oriented Programming, 1(3), 10-16. 
+ 
+Rubin, J., and D. Chisnell (2008). The Usability Testing Handbook: How to Plan, 
+Design, and Run Effective Tests. John Wiley & Sons, Inc. 
+ 
+Sauro, J., and J. Lewis (2016). Quantifying the User Experience: Useful Statistics 
+for User Research. Morgan Kaufmann is a publisher. 
+ 
+Shneiderman, B. (1998). Designing the user interface: strategies for effective 
+human-computer interaction. Addison-Wesley Longman Publishing Co., 
+Inc. 
+ 
+Szyperski, C. (1999). Component software: Beyond object-oriented programming. 
+Addison-Wesley.
+======================================================================
+Proposal-and-Prototype.pdf
+======================================================================
+--- page 1 ---
+Software Engineering 1 Group Project Proposal Assignment
+Page 1 of 2
+Overview and Purpose
+A software project proposal is the document a development team prepares to convince a client
+or sponsor that a proposed system is needed, feasible, well planned, and worth building. In this
+assignment, your group will act as a software development team and prepare a complete proposal
+for a system of your choice.
+Choosing your topic
+Choose a system that solves a real problem for real users, preferably in a school, business,
+barangay, clinic, or community you can access. Your topic must:
+ address an actual need that can be observed, surveyed, or verified with stakeholders;
+ be realistic in scope for a small team, since a focused system is better than an oversized one;
+ include at least four major functions and at least two types of users; and
+ be unique within the class.
+Proposal Content Requirements
+Cover page, table of contents, and executive summary
+ Cover page:
+project title, group name, member names and roles, course, section, instructor, and date.
+ Table of contents:
+page numbers, and a list of figures and tables if you have more than five.
+Section 1. Introduction and Project Background
+ Background of the study: the organization or community and its current process (manual or
+existing system).
+ Problem statement: the specific problems observed. Support them with evidence such as a
+short interview, survey results, or observation notes.
+ Project objectives: one general objective and at least three specific objectives, written so
+they can be measured.
+ Scope and limitations: what the system will do, and what it will not do.
+ Significance of the project: who benefits and how.
+Section 2. Development Methodology
+ Chosen SDLC model: select one model taught in class (Classical Waterfall, Iterative
+Waterfall, Spiral, Incremental, Agile, or Prototype).
+ Justification: explain why this model fits your project, using its advantages, disadvantages,
+and the situations where it is appropriate.
+Section 3. Requirements Analysis and Specification
+ Stakeholder identification: a table of all users and stakeholders, with their role and interest
+in the system.
+ Elicitation techniques: use at least two techniques (interviews, questionnaires or surveys,
+observation, prototyping, use cases, user stories, scenarios, brainstorming, or requirement
+workshops). Describe how it will be carried out, who will take part. Attach in the appendix, an
+interview questions or a sample survey form.
+ Functional requirements: a numbered list with a description and a priority (High, Medium, or
+Low) for each. Include at least 10.
+ Non-functional requirements: at least 5, covering areas such as performance, security,
+usability, reliability, and compatibility. Write them so they can be measured.
+--- page 2 ---
+Software Engineering 1 Group Project Proposal Assignment
+Page 2 of 2
+Section 4. System Analysis and Modeling
+This section carries the highest score. All diagrams must be neat, labeled, consistent with your
+requirements, and explained in a short paragraph.
+Required Output Minimum Requirement and Evaluation Focus
+Data Flow Diagram (DFD)
+Provide a Level 0 context diagram and a Level 1
+DFD. Show external entities, processes, data
+stores, and data flows using appropriate
+symbols. Use consistent names. A Level 2
+diagram for one complex process is optional.
+Entity Relationship Diagram (ERD)
+Provide one ERD with at least five entities.
+Show entities, attributes, primary keys,
+relationships, and cardinality. Include a short
+data dictionary for the main entities.
+Structure Chart or HIPO Chart Provide one hierarchical chart showing thesystem’s modules and how they are organized.
+Section 5. Design Strategy and User Interface Design
+ Design strategy: choose and justify an approach (top-down, bottom-up, object-oriented,
+component-based, service-oriented, or a combination) and explain how it applies to your
+system.
+ System architecture: one diagram showing the main components (for example: users, client,
+application, database) and how they connect, with a short explanation.
+ Interface type: state whether the system uses a graphical user interface, web, mobile, or
+other interface, and explain the choice.
+Prototype presentation and individual grade
+The final score combines a group score (70%) and an individual score (30%). The group score
+evaluates the shared written proposal. The individual score evaluates each member’s
+understanding, presentation, and contribution. Each member's individual grade will be based on
+the oral presentation (clarity, teamwork, and ability to answer questions) and the peer evaluation
+form, where members rate each other's contribution. A member who does not contribute may
+receive a lower score than the group.
+01 — Landing page App logo, system name, welcome message, themed illustration or photo,and Sign In / Sign Up buttons. Include a small footer with app information.
+02 — Feature screen 1 The system's primary task, such as submitting a request, searching records,
+booking an appointment, or reporting a problem.
+03 — Feature screen 2 A related workflow, such as viewing details, tracking progress, reviewingresults, or managing a record.
+04 — Feature screen 3 Another important system function, such as notifications, reports,recommendations, history, or user-submitted information.
+05 — Home dashboard An overview of the system: welcome header, summary cards, shortcuts to
+the three features, recent activity, and bottom navigation.

@@ -1,0 +1,517 @@
+// Food Eagle theme — identical palette to the dashboard and items pages.
+// This page used to ship a dark near-black surface with a different red,
+// which is exactly why "See all categories" never matched the rest of the
+// app. It now resolves to the same canonical maroon on the same warm paper.
+$primary-maroon: #791717;
+$deep-maroon: #530e0e;
+$accent-amber: #b07d1a;
+
+$bg-base: #fbf5f6;      // warm maroon-tinted paper (dashboard content bg)
+$surface: #fdf7f7;      // header / searchbar strip
+$card-bg: #ffffff;
+$tile-bg: #f8f2f2;      // icon tile, one step off the card
+$border-subtle: rgba(121, 23, 23, 0.10);
+$text-dark: #2a1416;
+$text-muted: #7a6a6d;
+
+:host {
+  --theme-red: #{$primary-maroon};
+}
+
+.red-theme-header {
+  background: linear-gradient(135deg, $deep-maroon 0%, $primary-maroon 100%);
+  box-shadow: 0 4px 20px rgba(83, 14, 14, 0.25);
+  padding-bottom: 4px;
+}
+
+.custom-toolbar {
+  --background: transparent;
+  --color: #ffffff;
+
+  .custom-back-btn {
+    --color: #ffffff;
+  }
+
+  .page-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.1px;
+    color: #ffffff;
+  }
+}
+
+.custom-bottom-nav-container, .navigation-wrapper {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0;
+  right: 0;
+  z-index: 99999 !important;
+}
+
+.search-container {
+  padding: 12px 16px 6px;
+  background: transparent;
+
+  .custom-searchbar {
+    padding: 0;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    --background: #ffffff;
+    --border-radius: 14px;
+    --placeholder-color: #8a8a8a;
+    --icon-color: #{$primary-maroon};
+    --color: #1a1a1a;
+    font-weight: 500;
+  }
+}
+
+.red-theme-content {
+  --background: #{$bg-base};
+}
+
+.content-wrapper {
+  min-height: 100%;
+  padding: 8px 12px 105px 12px;
+}
+
+/* Page Title & Banner */
+.page-intro {
+  padding: 10px 8px 20px;
+
+  .eyebrow {
+    background: rgba($primary-maroon, 0.08);
+    color: $primary-maroon;
+    border: 1px solid rgba($primary-maroon, 0.16);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    margin: 4px 0 0;
+    color: $text-dark;
+    font-size: 24px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+
+    .highlight-text {
+      color: $primary-maroon;
+    }
+  }
+
+  .intro-sub {
+    margin: 6px 0 0;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: $text-muted;
+  }
+}
+
+/* Quick-jump chips — horizontal, scrollable, no wrap */
+.chip-row {
+  display: flex;
+  // platform.scss has a global wrapping .chip-row; this one must scroll.
+  flex-wrap: nowrap;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 8px 12px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    flex: 0 0 auto;
+    border: 1px solid $border-subtle;
+    background: $card-bg;
+    color: $text-muted;
+    font-size: 0.74rem;
+    font-weight: 700;
+    font-family: inherit;
+    padding: 7px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+
+    &.active {
+      background: linear-gradient(135deg, $primary-maroon 0%, $deep-maroon 100%);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(83, 14, 14, 0.28);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+/* Grid & Cards */
+.categories-grid {
+  padding: 0;
+
+  ion-col {
+    padding: 8px;
+  }
+}
+
+.category-card {
+  background: $card-bg;
+  border-radius: 16px;
+  padding: 14px;
+  border: 1px solid $border-subtle;
+  box-shadow: 0 4px 14px rgba(83, 14, 14, 0.06);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  // Staggered entrance — the delay index lives on the parent ion-col.
+  animation: cat-card-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 55ms);
+
+  &:active {
+    transform: scale(0.97);
+    border-color: rgba($primary-maroon, 0.4);
+  }
+
+  .card-image-box {
+    width: 100%;
+    height: 104px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+    background: $tile-bg;
+    border: 1px solid $border-subtle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+
+    // Real dish photo behind the tile, tinted toward the theme.
+    .cover-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(83, 14, 14, 0.05) 0%,
+        rgba(83, 14, 14, 0.32) 100%
+      );
+    }
+
+    // No photo (or it failed): plain tinted tile, no scrim.
+    &.no-cover::after {
+      display: none;
+    }
+
+    // Icon sits inside a tinted maroon circle
+    .icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba($primary-maroon, 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 24px;
+        color: $primary-maroon;
+      }
+
+      // On photo tiles the icon becomes a glass chip in the corner.
+      &.on-photo {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        z-index: 2;
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(4px);
+        box-shadow: 0 2px 6px rgba(83, 14, 14, 0.25);
+
+        ion-icon {
+          font-size: 16px;
+          color: $primary-maroon;
+        }
+      }
+    }
+
+    .item-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      z-index: 2;
+      background: $primary-maroon;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+  }
+
+  .card-footer {
+    width: 100%;
+    text-align: left;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    h4 {
+      margin: 0 0 4px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: $text-dark;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 2.3em;
+    }
+
+    .sample {
+      font-size: 0.68rem;
+      color: $text-muted;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .explore-link {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: $text-muted;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .arrow {
+        color: $primary-maroon;
+        transition: transform 0.2s ease;
+      }
+    }
+  }
+
+  &:hover .card-footer .explore-link .arrow {
+    transform: translateX(4px);
+  }
+
+  &:hover .card-image-box .cover-img {
+    transform: scale(1.07);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Hero tile — the crown-jewel category, wide and on top
+   ------------------------------------------------------------------ */
+
+.feature-card {
+  position: relative;
+  height: 168px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 0 4px 18px;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(83, 14, 14, 0.22);
+  animation: cat-card-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  .feature-img,
+  .feature-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .feature-img {
+    object-fit: cover;
+  }
+
+  .feature-fallback {
+    background: linear-gradient(135deg, $deep-maroon 0%, $primary-maroon 100%);
+    display: grid;
+    place-items: center;
+
+    ion-icon {
+      font-size: 54px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  .feature-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      75deg,
+      rgba(83, 14, 14, 0.92) 0%,
+      rgba(83, 14, 14, 0.55) 46%,
+      rgba(83, 14, 14, 0.1) 100%
+    );
+  }
+
+  .feature-body {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 16px;
+    color: #ffffff;
+
+    .feature-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba($accent-amber, 0.95);
+      color: #241300;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+
+      ion-icon {
+        font-size: 11px;
+      }
+    }
+
+    h2 {
+      margin: 0 0 2px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    p {
+      margin: 0 0 8px;
+      font-size: 0.72rem;
+      opacity: 0.85;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 85%;
+    }
+
+    .feature-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.74rem;
+      font-weight: 800;
+
+      .arrow {
+        transition: transform 0.2s ease;
+      }
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:hover .feature-body .feature-cta .arrow {
+    transform: translateX(4px);
+  }
+}
+
+.section-label {
+  margin: 0 8px 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $text-muted;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: rgba($primary-maroon, 0.1);
+    color: $primary-maroon;
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+}
+
+@keyframes cat-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-card,
+  .feature-card {
+    animation: none;
+  }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  background: $card-bg;
+  border-radius: 16px;
+  border: 1px dashed rgba($primary-maroon, 0.25);
+  margin: 10px;
+
+  .empty-icon-box {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 14px;
+    background: rgba($primary-maroon, 0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 26px;
+      color: $primary-maroon;
+    }
+  }
+
+  h4 {
+    margin: 0 0 6px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $text-dark;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: $text-muted;
+  }
+}

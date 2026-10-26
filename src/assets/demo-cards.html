@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Food Eagle — Demo Title Cards</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body {
+    font-family: "Segoe UI", "Segoe UI Variable", system-ui, sans-serif;
+    background:
+      radial-gradient(1200px 700px at 78% 18%, rgba(214, 138, 74, 0.30), transparent 60%),
+      radial-gradient(900px 900px at 12% 88%, rgba(121, 23, 23, 0.85), transparent 65%),
+      linear-gradient(135deg, #1a0505 0%, #3d0c0c 46%, #791717 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  /* subtle vignette + grain-free filmic edge */
+  body::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(closest-side at 50% 50%, transparent 62%, rgba(0,0,0,0.45) 100%);
+    pointer-events: none;
+  }
+  .frame {
+    position: relative;
+    text-align: center;
+    padding: 0 140px;
+    z-index: 2;
+  }
+  .logo {
+    width: 148px; height: 148px; object-fit: contain;
+    filter: drop-shadow(0 18px 40px rgba(0,0,0,0.55));
+    margin-bottom: 40px;
+  }
+  .chip {
+    display: inline-block;
+    font-size: 25px; font-weight: 700; letter-spacing: 7px;
+    color: #f3c98b;
+    border: 2px solid rgba(243, 201, 139, 0.55);
+    border-radius: 999px;
+    padding: 12px 34px 11px 40px;
+    margin-bottom: 44px;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.22);
+  }
+  h1 {
+    font-size: 104px; font-weight: 800; letter-spacing: 2px;
+    line-height: 1.02;
+    text-shadow: 0 10px 45px rgba(0,0,0,0.6);
+  }
+  h1 .gold { color: #f3c98b; }
+  .rule {
+    width: 190px; height: 6px; border-radius: 6px;
+    background: linear-gradient(90deg, #f3c98b, rgba(243,201,139,0.15));
+    margin: 40px auto 36px;
+  }
+  .sub {
+    font-size: 37px; font-weight: 400; color: rgba(255,255,255,0.88);
+    letter-spacing: 1.5px;
+  }
+  .foot {
+    position: absolute; bottom: 52px; left: 0; right: 0;
+    font-size: 22px; letter-spacing: 5px; color: rgba(255,255,255,0.45);
+    text-transform: uppercase; z-index: 2;
+  }
+  .chapno {
+    position: absolute; top: 46px; left: 60px;
+    font-size: 26px; font-weight: 700; letter-spacing: 4px;
+    color: rgba(255,255,255,0.55); z-index: 2;
+  }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+  <div class="chapno" id="chapno"></div>
+  <div class="frame">
+    <img class="logo" id="logo" src="images/food-eagle-logo.png" alt="" />
+    <div><span class="chip" id="chip"></span></div>
+    <h1 id="title"></h1>
+    <div class="rule"></div>
+    <div class="sub" id="sub"></div>
+  </div>
+  <div class="foot">food eagle &nbsp;·&nbsp; campus delivery ecosystem</div>
+
+<script>
+  const CARDS = [
+    { chip: "", title: 'FOOD <span class="gold">EAGLE</span>', sub: "One platform. Four apps. Total control.", logo: true,  foot: true },
+    { chip: "Chapter 01", title: 'GETTING <span class="gold">STARTED</span>', sub: "One identity, four experiences", logo: false, foot: true },
+    { chip: "Chapter 02", title: 'DIS<span class="gold">COVERY</span>', sub: "Craving to cart, in seconds", logo: false, foot: true },
+    { chip: "Chapter 03", title: 'OR<span class="gold">DERING</span>', sub: "One-screen checkout", logo: false, foot: true },
+    { chip: "Chapter 04", title: 'LOY<span class="gold">ALTY</span>', sub: "Retention, designed in", logo: false, foot: true },
+    { chip: "Chapter 05", title: 'RESTAURANT <span class="gold">CONSOLE</span>', sub: "The kitchen, digitized", logo: false, foot: true },
+    { chip: "Chapter 06", title: 'RIDER <span class="gold">APP</span>', sub: "Fair dispatch, real earnings", logo: false, foot: true },
+    { chip: "Chapter 07", title: 'COMMAND <span class="gold">CENTER</span>', sub: "Total platform visibility", logo: false, foot: true },
+    { chip: "", title: 'FOOD <span class="gold">EAGLE</span>', sub: "Four apps. One platform. Total control.", logo: true, foot: true },
+  ];
+  const n = Math.min(8, Math.max(0, parseInt(new URLSearchParams(location.search).get('card') || '0', 10)));
+  const c = CARDS[n];
+  document.getElementById('chip').textContent = c.chip;
+  if (!c.chip) document.getElementById('chip').classList.add('hidden');
+  document.getElementById('title').innerHTML = c.title;
+  document.getElementById('sub').textContent = c.sub;
+  if (!c.logo) { const l = document.getElementById('logo'); l.style.display = 'none'; l.style.marginBottom = '0'; }
+  if (!c.foot) document.querySelector('.foot').classList.add('hidden');
+  document.getElementById('chapno').textContent = n === 0 || n === 8 ? '' : 'FOOD EAGLE · DEMO';
+</script>
+</body>
+</html>

@@ -9,7 +9,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "search-server": "node server.mjs"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +30,7 @@
     "@capacitor/status-bar": "8.0.3",
     "@ionic/angular": "^9.0.0",
     "@ionic/pwa-elements": "^3.4.0",
+    "exa-js": "2.25.0",
     "ionicons": "^8.1.0",
     "rxjs": "~7.8.0",
     "swiper": "^14.2.0",
