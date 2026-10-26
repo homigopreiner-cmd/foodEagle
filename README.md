@@ -216,24 +216,7 @@ each render their own message in the "From the web" section.
 
 ---
 
-## Documentation artefacts
 
-`docs/` holds the project documentation tooling (system design figures, ERD/DSD
-generators, proposal builder). Run the Python scripts from inside `docs/` —
-they write their output to `docs/figures/`.
-
-```
-docs/
-├── make_figures.py     # DFD, architecture, Gantt, structure chart
-├── make_erd_chen.py    # Chen-style ERD
-├── make_figures2.py    # additional diagrams
-├── make_l2.py          # level-2 DFDs
-├── build_proposal.py   # proposal PDF builder
-├── capture_screenshots.mjs     # drives the running app, captures screenshots/
-├── capture_all_pages.mjs       # one screenshot of every route → src/app/screenshots/
-├── build_screenshots_pdf.py    # builds the feature-screenshot PDF
-└── figures/            # generated images
-```
 
 > `src.zip` at the repository root is an old snapshot of the source and is safe
 > to delete — the live code is under `src/`.
